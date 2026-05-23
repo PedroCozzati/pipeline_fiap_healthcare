@@ -1,0 +1,9 @@
+pandas
+numpy
+geopandas
+pyreadstat==1.2.7
+shapely
+scikit-learn
+fastapi
+uvicorn[jinja]
+joblib

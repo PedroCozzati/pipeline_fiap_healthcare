@@ -1,0 +1,1416 @@
+[
+    {
+        "stop_id": 2314658,
+        "stop_name": "Av. Marginal Leste - Estação Mendes - Vila Natal",
+        "stop_lat": -23.754115,
+        "stop_lon": -46.708779,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 1211423,
+        "stop_name": "Estação Hidrogênio",
+        "stop_lat": -23.553469,
+        "stop_lon": -46.73239,
+        "Espera_Media_Minutos": 16.96694214876033
+    },
+    {
+        "stop_id": 1211361,
+        "stop_name": "R. Mmdc Ref.: Terminal Butantã",
+        "stop_lat": -23.572151,
+        "stop_lon": -46.709027,
+        "Espera_Media_Minutos": 19.73404255319149
+    },
+    {
+        "stop_id": 3609008,
+        "stop_name": "Terminal A. E. Carvalho",
+        "stop_lat": -23.517644,
+        "stop_lon": -46.475981,
+        "Espera_Media_Minutos": 23.75
+    },
+    {
+        "stop_id": 360004973,
+        "stop_name": "Terminal A. E. Carvalho",
+        "stop_lat": -23.518008,
+        "stop_lon": -46.475873,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 360004977,
+        "stop_name": "Terminal A. E. Carvalho",
+        "stop_lat": -23.518555,
+        "stop_lon": -46.475789,
+        "Espera_Media_Minutos": 18.658536585365855
+    },
+    {
+        "stop_id": 360004982,
+        "stop_name": "Terminal A. E. Carvalho",
+        "stop_lat": -23.518589,
+        "stop_lon": -46.475614,
+        "Espera_Media_Minutos": 21.666666666666668
+    },
+    {
+        "stop_id": 360004983,
+        "stop_name": "Terminal A. E. Carvalho",
+        "stop_lat": -23.518463,
+        "stop_lon": -46.475641,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 360004984,
+        "stop_name": "Terminal A. E. Carvalho",
+        "stop_lat": -23.518328,
+        "stop_lon": -46.475663,
+        "Espera_Media_Minutos": 18.333333333333332
+    },
+    {
+        "stop_id": 360004987,
+        "stop_name": "Terminal A. E. Carvalho",
+        "stop_lat": -23.517967,
+        "stop_lon": -46.475734,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 360004988,
+        "stop_name": "Terminal A. E. Carvalho",
+        "stop_lat": -23.517824,
+        "stop_lon": -46.475765,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 6714591,
+        "stop_name": "Terminal Amaral Gurgel",
+        "stop_lat": -23.538547,
+        "stop_lon": -46.648454,
+        "Espera_Media_Minutos": 25.5
+    },
+    {
+        "stop_id": 700015443,
+        "stop_name": "Terminal Amaral Gurgel",
+        "stop_lat": -23.539406,
+        "stop_lon": -46.647629,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 700015910,
+        "stop_name": "Terminal Amaral Gurgel",
+        "stop_lat": -23.539056,
+        "stop_lon": -46.647844,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 700015911,
+        "stop_name": "Terminal Amaral Gurgel",
+        "stop_lat": -23.539009,
+        "stop_lon": -46.647856,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 700015913,
+        "stop_name": "Terminal Amaral Gurgel",
+        "stop_lat": -23.538901,
+        "stop_lon": -46.647906,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 600012452,
+        "stop_name": "Terminal Aricanduva, 0",
+        "stop_lat": -23.529065,
+        "stop_lon": -46.554214,
+        "Espera_Media_Minutos": 15.666666666666666
+    },
+    {
+        "stop_id": 820012449,
+        "stop_name": "Terminal Aricanduva, 0",
+        "stop_lat": -23.528919,
+        "stop_lon": -46.554263,
+        "Espera_Media_Minutos": 16.0
+    },
+    {
+        "stop_id": 820012450,
+        "stop_name": "Terminal Aricanduva, 0",
+        "stop_lat": -23.528449,
+        "stop_lon": -46.554554,
+        "Espera_Media_Minutos": 21.75
+    },
+    {
+        "stop_id": 820012453,
+        "stop_name": "Terminal Aricanduva, 0",
+        "stop_lat": -23.528654,
+        "stop_lon": -46.554421,
+        "Espera_Media_Minutos": 15.625
+    },
+    {
+        "stop_id": 670016643,
+        "stop_name": "Terminal Bandeira",
+        "stop_lat": -23.550206,
+        "stop_lon": -46.63977,
+        "Espera_Media_Minutos": 26.25
+    },
+    {
+        "stop_id": 670016657,
+        "stop_name": "Terminal Bandeira",
+        "stop_lat": -23.549391,
+        "stop_lon": -46.63967,
+        "Espera_Media_Minutos": 15.125
+    },
+    {
+        "stop_id": 60017191,
+        "stop_name": "Terminal Barra Funda Lado Sul Plat. B",
+        "stop_lat": -23.526176,
+        "stop_lon": -46.668398,
+        "Espera_Media_Minutos": 15.416666666666666
+    },
+    {
+        "stop_id": 60017195,
+        "stop_name": "Terminal Barra Funda Lado Sul Plat. B",
+        "stop_lat": -23.526285,
+        "stop_lon": -46.666947,
+        "Espera_Media_Minutos": 15.0
+    },
+    {
+        "stop_id": 60017197,
+        "stop_name": "Terminal Barra Funda Lado Sul Plat. B",
+        "stop_lat": -23.52633,
+        "stop_lon": -46.666472,
+        "Espera_Media_Minutos": 26.44736842105263
+    },
+    {
+        "stop_id": 60017141,
+        "stop_name": "Terminal Barra Funda Lado Sul Plat. C",
+        "stop_lat": -23.526339,
+        "stop_lon": -46.66799,
+        "Espera_Media_Minutos": 15.289473684210526
+    },
+    {
+        "stop_id": 60017202,
+        "stop_name": "Terminal Barra Funda Lado Sul Plat. C",
+        "stop_lat": -23.52649,
+        "stop_lon": -46.666413,
+        "Espera_Media_Minutos": 23.46153846153846
+    },
+    {
+        "stop_id": 60017207,
+        "stop_name": "Terminal Barra Funda Lado Sul Plat. C",
+        "stop_lat": -23.526355,
+        "stop_lon": -46.667752,
+        "Espera_Media_Minutos": 20.0
+    },
+    {
+        "stop_id": 170011536,
+        "stop_name": "Terminal Campo Limpo",
+        "stop_lat": -23.631257,
+        "stop_lon": -46.773009,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 170011539,
+        "stop_name": "Terminal Campo Limpo",
+        "stop_lat": -23.630931,
+        "stop_lon": -46.773784,
+        "Espera_Media_Minutos": 15.238095238095237
+    },
+    {
+        "stop_id": 1903994,
+        "stop_name": "Terminal Capelinha - Desemb. Plat 6, 1",
+        "stop_lat": -23.6549,
+        "stop_lon": -46.762903,
+        "Espera_Media_Minutos": 18.026315789473685
+    },
+    {
+        "stop_id": 190014051,
+        "stop_name": "Terminal Capelinha - Plat. 1",
+        "stop_lat": -23.654279,
+        "stop_lon": -46.761816,
+        "Espera_Media_Minutos": 15.869565217391305
+    },
+    {
+        "stop_id": 190014059,
+        "stop_name": "Terminal Capelinha - Plat. 3",
+        "stop_lat": -23.654293,
+        "stop_lon": -46.762589,
+        "Espera_Media_Minutos": 18.333333333333332
+    },
+    {
+        "stop_id": 190014063,
+        "stop_name": "Terminal Capelinha - Plat. 3",
+        "stop_lat": -23.654737,
+        "stop_lon": -46.761953,
+        "Espera_Media_Minutos": 18.867924528301888
+    },
+    {
+        "stop_id": 190014064,
+        "stop_name": "Terminal Capelinha - Plat. 3",
+        "stop_lat": -23.654861,
+        "stop_lon": -46.76178,
+        "Espera_Media_Minutos": 16.055555555555557
+    },
+    {
+        "stop_id": 190014067,
+        "stop_name": "Terminal Capelinha - Plat. 4",
+        "stop_lat": -23.654598,
+        "stop_lon": -46.762674,
+        "Espera_Media_Minutos": 17.023809523809526
+    },
+    {
+        "stop_id": 210002086,
+        "stop_name": "Terminal Casa Verde",
+        "stop_lat": -23.496404,
+        "stop_lon": -46.662621,
+        "Espera_Media_Minutos": 17.21153846153846
+    },
+    {
+        "stop_id": 210002089,
+        "stop_name": "Terminal Casa Verde",
+        "stop_lat": -23.496542,
+        "stop_lon": -46.662625,
+        "Espera_Media_Minutos": 17.61111111111111
+    },
+    {
+        "stop_id": 250005891,
+        "stop_name": "Terminal Cidade Tiradentes - Plataforma 1",
+        "stop_lat": -23.583264,
+        "stop_lon": -46.408193,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 250005892,
+        "stop_name": "Terminal Cidade Tiradentes - Plataforma 1",
+        "stop_lat": -23.583306,
+        "stop_lon": -46.408035,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 2515542,
+        "stop_name": "Terminal Cidade Tiradentes - Plataforma 2",
+        "stop_lat": -23.583121,
+        "stop_lon": -46.408028,
+        "Espera_Media_Minutos": 15.0
+    },
+    {
+        "stop_id": 250005905,
+        "stop_name": "Terminal Cidade Tiradentes - Plataforma 2",
+        "stop_lat": -23.583321,
+        "stop_lon": -46.407346,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 310008403,
+        "stop_name": "Terminal Estação Cptm Guaianases Plat. B",
+        "stop_lat": -23.54295,
+        "stop_lon": -46.415666,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 3014853,
+        "stop_name": "Terminal Grajaú",
+        "stop_lat": -23.736234,
+        "stop_lon": -46.696771,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 300009677,
+        "stop_name": "Terminal Grajaú",
+        "stop_lat": -23.737527,
+        "stop_lon": -46.697395,
+        "Espera_Media_Minutos": 19.607843137254903
+    },
+    {
+        "stop_id": 300009679,
+        "stop_name": "Terminal Grajaú",
+        "stop_lat": -23.73778,
+        "stop_lon": -46.697603,
+        "Espera_Media_Minutos": 19.901960784313726
+    },
+    {
+        "stop_id": 300009681,
+        "stop_name": "Terminal Grajaú",
+        "stop_lat": -23.736588,
+        "stop_lon": -46.696748,
+        "Espera_Media_Minutos": 18.571428571428573
+    },
+    {
+        "stop_id": 450014023,
+        "stop_name": "Terminal Guarapiranga",
+        "stop_lat": -23.668588,
+        "stop_lon": -46.735464,
+        "Espera_Media_Minutos": 23.88888888888889
+    },
+    {
+        "stop_id": 450014038,
+        "stop_name": "Terminal Guarapiranga",
+        "stop_lat": -23.667894,
+        "stop_lon": -46.73524,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 370010243,
+        "stop_name": "Terminal Jabaquara - Plat. E",
+        "stop_lat": -23.647066,
+        "stop_lon": -46.63954,
+        "Espera_Media_Minutos": 19.897959183673468
+    },
+    {
+        "stop_id": 370010245,
+        "stop_name": "Terminal Jabaquara - Plat. E",
+        "stop_lat": -23.646711,
+        "stop_lon": -46.639397,
+        "Espera_Media_Minutos": 20.4
+    },
+    {
+        "stop_id": 420013598,
+        "stop_name": "Terminal Jardim Ângela",
+        "stop_lat": -23.690765,
+        "stop_lon": -46.774317,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 420013599,
+        "stop_name": "Terminal Jardim Ângela",
+        "stop_lat": -23.690566,
+        "stop_lon": -46.774132,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 420013600,
+        "stop_name": "Terminal Jardim Ângela",
+        "stop_lat": -23.690441,
+        "stop_lon": -46.773999,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 420013601,
+        "stop_name": "Terminal Jardim Ângela",
+        "stop_lat": -23.690327,
+        "stop_lon": -46.773881,
+        "Espera_Media_Minutos": 25.5
+    },
+    {
+        "stop_id": 420013602,
+        "stop_name": "Terminal Jardim Ângela",
+        "stop_lat": -23.690131,
+        "stop_lon": -46.773697,
+        "Espera_Media_Minutos": 15.183333333333334
+    },
+    {
+        "stop_id": 4503923,
+        "stop_name": "Terminal João Dias",
+        "stop_lat": -23.643855,
+        "stop_lon": -46.733968,
+        "Espera_Media_Minutos": 15.0
+    },
+    {
+        "stop_id": 4504109,
+        "stop_name": "Terminal João Dias",
+        "stop_lat": -23.64387,
+        "stop_lon": -46.733656,
+        "Espera_Media_Minutos": 24.75
+    },
+    {
+        "stop_id": 450011541,
+        "stop_name": "Terminal João Dias",
+        "stop_lat": -23.643633,
+        "stop_lon": -46.734412,
+        "Espera_Media_Minutos": 15.9375
+    },
+    {
+        "stop_id": 450011547,
+        "stop_name": "Terminal João Dias",
+        "stop_lat": -23.643741,
+        "stop_lon": -46.733278,
+        "Espera_Media_Minutos": 15.528846153846153
+    },
+    {
+        "stop_id": 450011548,
+        "stop_name": "Terminal João Dias",
+        "stop_lat": -23.643777,
+        "stop_lon": -46.732793,
+        "Espera_Media_Minutos": 16.989795918367346
+    },
+    {
+        "stop_id": 450011551,
+        "stop_name": "Terminal João Dias",
+        "stop_lat": -23.643862,
+        "stop_lon": -46.733775,
+        "Espera_Media_Minutos": 21.25
+    },
+    {
+        "stop_id": 480014936,
+        "stop_name": "Terminal Lapa - Plat. 1",
+        "stop_lat": -23.520355,
+        "stop_lon": -46.699794,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 480014934,
+        "stop_name": "Terminal Lapa - Plat. 1, 0",
+        "stop_lat": -23.520202,
+        "stop_lon": -46.700188,
+        "Espera_Media_Minutos": 16.770833333333332
+    },
+    {
+        "stop_id": 480014935,
+        "stop_name": "Terminal Lapa - Plat. 1, 0",
+        "stop_lat": -23.520279,
+        "stop_lon": -46.699979,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 480014938,
+        "stop_name": "Terminal Lapa - Plat. 2",
+        "stop_lat": -23.519982,
+        "stop_lon": -46.700411,
+        "Espera_Media_Minutos": 17.22826086956522
+    },
+    {
+        "stop_id": 480014939,
+        "stop_name": "Terminal Lapa - Plat. 2",
+        "stop_lat": -23.52003,
+        "stop_lon": -46.70028,
+        "Espera_Media_Minutos": 23.877551020408163
+    },
+    {
+        "stop_id": 480014940,
+        "stop_name": "Terminal Lapa - Plat. 2, 0",
+        "stop_lat": -23.520083,
+        "stop_lon": -46.700142,
+        "Espera_Media_Minutos": 15.232558139534884
+    },
+    {
+        "stop_id": 480014941,
+        "stop_name": "Terminal Lapa - Plat. 2, 0",
+        "stop_lat": -23.520141,
+        "stop_lon": -46.700009,
+        "Espera_Media_Minutos": 28.714285714285715
+    },
+    {
+        "stop_id": 480014942,
+        "stop_name": "Terminal Lapa - Plat. 2, 0",
+        "stop_lat": -23.520198,
+        "stop_lon": -46.699857,
+        "Espera_Media_Minutos": 19.456521739130434
+    },
+    {
+        "stop_id": 480014950,
+        "stop_name": "Terminal Lapa - Plat. 4, 0",
+        "stop_lat": -23.519701,
+        "stop_lon": -46.700226,
+        "Espera_Media_Minutos": 15.15
+    },
+    {
+        "stop_id": 480014951,
+        "stop_name": "Terminal Lapa - Plat. 4, 0",
+        "stop_lat": -23.519747,
+        "stop_lon": -46.700118,
+        "Espera_Media_Minutos": 15.182926829268293
+    },
+    {
+        "stop_id": 480014954,
+        "stop_name": "Terminal Lapa - Plat. 4, 0",
+        "stop_lat": -23.519896,
+        "stop_lon": -46.699762,
+        "Espera_Media_Minutos": 21.428571428571427
+    },
+    {
+        "stop_id": 4814584,
+        "stop_name": "Terminal Lapa - Plataforma",
+        "stop_lat": -23.520576,
+        "stop_lon": -46.699601,
+        "Espera_Media_Minutos": 19.102564102564102
+    },
+    {
+        "stop_id": 920016434,
+        "stop_name": "Terminal Metrô Ana Rosa",
+        "stop_lat": -23.581949,
+        "stop_lon": -46.638442,
+        "Espera_Media_Minutos": 22.75
+    },
+    {
+        "stop_id": 50007003,
+        "stop_name": "Terminal Metrô Artur Alvim",
+        "stop_lat": -23.540637,
+        "stop_lon": -46.482974,
+        "Espera_Media_Minutos": 18.333333333333332
+    },
+    {
+        "stop_id": 810590,
+        "stop_name": "Terminal Metrô Belém (sul) Pl. D",
+        "stop_lat": -23.543289,
+        "stop_lon": -46.589189,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 360007081,
+        "stop_name": "Terminal Metrô Itaquera Pl. B",
+        "stop_lat": -23.542498,
+        "stop_lon": -46.471459,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 3608994,
+        "stop_name": "Terminal Metrô Itaquera Pl. C",
+        "stop_lat": -23.542588,
+        "stop_lon": -46.471127,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 3609017,
+        "stop_name": "Terminal Metrô Itaquera Pl. C",
+        "stop_lat": -23.542686,
+        "stop_lon": -46.471692,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 3609005,
+        "stop_name": "Terminal Metrô Itaquera Pl. D",
+        "stop_lat": -23.542867,
+        "stop_lon": -46.471337,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 3609006,
+        "stop_name": "Terminal Metrô Itaquera Pl. D",
+        "stop_lat": -23.542831,
+        "stop_lon": -46.471129,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 3609015,
+        "stop_name": "Terminal Metrô Itaquera Pl. D",
+        "stop_lat": -23.542794,
+        "stop_lon": -46.470939,
+        "Espera_Media_Minutos": 19.22222222222222
+    },
+    {
+        "stop_id": 3608998,
+        "stop_name": "Terminal Metrô Itaquera Pl. E",
+        "stop_lat": -23.542902,
+        "stop_lon": -46.471274,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 3608999,
+        "stop_name": "Terminal Metrô Itaquera Pl. E",
+        "stop_lat": -23.542865,
+        "stop_lon": -46.471085,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 3609000,
+        "stop_name": "Terminal Metrô Itaquera Pl. E",
+        "stop_lat": -23.542834,
+        "stop_lon": -46.47092,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 3609018,
+        "stop_name": "Terminal Metrô Itaquera Pl. E",
+        "stop_lat": -23.542812,
+        "stop_lon": -46.470756,
+        "Espera_Media_Minutos": 15.806451612903226
+    },
+    {
+        "stop_id": 6009675,
+        "stop_name": "Terminal Metrô Patriarca (lado Norte)",
+        "stop_lat": -23.529788,
+        "stop_lon": -46.500797,
+        "Espera_Media_Minutos": 17.75
+    },
+    {
+        "stop_id": 820005694,
+        "stop_name": "Terminal Metrô Tatuapé (lado Norte)",
+        "stop_lat": -23.539795,
+        "stop_lon": -46.576335,
+        "Espera_Media_Minutos": 17.058333333333334
+    },
+    {
+        "stop_id": 820005700,
+        "stop_name": "Terminal Metrô Tatuapé (lado Norte)",
+        "stop_lat": -23.539845,
+        "stop_lon": -46.57671,
+        "Espera_Media_Minutos": 15.5
+    },
+    {
+        "stop_id": 820005701,
+        "stop_name": "Terminal Metrô Tatuapé (lado Norte)",
+        "stop_lat": -23.53992,
+        "stop_lon": -46.57714,
+        "Espera_Media_Minutos": 26.25
+    },
+    {
+        "stop_id": 8210196,
+        "stop_name": "Terminal Metrô Tatuapé (lado Sul- Shop. Tatuapé)",
+        "stop_lat": -23.541143,
+        "stop_lon": -46.576375,
+        "Espera_Media_Minutos": 16.585365853658537
+    },
+    {
+        "stop_id": 8412849,
+        "stop_name": "Terminal Metrô Tucuruvi 2",
+        "stop_lat": -23.480177,
+        "stop_lon": -46.602478,
+        "Espera_Media_Minutos": 15.797872340425531
+    },
+    {
+        "stop_id": 6311292,
+        "stop_name": "Terminal Metrô Vila Madalena",
+        "stop_lat": -23.546992,
+        "stop_lon": -46.69025,
+        "Espera_Media_Minutos": 21.25
+    },
+    {
+        "stop_id": 630014980,
+        "stop_name": "Terminal Metrô Vila Madalena",
+        "stop_lat": -23.547208,
+        "stop_lon": -46.689999,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 630014981,
+        "stop_name": "Terminal Metrô Vila Madalena",
+        "stop_lat": -23.547241,
+        "stop_lon": -46.69019,
+        "Espera_Media_Minutos": 26.842105263157894
+    },
+    {
+        "stop_id": 9206565,
+        "stop_name": "Terminal Metrô Vila Mariana",
+        "stop_lat": -23.589387,
+        "stop_lon": -46.633954,
+        "Espera_Media_Minutos": 20.714285714285715
+    },
+    {
+        "stop_id": 9206576,
+        "stop_name": "Terminal Metrô Vila Mariana",
+        "stop_lat": -23.589472,
+        "stop_lon": -46.634041,
+        "Espera_Media_Minutos": 20.5
+    },
+    {
+        "stop_id": 920010969,
+        "stop_name": "Terminal Metrô Vila Mariana",
+        "stop_lat": -23.589407,
+        "stop_lon": -46.634161,
+        "Espera_Media_Minutos": 27.692307692307693
+    },
+    {
+        "stop_id": 920010970,
+        "stop_name": "Terminal Metrô Vila Mariana",
+        "stop_lat": -23.58937,
+        "stop_lon": -46.633766,
+        "Espera_Media_Minutos": 15.952380952380953
+    },
+    {
+        "stop_id": 920010971,
+        "stop_name": "Terminal Metrô Vila Mariana",
+        "stop_lat": -23.589351,
+        "stop_lon": -46.633498,
+        "Espera_Media_Minutos": 20.2
+    },
+    {
+        "stop_id": 920010973,
+        "stop_name": "Terminal Metrô Vila Mariana",
+        "stop_lat": -23.589442,
+        "stop_lon": -46.633676,
+        "Espera_Media_Minutos": 17.080645161290324
+    },
+    {
+        "stop_id": 5614760,
+        "stop_name": "Terminal Parelheiros",
+        "stop_lat": -23.828237,
+        "stop_lon": -46.72682,
+        "Espera_Media_Minutos": 26.440677966101696
+    },
+    {
+        "stop_id": 560009035,
+        "stop_name": "Terminal Parelheiros",
+        "stop_lat": -23.828168,
+        "stop_lon": -46.727219,
+        "Espera_Media_Minutos": 15.714285714285714
+    },
+    {
+        "stop_id": 8010136,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 0",
+        "stop_lat": -23.547509,
+        "stop_lon": -46.630274,
+        "Espera_Media_Minutos": 15.166666666666666
+    },
+    {
+        "stop_id": 8010137,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 0",
+        "stop_lat": -23.547665,
+        "stop_lon": -46.630157,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 8010174,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 0, 0",
+        "stop_lat": -23.547918,
+        "stop_lon": -46.629967,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 800016491,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 01",
+        "stop_lat": -23.547309,
+        "stop_lon": -46.63028,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 800016492,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 01",
+        "stop_lat": -23.547152,
+        "stop_lon": -46.630393,
+        "Espera_Media_Minutos": 24.183673469387756
+    },
+    {
+        "stop_id": 800016496,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 01",
+        "stop_lat": -23.546587,
+        "stop_lon": -46.630777,
+        "Espera_Media_Minutos": 21.62162162162162
+    },
+    {
+        "stop_id": 800016506,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 02",
+        "stop_lat": -23.547451,
+        "stop_lon": -46.630072,
+        "Espera_Media_Minutos": 19.5
+    },
+    {
+        "stop_id": 8010182,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 03, 0",
+        "stop_lat": -23.546196,
+        "stop_lon": -46.630731,
+        "Espera_Media_Minutos": 16.5
+    },
+    {
+        "stop_id": 800016521,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 04",
+        "stop_lat": -23.54674,
+        "stop_lon": -46.630261,
+        "Espera_Media_Minutos": 17.4
+    },
+    {
+        "stop_id": 800016524,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 04",
+        "stop_lat": -23.547106,
+        "stop_lon": -46.630039,
+        "Espera_Media_Minutos": 21.0
+    },
+    {
+        "stop_id": 800016533,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 05",
+        "stop_lat": -23.547507,
+        "stop_lon": -46.629509,
+        "Espera_Media_Minutos": 23.333333333333332
+    },
+    {
+        "stop_id": 800016538,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 05",
+        "stop_lat": -23.5468,
+        "stop_lon": -46.630001,
+        "Espera_Media_Minutos": 15.520833333333334
+    },
+    {
+        "stop_id": 800016553,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 05",
+        "stop_lat": -23.546496,
+        "stop_lon": -46.63021,
+        "Espera_Media_Minutos": 15.0625
+    },
+    {
+        "stop_id": 800016542,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 06",
+        "stop_lat": -23.546414,
+        "stop_lon": -46.630191,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 800016543,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 06",
+        "stop_lat": -23.546528,
+        "stop_lon": -46.630105,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 800016550,
+        "stop_name": "Terminal Parque Dom Pedro II - Plat 06",
+        "stop_lat": -23.547413,
+        "stop_lon": -46.629507,
+        "Espera_Media_Minutos": 24.487179487179485
+    },
+    {
+        "stop_id": 600012441,
+        "stop_name": "Terminal Penha - Plat 2, 0",
+        "stop_lat": -23.518928,
+        "stop_lon": -46.547006,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 6311322,
+        "stop_name": "Terminal Pinheiros - Pl 3",
+        "stop_lat": -23.566084,
+        "stop_lon": -46.701753,
+        "Espera_Media_Minutos": 18.571428571428573
+    },
+    {
+        "stop_id": 6311333,
+        "stop_name": "Terminal Pinheiros - Pl 4",
+        "stop_lat": -23.566534,
+        "stop_lon": -46.701594,
+        "Espera_Media_Minutos": 28.125
+    },
+    {
+        "stop_id": 6311318,
+        "stop_name": "Terminal Pinheiros - Pl 5",
+        "stop_lat": -23.566123,
+        "stop_lon": -46.70195,
+        "Espera_Media_Minutos": 18.977272727272727
+    },
+    {
+        "stop_id": 6311328,
+        "stop_name": "Terminal Pinheiros - Pl 5",
+        "stop_lat": -23.566189,
+        "stop_lon": -46.701893,
+        "Espera_Media_Minutos": 18.020833333333332
+    },
+    {
+        "stop_id": 6311329,
+        "stop_name": "Terminal Pinheiros - Pl 5",
+        "stop_lat": -23.566259,
+        "stop_lon": -46.701849,
+        "Espera_Media_Minutos": 21.904761904761905
+    },
+    {
+        "stop_id": 640000515,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.486423,
+        "stop_lon": -46.726181,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 640000520,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.485787,
+        "stop_lon": -46.725752,
+        "Espera_Media_Minutos": 18.170731707317074
+    },
+    {
+        "stop_id": 640000521,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.485892,
+        "stop_lon": -46.725846,
+        "Espera_Media_Minutos": 16.80952380952381
+    },
+    {
+        "stop_id": 640000525,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.486374,
+        "stop_lon": -46.726322,
+        "Espera_Media_Minutos": 24.285714285714285
+    },
+    {
+        "stop_id": 640000526,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.486511,
+        "stop_lon": -46.726453,
+        "Espera_Media_Minutos": 16.02
+    },
+    {
+        "stop_id": 640000527,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.48664,
+        "stop_lon": -46.726572,
+        "Espera_Media_Minutos": 17.25
+    },
+    {
+        "stop_id": 640000528,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.486754,
+        "stop_lon": -46.726674,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 640000529,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.48685,
+        "stop_lon": -46.726762,
+        "Espera_Media_Minutos": 18.074626865671643
+    },
+    {
+        "stop_id": 640000532,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.486817,
+        "stop_lon": -46.726962,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 640000539,
+        "stop_name": "Terminal Pirituba",
+        "stop_lat": -23.486127,
+        "stop_lon": -46.726307,
+        "Espera_Media_Minutos": 28.875
+    },
+    {
+        "stop_id": 700012958,
+        "stop_name": "Terminal Princesa Isabel",
+        "stop_lat": -23.534887,
+        "stop_lon": -46.644574,
+        "Espera_Media_Minutos": 15.416666666666666
+    },
+    {
+        "stop_id": 700013996,
+        "stop_name": "Terminal Princesa Isabel",
+        "stop_lat": -23.534545,
+        "stop_lon": -46.644892,
+        "Espera_Media_Minutos": 15.0625
+    },
+    {
+        "stop_id": 700013998,
+        "stop_name": "Terminal Princesa Isabel",
+        "stop_lat": -23.534269,
+        "stop_lon": -46.644414,
+        "Espera_Media_Minutos": 15.853658536585366
+    },
+    {
+        "stop_id": 700013999,
+        "stop_name": "Terminal Princesa Isabel",
+        "stop_lat": -23.534678,
+        "stop_lon": -46.644779,
+        "Espera_Media_Minutos": 15.625
+    },
+    {
+        "stop_id": 700014000,
+        "stop_name": "Terminal Princesa Isabel",
+        "stop_lat": -23.534508,
+        "stop_lon": -46.644525,
+        "Espera_Media_Minutos": 20.92105263157895
+    },
+    {
+        "stop_id": 750006766,
+        "stop_name": "Terminal S. Mateus - Plat. A",
+        "stop_lat": -23.613335,
+        "stop_lon": -46.476583,
+        "Espera_Media_Minutos": 16.806451612903224
+    },
+    {
+        "stop_id": 750006778,
+        "stop_name": "Terminal S. Mateus - Plat. B",
+        "stop_lat": -23.613301,
+        "stop_lon": -46.476426,
+        "Espera_Media_Minutos": 21.666666666666668
+    },
+    {
+        "stop_id": 750006792,
+        "stop_name": "Terminal S. Mateus - Plat. C",
+        "stop_lat": -23.61325,
+        "stop_lon": -46.476285,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 770006791,
+        "stop_name": "Terminal S. Mateus - Plat. C",
+        "stop_lat": -23.613122,
+        "stop_lon": -46.476266,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 7612098,
+        "stop_name": "Terminal S. Miguel - Plat 02",
+        "stop_lat": -23.491742,
+        "stop_lon": -46.434547,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 7612184,
+        "stop_name": "Terminal S. Miguel - Plat 02",
+        "stop_lat": -23.491755,
+        "stop_lon": -46.434238,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 7612174,
+        "stop_name": "Terminal S. Miguel - Plat 03",
+        "stop_lat": -23.491639,
+        "stop_lon": -46.434512,
+        "Espera_Media_Minutos": 15.330188679245284
+    },
+    {
+        "stop_id": 7612175,
+        "stop_name": "Terminal S. Miguel - Plat 03",
+        "stop_lat": -23.491643,
+        "stop_lon": -46.434274,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 7612170,
+        "stop_name": "Terminal S. Miguel - Plat 04",
+        "stop_lat": -23.491508,
+        "stop_lon": -46.435033,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 7612171,
+        "stop_name": "Terminal S. Miguel - Plat 04",
+        "stop_lat": -23.491516,
+        "stop_lon": -46.434845,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 7612172,
+        "stop_name": "Terminal S. Miguel - Plat 04",
+        "stop_lat": -23.491527,
+        "stop_lon": -46.434506,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 330016330,
+        "stop_name": "Terminal Sacomã - Plat. 4",
+        "stop_lat": -23.603297,
+        "stop_lon": -46.602845,
+        "Espera_Media_Minutos": 21.75925925925926
+    },
+    {
+        "stop_id": 3305882,
+        "stop_name": "Terminal Sacomã - Plat. 5",
+        "stop_lat": -23.602921,
+        "stop_lon": -46.602319,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 330016336,
+        "stop_name": "Terminal Sacomã - Plat. 5",
+        "stop_lat": -23.603403,
+        "stop_lon": -46.602746,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 3305886,
+        "stop_name": "Terminal Sacomã - Plat. 7",
+        "stop_lat": -23.602919,
+        "stop_lon": -46.60207,
+        "Espera_Media_Minutos": 16.2890625
+    },
+    {
+        "stop_id": 3305888,
+        "stop_name": "Terminal Sacomã - Plat. 7",
+        "stop_lat": -23.603153,
+        "stop_lon": -46.602277,
+        "Espera_Media_Minutos": 15.396825396825397
+    },
+    {
+        "stop_id": 3305956,
+        "stop_name": "Terminal Sacomã - Plat. 7",
+        "stop_lat": -23.603308,
+        "stop_lon": -46.602434,
+        "Espera_Media_Minutos": 18.0078125
+    },
+    {
+        "stop_id": 710000621,
+        "stop_name": "Terminal Santana",
+        "stop_lat": -23.502447,
+        "stop_lon": -46.623816,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 710000626,
+        "stop_name": "Terminal Santana",
+        "stop_lat": -23.502441,
+        "stop_lon": -46.623992,
+        "Espera_Media_Minutos": 16.826923076923077
+    },
+    {
+        "stop_id": 7805250,
+        "stop_name": "Terminal Sapopemba",
+        "stop_lat": -23.614045,
+        "stop_lon": -46.500996,
+        "Espera_Media_Minutos": 19.047619047619047
+    },
+    {
+        "stop_id": 780006747,
+        "stop_name": "Terminal Sapopemba, 7010",
+        "stop_lat": -23.614089,
+        "stop_lon": -46.50105,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 780006749,
+        "stop_name": "Terminal Sapopemba, 7010",
+        "stop_lat": -23.614048,
+        "stop_lon": -46.500623,
+        "Espera_Media_Minutos": 21.136363636363637
+    },
+    {
+        "stop_id": 780006750,
+        "stop_name": "Terminal Sapopemba, 7010",
+        "stop_lat": -23.613995,
+        "stop_lon": -46.501168,
+        "Espera_Media_Minutos": 17.393617021276597
+    },
+    {
+        "stop_id": 780006752,
+        "stop_name": "Terminal Sapopemba, 7010",
+        "stop_lat": -23.613942,
+        "stop_lon": -46.500669,
+        "Espera_Media_Minutos": 17.25
+    },
+    {
+        "stop_id": 780006754,
+        "stop_name": "Terminal Sapopemba, 7010",
+        "stop_lat": -23.613907,
+        "stop_lon": -46.500763,
+        "Espera_Media_Minutos": 15.416666666666666
+    },
+    {
+        "stop_id": 720010553,
+        "stop_name": "Terminal Sto. Amaro, 2",
+        "stop_lat": -23.654118,
+        "stop_lon": -46.710901,
+        "Espera_Media_Minutos": 15.208333333333334
+    },
+    {
+        "stop_id": 720010554,
+        "stop_name": "Terminal Sto. Amaro, 2",
+        "stop_lat": -23.654117,
+        "stop_lon": -46.710793,
+        "Espera_Media_Minutos": 15.487804878048781
+    },
+    {
+        "stop_id": 720010618,
+        "stop_name": "Terminal Sto. Amaro, 4",
+        "stop_lat": -23.654049,
+        "stop_lon": -46.712076,
+        "Espera_Media_Minutos": 18.141025641025642
+    },
+    {
+        "stop_id": 1211376,
+        "stop_name": "Terminal USP (cidade Universitária)",
+        "stop_lat": -23.552258,
+        "stop_lon": -46.732017,
+        "Espera_Media_Minutos": 23.46153846153846
+    },
+    {
+        "stop_id": 120010363,
+        "stop_name": "Terminal USP (cidade Universitária)",
+        "stop_lat": -23.552542,
+        "stop_lon": -46.732192,
+        "Espera_Media_Minutos": 23.68421052631579
+    },
+    {
+        "stop_id": 120010367,
+        "stop_name": "Terminal USP (cidade Universitária)",
+        "stop_lat": -23.552309,
+        "stop_lon": -46.732051,
+        "Espera_Media_Minutos": 20.92105263157895
+    },
+    {
+        "stop_id": 9505603,
+        "stop_name": "Terminal V. Prudente - Sul",
+        "stop_lat": -23.584963,
+        "stop_lon": -46.584026,
+        "Espera_Media_Minutos": 22.738095238095237
+    },
+    {
+        "stop_id": 9505611,
+        "stop_name": "Terminal V. Prudente - Sul",
+        "stop_lat": -23.585015,
+        "stop_lon": -46.583838,
+        "Espera_Media_Minutos": 23.372093023255815
+    },
+    {
+        "stop_id": 9505613,
+        "stop_name": "Terminal V. Prudente - Sul - Plat. 6",
+        "stop_lat": -23.585134,
+        "stop_lon": -46.583464,
+        "Espera_Media_Minutos": 22.25
+    },
+    {
+        "stop_id": 9505621,
+        "stop_name": "Terminal V. Prudente Central",
+        "stop_lat": -23.585136,
+        "stop_lon": -46.582346,
+        "Espera_Media_Minutos": 20.0
+    },
+    {
+        "stop_id": 9505629,
+        "stop_name": "Terminal V. Prudente Central",
+        "stop_lat": -23.584739,
+        "stop_lon": -46.582629,
+        "Espera_Media_Minutos": 16.94
+    },
+    {
+        "stop_id": 9505632,
+        "stop_name": "Terminal V. Prudente Central",
+        "stop_lat": -23.584555,
+        "stop_lon": -46.583022,
+        "Espera_Media_Minutos": 17.4390243902439
+    },
+    {
+        "stop_id": 9505634,
+        "stop_name": "Terminal V. Prudente Central",
+        "stop_lat": -23.58432,
+        "stop_lon": -46.583556,
+        "Espera_Media_Minutos": 18.095238095238095
+    },
+    {
+        "stop_id": 9505646,
+        "stop_name": "Terminal V. Prudente Central",
+        "stop_lat": -23.584792,
+        "stop_lon": -46.582607,
+        "Espera_Media_Minutos": 16.379310344827587
+    },
+    {
+        "stop_id": 9505650,
+        "stop_name": "Terminal V. Prudente Central",
+        "stop_lat": -23.58458,
+        "stop_lon": -46.583157,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 560009240,
+        "stop_name": "Terminal Varginha",
+        "stop_lat": -23.767546,
+        "stop_lon": -46.716409,
+        "Espera_Media_Minutos": 19.92063492063492
+    },
+    {
+        "stop_id": 560009241,
+        "stop_name": "Terminal Varginha",
+        "stop_lat": -23.767443,
+        "stop_lon": -46.716398,
+        "Espera_Media_Minutos": 17.727272727272727
+    },
+    {
+        "stop_id": 560009247,
+        "stop_name": "Terminal Varginha",
+        "stop_lat": -23.766702,
+        "stop_lon": -46.716302,
+        "Espera_Media_Minutos": 15.789473684210526
+    },
+    {
+        "stop_id": 560009252,
+        "stop_name": "Terminal Varginha",
+        "stop_lat": -23.767594,
+        "stop_lon": -46.716279,
+        "Espera_Media_Minutos": 15.0
+    },
+    {
+        "stop_id": 560009253,
+        "stop_name": "Terminal Varginha",
+        "stop_lat": -23.767485,
+        "stop_lon": -46.716268,
+        "Espera_Media_Minutos": 16.875
+    },
+    {
+        "stop_id": 560009257,
+        "stop_name": "Terminal Varginha",
+        "stop_lat": -23.767101,
+        "stop_lon": -46.716219,
+        "Espera_Media_Minutos": 15.465116279069768
+    },
+    {
+        "stop_id": 560009258,
+        "stop_name": "Terminal Varginha",
+        "stop_lat": -23.766956,
+        "stop_lon": -46.716195,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 2009278,
+        "stop_name": "Terminal Vila Carrão - Plataforma A",
+        "stop_lat": -23.558672,
+        "stop_lon": -46.522761,
+        "Espera_Media_Minutos": 21.0
+    },
+    {
+        "stop_id": 2009279,
+        "stop_name": "Terminal Vila Carrão - Plataforma A",
+        "stop_lat": -23.558486,
+        "stop_lon": -46.523023,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 200012416,
+        "stop_name": "Terminal Vila Carrão - Plataforma B",
+        "stop_lat": -23.558684,
+        "stop_lon": -46.522551,
+        "Espera_Media_Minutos": 15.595238095238095
+    },
+    {
+        "stop_id": 200012419,
+        "stop_name": "Terminal Vila Carrão - Plataforma B",
+        "stop_lat": -23.55843,
+        "stop_lon": -46.52293,
+        "Espera_Media_Minutos": 15.6
+    },
+    {
+        "stop_id": 200012421,
+        "stop_name": "Terminal Vila Carrão - Plataforma B",
+        "stop_lat": -23.558273,
+        "stop_lon": -46.52317,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 200012420,
+        "stop_name": "Terminal Vila Carrão - Plataforma C",
+        "stop_lat": -23.558168,
+        "stop_lon": -46.523132,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 200012431,
+        "stop_name": "Terminal Vila Carrão - Plataforma D",
+        "stop_lat": -23.558059,
+        "stop_lon": -46.523065,
+        "Espera_Media_Minutos": 30.0
+    },
+    {
+        "stop_id": 4011370,
+        "stop_name": "Terminal Vila Iara",
+        "stop_lat": -23.546882,
+        "stop_lon": -46.761024,
+        "Espera_Media_Minutos": 18.5
+    },
+    {
+        "stop_id": 130001839,
+        "stop_name": "Terminal Vila Nova Cachoeirinha",
+        "stop_lat": -23.475018,
+        "stop_lon": -46.66976,
+        "Espera_Media_Minutos": 18.0
+    },
+    {
+        "stop_id": 130001841,
+        "stop_name": "Terminal Vila Nova Cachoeirinha",
+        "stop_lat": -23.475139,
+        "stop_lon": -46.669709,
+        "Espera_Media_Minutos": 24.0
+    },
+    {
+        "stop_id": 130001849,
+        "stop_name": "Terminal Vila Nova Cachoeirinha",
+        "stop_lat": -23.475763,
+        "stop_lon": -46.670797,
+        "Espera_Media_Minutos": 16.666666666666668
+    },
+    {
+        "stop_id": 130005096,
+        "stop_name": "Terminal Vila Nova Cachoeirinha",
+        "stop_lat": -23.474604,
+        "stop_lon": -46.669667,
+        "Espera_Media_Minutos": 18.627450980392158
+    },
+    {
+        "stop_id": 9607518,
+        "stop_name": "Terminal Vila Sônia",
+        "stop_lat": -23.591442,
+        "stop_lon": -46.735984,
+        "Espera_Media_Minutos": 15.952380952380953
+    },
+    {
+        "stop_id": 3407150,
+        "stop_name": "Terminal Água Espraiada",
+        "stop_lat": -23.613468,
+        "stop_lon": -46.695504,
+        "Espera_Media_Minutos": 17.38095238095238
+    }
+]
