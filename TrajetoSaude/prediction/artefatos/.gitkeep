@@ -1,0 +1,3 @@
+{
+  "feature_columns": ["Idade", "Tempo_Deslocamento_Min", "Qtd_UBS_Origem_3km", "Glicemia_Aferida"]
+}
