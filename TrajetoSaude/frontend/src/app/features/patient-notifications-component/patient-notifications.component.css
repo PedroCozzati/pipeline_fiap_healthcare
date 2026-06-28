@@ -1,0 +1,28 @@
+.lead { color: #475569; margin: 6px 0 20px; }
+
+.lembretes-lista { display: flex; flex-direction: column; gap: 12px; }
+
+.lembrete-card {
+  display: flex; gap: 16px; align-items: flex-start;
+  border: 1px solid #E5E3DC; border-radius: 16px; padding: 16px 20px;
+  background: var(--chat-bg);
+}
+.lembrete-icon {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: #fff; border: 1px solid #E5E3DC;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--blue-button); font-size: 17px; flex-shrink: 0;
+}
+.lembrete-icon.whatsapp { color: #25D366; }
+
+.lembrete-info strong { display: block; margin-bottom: 4px; color: var(--pinheiro, #0D2A4A); }
+.lembrete-info p { margin: 0 0 10px; font-size: 14px; color: #334155; line-height: 1.5; }
+.pill {
+  background: #eef2f7; color: #334155;
+  border-radius: 999px; padding: 4px 14px; font-size: 12px; font-weight: 700;
+}
+
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--grafite, #888780);
+}
+.empty-state i { font-size: 40px; margin-bottom: 12px; display: block; }

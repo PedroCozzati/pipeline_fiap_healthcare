@@ -1,0 +1,41 @@
+.perfil-card {
+  display: flex; align-items: center; gap: 20px;
+  background: linear-gradient(135deg, var(--blue-sidebar, #0D2A4A) 0%, var(--blue-primary, #1A5B9C) 100%);
+  border-radius: 20px; padding: 24px 28px; margin-bottom: 28px; color: #fff;
+}
+.avatar { font-size: 52px; color: rgba(255,255,255,0.9); line-height: 1; }
+.nome-badge h2 {
+  margin: 0 0 10px;
+  font-family: 'Fraunces', Georgia, serif; font-style: italic;
+  font-weight: 400; font-size: 26px;
+}
+.role-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--ambar, #E87A35); color: #fff;
+  border-radius: 999px; padding: 5px 16px; font-size: 13px; font-weight: 700;
+}
+
+.secao { margin-bottom: 28px; }
+.secao-titulo {
+  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--grafite, #888780); margin: 0 0 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Inter', sans-serif; font-style: normal;
+}
+
+.campo-lista { display: flex; flex-direction: column; gap: 1px; }
+.campo {
+  display: flex; flex-direction: column; gap: 4px;
+  background: #fff; border: 1px solid #E5E3DC; padding: 14px 18px;
+}
+.campo:first-child { border-radius: 16px 16px 0 0; }
+.campo:last-child  { border-radius: 0 0 16px 16px; }
+.campo:only-child  { border-radius: 16px; }
+
+.campo-label { font-size: 12px; color: var(--grafite, #888780); font-weight: 500; }
+.campo-valor { font-size: 15px; color: var(--carvao, #444441); font-weight: 500; }
+.campo-valor.cnes, .campo-valor.coren {
+  font-size: 17px; font-weight: 700; letter-spacing: 0.05em;
+  color: var(--petroleo, #1A5B9C);
+}
+.campo-valor.unidade { color: var(--pinheiro, #0D2A4A); font-weight: 600; }

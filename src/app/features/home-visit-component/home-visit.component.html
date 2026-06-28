@@ -1,0 +1,23 @@
+<div class="view-container">
+  <div class="outcome-card outcome-exception">
+    <div class="badge"><i class="fas fa-house-medical"></i> Exceção registrada pelo agente</div>
+    <h3>Visita domiciliar sugerida pela IA</h3>
+    @if (justificativa(); as motivo) {
+      <p>Motivo informado: <strong>{{ motivo.label }}</strong></p>
+    }
+    <p>Como o paciente não pode se deslocar até a unidade indicada, a IA recalculou o desfecho e acionou a equipe de atenção domiciliar.</p>
+
+    <div class="info-block">
+      <h4>Visita domiciliar agendada (mockado)</h4>
+      <ul>
+        <li>Equipe: eSF — Estratégia de Saúde da Família, Unidade Jardim Ipanema</li>
+        <li>Janela prevista: amanhã, entre 09h e 12h</li>
+        <li>Profissionais: enfermeiro(a) + agente comunitário de saúde</li>
+        <li>Confirmação será enviada ao paciente por WhatsApp</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="end-flag"><i class="fas fa-flag-checkered"></i> Fim do fluxo — caminho de exceção (visita domiciliar)</p>
+  <button class="btn-next" type="button" (click)="reiniciarFluxo()">Iniciar novo atendimento</button>
+</div>

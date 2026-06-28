@@ -1,0 +1,92 @@
+<div class="view-container active">
+  <div class="chat-box full-height">
+    <h3>Sentinel.AI</h3>
+
+    <div class="chat-message">
+      <div class="user-avatar"><i class="fas fa-robot"></i></div>
+      <p>
+        Olá! Antes de começarmos a triagem, informe o número do Cartão Nacional de Saúde (CNS) ou o RG do
+        paciente para eu carregar o histórico dele.
+      </p>
+    </div>
+
+    <!-- <p class="hint">Pacientes de demonstração:</p> -->
+    <!-- <div class="chip-row">
+      @for (sugestao of sugestoes; track sugestao.documento) {
+        <button type="button" class="chip" (click)="aplicarSugestao(sugestao)">{{ sugestao.titulo }}</button>
+      }
+        700123456789012
+    </div> -->
+
+    <div class="chat-input">
+      <span>
+        <input
+          class="documento-input"
+          type="text"
+          [(ngModel)]="documento"
+          placeholder="Número do CNS ou RG do paciente..."
+        />
+      </span>
+      <div>
+        <button type="button" class="icon-button" (click)="buscarPaciente()" aria-label="Buscar paciente">
+          <i class="fas fa-magnifying-glass"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  @if (resultadoBusca() === 'encontrado' && paciente(); as p) {
+    <div class="chat-box ai-reply">
+      <div class="chat-message">
+        <div class="user-avatar"><i class="fas fa-robot"></i></div>
+        <div>
+          <p>
+            <strong>IA:</strong> Paciente localizado na base do SUS. Carreguei o histórico abaixo para
+            enriquecer a classificação de risco:
+          </p>
+
+          <div class="paciente-card">
+            <h4>{{ p.nome }} · {{ p.idade }} anos</h4>
+            <p class="muted">CNS {{ p.cns }} · RG {{ p.rg }}</p>
+
+            <div class="historico-secao">
+              <h5><i class="fas fa-stethoscope"></i> Histórico de consultas</h5>
+              @for (consulta of p.historicoConsultas; track consulta.data) {
+                <p>{{ consulta.data }} — {{ consulta.unidade }}: {{ consulta.motivo }}. <span class="muted">{{ consulta.resultado }}</span></p>
+              } @empty {
+                <p class="muted">Nenhuma consulta registrada.</p>
+              }
+            </div>
+
+            <div class="historico-secao">
+              <h5><i class="fas fa-bed-pulse"></i> Internações</h5>
+              @for (internacao of p.internacoes; track internacao.data) {
+                <p>{{ internacao.data }} — {{ internacao.motivo }} ({{ internacao.duracaoDias }} dia(s))</p>
+              } @empty {
+                <p class="muted">Sem internações registradas.</p>
+              }
+            </div>
+
+            <div class="historico-secao">
+              <h5><i class="fas fa-mobile-screen"></i> Uso do aplicativo</h5>
+              <p>Cadastrado desde {{ p.usoApp.cadastradoEm }} · Último acesso em {{ p.usoApp.ultimoAcesso }}</p>
+              <p>Frequência de uso: <strong>{{ p.usoApp.frequenciaUso }}</strong> · Lembretes ignorados: {{ p.usoApp.lembretesIgnorados }}</p>
+            </div>
+          </div>
+
+          <button class="btn-next" type="button" (click)="iniciarTriagem()">Iniciar triagem</button>
+        </div>
+      </div>
+    </div>
+  } @else if (resultadoBusca() === 'nao_encontrado') {
+    <div class="chat-box ai-reply">
+      <div class="chat-message">
+        <div class="user-avatar"><i class="fas fa-robot"></i></div>
+        <p>
+          <strong>IA:</strong> Não encontrei nenhum paciente com esse CNS/RG na base do SUS. Verifique o
+          número informado e tente novamente.
+        </p>
+      </div>
+    </div>
+  }
+</div>

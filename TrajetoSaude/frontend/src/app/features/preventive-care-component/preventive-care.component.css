@@ -1,0 +1,42 @@
+.outcome-card {
+  border-radius: 25px; padding: 30px; margin-bottom: 8px;
+}
+
+/* Verde — risco baixo normal */
+.outcome-low  { border: 1px solid #a7f3d0; background: #ecfdf5; color: #065f46; }
+/* Amarelo — glicemia elevada */
+.outcome-medium { border: 1px solid #fde68a; background: #fffbeb; color: #78350f; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; padding: 6px 16px; font-size: 13px; font-weight: 700; margin-bottom: 16px;
+}
+.badge-low    { background: #047857; color: #fff; }
+.badge-medium { background: #d97706; color: #fff; }
+
+.outcome-card h3 { margin: 0 0 12px; }
+.outcome-card p  { margin: 0 0 4px; line-height: 1.6; }
+
+.info-block {
+  background: #fff; border-radius: 16px; padding: 18px 22px; margin-top: 16px;
+}
+.info-block h4 { margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+.outcome-low    .info-block h4 { color: #047857; }
+.outcome-medium .info-block h4 { color: #b45309; }
+
+.info-block p, .info-block li { margin: 0; line-height: 1.65; color: #1f2937; }
+.info-block ul { padding-left: 20px; }
+.info-block li { margin-bottom: 4px; }
+
+.end-flag {
+  margin: 24px 0 0; font-weight: 700; display: flex; align-items: center; gap: 10px;
+  color: #047857;
+}
+
+.btn-next {
+  background: var(--blue-button, #E87A35); color: #fff; border: none;
+  padding: 12px 60px; border-radius: 25px; font-size: 18px; cursor: pointer;
+  display: block; margin: 16px auto 0; display: flex; align-items: center; gap: 10px;
+  transition: filter 0.15s;
+}
+.btn-next:hover { filter: brightness(1.08); }

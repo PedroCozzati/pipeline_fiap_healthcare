@@ -1,0 +1,29 @@
+.chat-box {
+    background: var(--chat-bg); border: 1px solid #e0e0e0;
+    border-radius: 25px; padding: 20px; margin-bottom: 20px; position: relative;
+}
+.user-box, .user-avatar {
+    width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 8px; display: flex; justify-content: center; align-items: center;
+}
+.full-height { min-height: 360px; padding-bottom: 90px; }
+.chat-message { display: flex; gap: 15px; align-items: flex-start; margin-top: 20px; }
+.chat-message p { font-size: 16px; font-weight: 500; line-height: 1.5; margin: 0 0 10px; }
+.hint { margin: 24px 0 8px; color: #6b7280; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+.chip {
+    border: 1px solid var(--blue-button); background: #fff; color: var(--blue-button);
+    border-radius: 20px; padding: 8px 16px; font-size: 13px; cursor: pointer; transition: background 0.15s ease, color 0.15s ease;
+}
+.chip:hover { background: var(--blue-button); color: #fff; }
+.relato-input {
+    width: 100%; border-radius: 16px; border: 1px solid #d7dee8; padding: 14px 16px;
+    font-family: inherit; font-size: 15px; resize: vertical; box-sizing: border-box;
+}
+.chat-input {
+    position: absolute; bottom: 20px; left: 20px; right: 20px;
+    border-top: 1px dotted #ccc; padding-top: 10px; display: flex; justify-content: space-between; align-items: center;
+}
+.chat-input span { color: #999; font-size: 13px; }
+.icon-button { border: none; background: none; color: var(--blue-button); cursor: pointer; font-size: 18px; }
+.ai-reply { background: #fff; }
+.btn-next { background: var(--blue-button); color: white; border: none; padding: 12px 32px; border-radius: 25px; font-size: 16px; cursor: pointer; }

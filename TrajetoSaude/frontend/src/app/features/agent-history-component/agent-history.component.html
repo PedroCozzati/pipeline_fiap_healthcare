@@ -1,0 +1,48 @@
+<div class="view-container">
+  <h3>Histórico de atendimentos</h3>
+  <p class="lead">Triagens realizadas pela Sentinel.AI</p>
+
+  @if (carregando()) {
+    <div class="estado-vazio"><i class="fas fa-circle-notch fa-spin"></i> Carregando…</div>
+  } @else if (semDados()) {
+    <div class="estado-vazio"><i class="fas fa-folder-open"></i> Nenhum atendimento registrado ainda.</div>
+  } @else {
+    <div class="resumo-grid">
+      <div class="resumo-card total">
+        <span class="resumo-num">{{ atendimentos().length }}</span>
+        <span class="resumo-label">Atendimentos</span>
+      </div>
+      <div class="resumo-card alto">
+        <span class="resumo-num">{{ totalAlto() }}</span>
+        <span class="resumo-label">Alto risco</span>
+      </div>
+      <div class="resumo-card baixo">
+        <span class="resumo-num">{{ totalBaixo() }}</span>
+        <span class="resumo-label">Baixo risco</span>
+      </div>
+    </div>
+
+    <div class="atendimentos-lista">
+      @for (a of atendimentos(); track a.triagem.id) {
+        <div class="atendimento-card" [class.risco-alto]="a.triagem.risco_label === 1">
+          <div class="atend-data">{{ formatarData(a.triagem.created_at) }}</div>
+          <div class="atend-info">
+            <div class="atend-paciente">
+              <strong>{{ a.paciente?.nome ?? 'Paciente' }}</strong>
+            </div>
+            <span class="cns-label">CNS {{ a.paciente?.carteira_sus ?? '—' }}</span>
+            <span class="desfecho">{{ resumoDesfecho(a.triagem) }}</span>
+          </div>
+          <span class="risco-badge"
+                [class.badge-alto]="a.triagem.risco_label === 1"
+                [class.badge-baixo]="a.triagem.risco_label === 0">
+            @if (a.triagem.risco_label === 1) { <i class="fas fa-triangle-exclamation"></i> }
+            @else if (a.triagem.risco_label === 0) { <i class="fas fa-circle-check"></i> }
+            @else { <i class="fas fa-clock"></i> }
+            {{ labelRisco(a.triagem) }}
+          </span>
+        </div>
+      }
+    </div>
+  }
+</div>

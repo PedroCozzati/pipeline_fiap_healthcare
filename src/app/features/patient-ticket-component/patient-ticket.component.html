@@ -1,0 +1,37 @@
+<div class="view-container">
+  @if (ticket(); as t) {
+    <h3>Seu ticket de atendimento</h3>
+
+    <div class="qr-section">
+      <div class="qr-code"><i class="fas fa-qrcode"></i></div>
+      <div class="info-panel ticket-panel">
+        <p class="token">{{ t.token }}</p>
+        <p><strong>Hub indicado:</strong></p>
+        <p class="ticket-name">{{ ubsNome() }}</p>
+        <p class="ticket-address">{{ ubsEndereco() }}</p>
+        <p class="ticket-valid">Válido por 24h — emitido em {{ t.emitidoEm | date:'dd/MM/yyyy HH:mm' }}</p>
+
+        @if (t.status === 'expirado') {
+          <p class="status-tag expirado"><i class="fas fa-triangle-exclamation"></i> Token expirado</p>
+        } @else {
+          <p class="status-tag valido"><i class="fas fa-circle-check"></i> Token válido</p>
+        }
+
+        <a class="btn-rota" [href]="rotaUrl()" target="_blank" rel="noopener">
+          <i class="fas fa-route"></i> Abrir rota no mapa
+        </a>
+        <button class="btn-next" type="button" (click)="aproximarDoTotem()">
+          <i class="fas fa-mobile-screen-button"></i> Aproximar do totem da UBS
+        </button>
+        <button class="btn-demo" type="button" (click)="simularTokenExpirado()">
+          Simular token expirado (+25h)
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="sem-ticket">
+      <p>Você ainda não possui um ticket de atendimento ativo.</p>
+      <a routerLink="/paciente" class="btn-next">Voltar para o início</a>
+    </div>
+  }
+</div>

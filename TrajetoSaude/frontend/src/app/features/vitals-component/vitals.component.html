@@ -1,0 +1,52 @@
+<div class="view-container">
+  <div class="chat-box">
+    <div class="chat-message">
+      <div class="user-avatar"><i class="fas fa-robot"></i></div>
+      <p><strong>IA:</strong> Sintomas registrados — <em>"{{ relato() }}"</em>. Informe a glicemia aferida para calcular o risco de evasão ao tratamento.</p>
+    </div>
+  </div>
+
+  <!-- Parâmetros do cadastro (somente leitura) -->
+  @if (paciente(); as p) {
+    <div class="params-section">
+      <p class="params-titulo"><i class="fas fa-database"></i> Parâmetros do cadastro do paciente</p>
+      <div class="params-grid">
+        <div class="param-card">
+          <span class="param-label">Idade</span>
+          <span class="param-valor">{{ p.idade }} anos</span>
+        </div>
+        <div class="param-card">
+          <span class="param-label">Tempo de deslocamento</span>
+          <span class="param-valor">{{ p.tempoDeslocamentoMin }} min/dia</span>
+        </div>
+        <div class="param-card">
+          <span class="param-label">UBS em raio de 3km</span>
+          <span class="param-valor">{{ p.qtdUbs3km }} unidade{{ p.qtdUbs3km !== 1 ? 's' : '' }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Único campo a coletar -->
+  <div class="glicemia-section">
+    <label class="glicemia-field">
+      <span class="glicemia-label">
+        <i class="fas fa-droplet"></i> Glicemia aferida (mg/dL)
+      </span>
+      <input
+        type="number"
+        [(ngModel)]="glicemia"
+        name="glicemia"
+        min="0"
+        max="600"
+        placeholder="Ex.: 142"
+        class="glicemia-input"
+      />
+      <span class="referencia">Referência: &lt; 100 mg/dL (jejum)</span>
+    </label>
+  </div>
+
+  <button class="btn-next" type="button" (click)="analisar()" [disabled]="!glicemia()">
+    <i class="fas fa-brain"></i> Calcular risco (modelo ML)
+  </button>
+</div>

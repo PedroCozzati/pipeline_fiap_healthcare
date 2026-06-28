@@ -1,0 +1,56 @@
+<div class="view-container active">
+  <div class="chat-box full-height">
+    <h3>Sentinel.AI</h3>
+
+    <div class="chat-message">
+      <div class="user-avatar"><i class="fas fa-robot"></i></div>
+      <p>
+        @if (paciente(); as p) {
+          Olá! Paciente identificado: <strong>{{ p.nome }}</strong> ({{ p.idade }} anos).  Descreva os sintomas relatados pelo paciente para começarmos.
+        } @else {
+          Olá! Irei te ajudar na triagem. Descreva os sintomas relatados pelo paciente para começarmos.
+        }
+      </p>
+    </div>
+
+    <p class="hint">Sugestões rápidas:</p>
+    <div class="chip-row">
+      @for (sugestao of sugestoes; track sugestao.titulo) {
+        <button type="button" class="chip" (click)="aplicarSugestao(sugestao)">{{ sugestao.titulo }}</button>
+      }
+    </div>
+
+   
+
+    <div class="chat-input">
+      <span>
+         <textarea
+      class="relato-input"
+      rows="1"
+      style="width: 85vw;"
+      [(ngModel)]="relato"
+      placeholder="Descreva aqui os sintomas relatados pelo paciente..."
+    ></textarea>
+      </span>
+      <div>
+        <i class="fas fa-microphone"></i>
+        &nbsp;
+        <button type="button" class="icon-button" (click)="enviarRelato()" aria-label="Enviar relato">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  @if (enviado()) {
+    <div class="chat-box ai-reply">
+      <div class="chat-message">
+        <div class="user-avatar"><i class="fas fa-robot"></i></div>
+        <div>
+          <p><strong>IA:</strong> Entendido. Com base no relato, preciso medir os <strong>sinais vitais</strong> do paciente — glicemia, pressão arterial e temperatura — para classificar o risco.</p>
+          <button class="btn-next" type="button" (click)="avancarParaSinaisVitais()">Registrar sinais vitais</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
