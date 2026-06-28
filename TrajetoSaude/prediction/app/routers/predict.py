@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 
-from app.services.model_loader import DEFAULT_FEATURE_COLUMNS, predict_risk
+from app.services.model_loader import DEFAULT_FEATURE_COLUMNS, predict_risk, load_from_gcs
 
 router = APIRouter()
 

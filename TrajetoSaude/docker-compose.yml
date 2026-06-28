@@ -22,6 +22,23 @@ services:
     networks:
       - trajeto-net
 
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - trajeto-net
+
   gateway:
     build:
       context: ./gateway
@@ -34,9 +51,9 @@ services:
       STORAGE_SERVICE_URL: http://storage:8001
       PREDICTION_SERVICE_URL: http://prediction:8002
       CORS_ORIGINS: '["http://localhost:4200"]'
-    volumes:
-      - ${GOOGLE_APPLICATION_CREDENTIALS:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
     depends_on:
+      auth:
+        condition: service_healthy
       storage:
         condition: service_healthy
       prediction:

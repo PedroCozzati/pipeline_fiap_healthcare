@@ -7,6 +7,7 @@ class Settings(BaseSettings):
      cors_origins: list[str] = ["http://localhost:4200"]
      storage_service_url: str = "http://storage:8001"
      prediction_service_url: str = "http://prediction:8002"
+     auth_service_url: str = "http://auth:8003"
 
 
 settings = Settings()

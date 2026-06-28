@@ -17,7 +17,7 @@ class Settings(BaseSettings):
 
      gcp_project_id: str = "traj-saude"
      google_application_credentials: str = "credentials/gcp-sa.json"
-     model_source: str = "local"
+     model_source: str = "gcs"
      model_local_path: str = "artefatos/risk_model.joblib"
      model_gcs_uri: str = "gs://traj-saude-us/model_evasao/v1/risk_model.joblib"
      gcp_reasoning_engine_url: str = ""
@@ -35,6 +35,7 @@ def _resolve_from_root(path: str) -> Path:
 
 def setup_environment() -> None:
      creds = _resolve_from_root(settings.google_application_credentials)
+     print(creds)
      if creds.exists():
           os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(creds.resolve())
 

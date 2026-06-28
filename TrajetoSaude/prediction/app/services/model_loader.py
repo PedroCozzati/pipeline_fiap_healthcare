@@ -1,3 +1,4 @@
+import tempfile
 from pathlib import Path
 
 import joblib
@@ -28,11 +29,12 @@ def load_from_gcs(gcs_uri: str):
      _, _, bucket_name, *blob_parts = gcs_uri.split("/")
      blob_name = "/".join(blob_parts)
 
+     from app.config import SERVICE_ROOT
      client = storage.Client(project=settings.gcp_project_id)
      bucket = client.bucket(bucket_name)
      blob = bucket.blob(blob_name)
-
-     local_path = Path("/tmp") / Path(blob_name).name
+     local_path = SERVICE_ROOT / "artefatos" / Path(blob_name).name
+     local_path.parent.mkdir(parents=True, exist_ok=True)
      blob.download_to_filename(str(local_path))
      return joblib.load(local_path)
 
@@ -40,6 +42,7 @@ def load_from_gcs(gcs_uri: str):
 def load_model():
      source = settings.model_source.lower()
      if source == "gcs":
+          print(source)
           return load_from_gcs(settings.model_gcs_uri)
      return load_from_local(resolve_model_path())
 

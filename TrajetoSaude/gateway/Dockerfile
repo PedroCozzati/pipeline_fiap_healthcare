@@ -12,4 +12,7 @@ COPY app ./app
 
 EXPOSE 8000
 
+# No GCP (Cloud Run / GKE), as bibliotecas google-auth obtêm credenciais
+# automaticamente via Application Default Credentials (metadata server).
+# Localmente, monte o JSON e defina GOOGLE_APPLICATION_CREDENTIALS via .env.
 CMD ["uvicorn", "app.main:api", "--host", "0.0.0.0", "--port", "8000"]
