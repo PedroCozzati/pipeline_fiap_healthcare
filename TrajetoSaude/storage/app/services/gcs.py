@@ -1,3 +1,4 @@
+import base64
 import re
 
 from google.api_core.exceptions import Forbidden, NotFound
@@ -100,7 +101,12 @@ def download_blob_text(blob_name: str) -> dict:
      }
 
 
-def upload_blob_text(blob_name: str, content: str, content_type: str = "text/plain") -> dict:
+def upload_blob_text(
+     blob_name: str,
+     content: str,
+     content_type: str = "text/plain",
+     encoding: str = "utf-8",
+) -> dict:
      if blob_name.startswith("gs://"):
           bucket_name, blob_name = parse_gcs_uri(blob_name)
      else:
@@ -109,7 +115,13 @@ def upload_blob_text(blob_name: str, content: str, content_type: str = "text/pla
      client = get_gcs_client()
      bucket = _ensure_bucket_exists(client, bucket_name)
      blob = bucket.blob(blob_name)
-     blob.upload_from_string(content, content_type=content_type)
+
+     if encoding == "base64":
+          payload = base64.b64decode(content)
+     else:
+          payload = content
+
+     blob.upload_from_string(payload, content_type=content_type)
 
      return {
           "bucket": bucket_name,

@@ -1,34 +1,41 @@
+<img align="center" style='position: fixed' width=50 src="https://github.com/PedroCozzati/pipeline_fiap_healthcare/blob/master/TrajetoSaude/frontend/public/assets/fiap.png?raw=true" />
 
-
-
-
-
-### <div align="center"><a href=https://github.com/marcelabvale>Marcela Bento do Vale</a> · RM 361949</div>
-### <div align="center"><a href=https://github.com/PedroCozzati>Pedro Henrique Cozzati Camillo</a> · RM 361284</div>
-### <div align="center"><a href=https://github.com/NavajasThomaz>Thomaz Colalillo Navajas</a> · RM 140560</div>
-### <div align="center"><a href=https://github.com/yamars-dev>Yasmin Martins Vasconcellos</a> · RM 363354</div>
 
 
 <div align="center">
-<img align="center" width=300 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/1200px-Scikit_learn_logo_small.svg.png" />
-<h1>Scikit-Learn-Tutorial</h>
+<img align="center" width=100% src="https://github.com/PedroCozzati/pipeline_fiap_healthcare/blob/master/TrajetoSaude/frontend/public/assets/trajeto-saude-logo-primary-1200px.png?raw=true" />
 </div>
 
+# <div align="center">Plataforma de Engenharia de Dados e IA para o cuidado preventivo da diabetes no trajeto urbano de São Paulo</div>
+
+### <div align="center">TCC — <a href=https://www.fiap.com.br/mba/mba-em-engenharia-de-dados/>MBA em Engenharia de Dados</a></div>
+### <div align="center"><img width=8% align="center" src="https://github.com/PedroCozzati/pipeline_fiap_healthcare/blob/master/TrajetoSaude/frontend/public/assets/fiap.png?raw=true"/> — <a href=https://www.fiap.com.br>Faculdade de Informática e Administração Paulista</a></div>
+### <div align="center">Disciplina: Discovery — Case <img width=10% align="center" src="https://github.com/PedroCozzati/pipeline_fiap_healthcare/blob/master/TrajetoSaude/frontend/public/assets/Google-Logo-2015.png?raw=true"/></div>
+### <div align="center">Professor orientador: Tiago Petroni Taveira</div>
+
+
+
+>### <div align="center">Integrantes:</div>
+> #### <div align="center"><a href=https://github.com/marcelabvale>Marcela Bento do Vale</a> · RM 361949</div>
+>#### <div align="center"><a href=https://github.com/PedroCozzati>Pedro Henrique Cozzati Camillo</a> · RM 361284</div>
+>#### <div align="center"><a href=https://github.com/NavajasThomaz>Thomaz Colalillo Navajas</a> · RM 140560</div>
+>#### <div align="center"><a href=https://github.com/yamars-dev>Yasmin Martins Vasconcellos</a> · RM 363354</div>
+
+
+
+
+
 <div align="center">
 </div>
 
-##### <div align="center">Scikit-learn é uma biblioteca Python de código aberto que oferece ferramentas simples e eficientes para aprendizado de máquina e análise de dados, amplamente utilizada por cientistas de dados e engenheiros de Machine Learning. Neste repositório estão arquivos de explicações e exemplos de uso dessa biblioteca.</div>
 
-##### <div align="center">**Pré-Requisitos:** É recomendado estudar a biblioteca <a href=https://github.com/NavajasThomaz/Pandas-Tutorial>Pandas</a> para um melhor entendimento de Dataframes utilizados nesse projeto.</div>
 
-##### <div align="center">🎥Video explicativo em produção.🎥</div>
-
-##### <div align="center"><a href=https://youtu.be>🖥️Link para Video explicativo.🖥️</a></div>
+##### <div align="center"><a href=https://youtu.be>🖥️Link para Video de pitch.🖥️</a></div>
 
 
 <div align="center">
 
-[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=NavajasThomaz&repo=Scikit-Learn-Tutorial&theme=transparent)](https://github.com/NavajasThomaz/Scikit-Learn-Tutorial)
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=PedroCozzati&repo=pipeline_fiap_healthcare&theme=transparent)](https://github.com/PedroCozzati/pipeline_fiap_healthcare/tree/master)
 
 </div>
 

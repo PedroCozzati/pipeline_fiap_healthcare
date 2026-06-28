@@ -2,7 +2,7 @@ import logging
 
 from fastapi import FastAPI, Request
 
-from app.routers import predict
+from app.routers import ingest, predict
 from app.services.model_loader import load_model
 
 logger = logging.getLogger("prediction_ms")
@@ -14,6 +14,7 @@ api = FastAPI(
 )
 
 api.include_router(predict.router, prefix="/predict", tags=["Predição"])
+api.include_router(ingest.router, prefix="/ingest", tags=["Ingestão"])
 
 
 @api.on_event("startup")

@@ -16,6 +16,7 @@ class GcsUploadRequest(BaseModel):
      blob_name: str
      content: str
      content_type: str = "text/plain"
+     encoding: str = "utf-8"
 
 
 @router.get("/gcs/list")
@@ -49,7 +50,12 @@ def gcs_download(blob_name: str):
 @router.post("/gcs/upload")
 def gcs_upload(payload: GcsUploadRequest):
      try:
-          return gcs.upload_blob_text(payload.blob_name, payload.content, payload.content_type)
+          return gcs.upload_blob_text(
+               payload.blob_name,
+               payload.content,
+               payload.content_type,
+               payload.encoding,
+          )
      except FileNotFoundError as exc:
           raise HTTPException(status_code=404, detail=str(exc)) from exc
      except PermissionError as exc:

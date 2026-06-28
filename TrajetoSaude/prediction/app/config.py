@@ -21,6 +21,9 @@ class Settings(BaseSettings):
      model_local_path: str = "artefatos/risk_model.joblib"
      model_gcs_uri: str = "gs://traj-saude-us/model_evasao/v1/risk_model.joblib"
      gcp_reasoning_engine_url: str = ""
+     storage_service_url: str = "http://localhost:8001"
+     pipeline_base_dir: str = ""
+     gcs_artifacts_prefix: str = "model_evasao/v1/"
 
 
 settings = Settings()
@@ -33,9 +36,23 @@ def _resolve_from_root(path: str) -> Path:
      return PROJECT_ROOT / path
 
 
+def resolve_pipeline_base_dir() -> Path:
+     if settings.pipeline_base_dir.strip():
+          return _resolve_from_root(settings.pipeline_base_dir)
+
+     candidates = [
+          PROJECT_ROOT.parent / "src",
+          PROJECT_ROOT / "data",
+     ]
+     for candidate in candidates:
+          if (candidate / "raw").exists() or (candidate / "output").exists():
+               return candidate.resolve()
+
+     return (PROJECT_ROOT.parent / "src").resolve()
+
+
 def setup_environment() -> None:
      creds = _resolve_from_root(settings.google_application_credentials)
-     print(creds)
      if creds.exists():
           os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(creds.resolve())
 

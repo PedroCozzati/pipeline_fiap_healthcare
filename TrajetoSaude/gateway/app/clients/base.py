@@ -36,10 +36,16 @@ class ServiceClient:
                raise HTTPException(status_code=resp.status_code, detail=resp.text)
           return resp.json()
 
-     async def post(self, path: str, json: dict | None = None, headers: dict | None = None) -> dict:
+     async def post(
+          self,
+          path: str,
+          json: dict | None = None,
+          headers: dict | None = None,
+          timeout: float = 60.0,
+     ) -> dict:
           url = f"{self.base_url}{path}"
           try:
-               async with httpx.AsyncClient(timeout=60.0) as client:
+               async with httpx.AsyncClient(timeout=timeout) as client:
                     resp = await client.post(url, json=json, headers=headers or {})
           except httpx.RequestError as exc:
                raise HTTPException(

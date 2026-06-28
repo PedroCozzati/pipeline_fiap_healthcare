@@ -78,7 +78,7 @@ services:
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /secrets/gcp-sa.json
     volumes:
-      - ${GOOGLE_APPLICATION_CREDENTIALS:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
+      - ${GCP_SA_KEY_FILE:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
       interval: 10s
@@ -98,9 +98,15 @@ services:
       - .env
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /secrets/gcp-sa.json
+      STORAGE_SERVICE_URL: http://storage:8001
+      PIPELINE_BASE_DIR: /data
     volumes:
-      - ${GOOGLE_APPLICATION_CREDENTIALS:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
+      - ${GCP_SA_KEY_FILE:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
       - ./prediction/artefatos:/app/artefatos:ro
+      - ../src:/data:ro
+    depends_on:
+      storage:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
       interval: 10s
