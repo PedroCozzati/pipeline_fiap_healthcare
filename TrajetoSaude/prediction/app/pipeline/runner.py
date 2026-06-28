@@ -39,6 +39,16 @@ PIPELINE_OUTPUTS = [
      ("risk_model.joblib", "application/octet-stream", "base64"),
 ]
 
+RAW_FILE_LAYOUT = """
+TrajetoSaude/data/raw/
+├── pns/input_PNS_2019.txt
+├── pns/PNS_2019.txt
+├── od/OD_2017_v1.sav
+├── gis/Zonas_2017_region.shp (+ .dbf, .shx, .prj, .cpg)
+├── gis/geoportal_equipamento_saude_ubs_posto_centro_v2.geojson
+└── gtfs/stops.txt, trips.txt, stop_times.txt, frequencies.txt
+""".strip()
+
 TARGET_VARS = ["V0001", "V0031", "Q03001", "Q03201", "VDM001", "C008"]
 
 
@@ -79,9 +89,12 @@ def run_ingestion_pipeline(
      raw_paths = _resolve_raw_paths(base_dir)
      missing = _validate_raw_files(raw_paths)
      if missing:
+          missing_paths = [f"  - {raw_paths[name]}" for name in missing]
           raise FileNotFoundError(
-               f"Dados brutos ausentes em {base_dir / 'raw'}. "
-               f"Arquivos faltando: {', '.join(missing)}"
+               f"Dados brutos ausentes em {base_dir / 'raw'}.\n"
+               f"Arquivos faltando ({len(missing)}):\n"
+               + "\n".join(missing_paths)
+               + f"\n\nEstrutura esperada dentro de TrajetoSaude:\n{RAW_FILE_LAYOUT}"
           )
 
      steps: list[str] = []

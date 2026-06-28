@@ -37,18 +37,11 @@ def _resolve_from_root(path: str) -> Path:
 
 
 def resolve_pipeline_base_dir() -> Path:
+     """Diretório base do pipeline dentro de TrajetoSaude (contém raw/ e output/)."""
      if settings.pipeline_base_dir.strip():
           return _resolve_from_root(settings.pipeline_base_dir)
 
-     candidates = [
-          PROJECT_ROOT.parent / "src",
-          PROJECT_ROOT / "data",
-     ]
-     for candidate in candidates:
-          if (candidate / "raw").exists() or (candidate / "output").exists():
-               return candidate.resolve()
-
-     return (PROJECT_ROOT.parent / "src").resolve()
+     return (PROJECT_ROOT / "data").resolve()
 
 
 def setup_environment() -> None:

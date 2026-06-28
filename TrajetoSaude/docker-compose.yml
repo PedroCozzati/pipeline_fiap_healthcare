@@ -103,7 +103,7 @@ services:
     volumes:
       - ${GCP_SA_KEY_FILE:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
       - ./prediction/artefatos:/app/artefatos:ro
-      - ../src:/data:ro
+      - ./data:/data:ro
     depends_on:
       storage:
         condition: service_healthy
