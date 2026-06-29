@@ -10,10 +10,20 @@ export interface MensagemChat {
   carregando?: boolean;
 }
 
+export interface SentinelAgenteResponse {
+  items: Array<{ name: string; description?: string; address: string; cep?: string }>;
+  output_raw?: string;
+}
+
+export interface SentinelAgentePacienteResponse {
+  output: string | Record<string, unknown> | null;
+  contexto_enviado?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SentinelService {
   private readonly http = inject(HttpClient);
-  private readonly endpoint = `${environment.apiBaseUrl}/sentinel/query`;
+  private readonly base = `${environment.apiBaseUrl}/api/sentinel`;
 
   /**
    * Envia uma mensagem ao agente Sentinel.AI via API Python (trajeto_api).
@@ -25,7 +35,7 @@ export class SentinelService {
       : mensagem;
 
     return this.http
-      .post<{ output: unknown }>(this.endpoint, { input: { input: input } })
+      .post<{ output: unknown }>(`${this.base}/query`, { input: { input: input } })
       .pipe(
         map((r) => {
           const out = r?.output;
@@ -39,5 +49,21 @@ export class SentinelService {
           return of(`Não foi possível contatar a Sentinel.AI: ${detail}`);
         })
       );
+  }
+
+  sentinelPaciente(payload: { mensagem: string; localizacao?: unknown; carteira_sus?: string; nome_paciente?: string }): Observable<SentinelAgentePacienteResponse> {
+    return this.http.post<SentinelAgentePacienteResponse>(`${this.base}/sentinelai_paciente`, payload);
+  }
+
+  sentinelAgente(payload: {
+    nome_paciente?: string;
+    endereco_paciente?: string;
+    local_trabalho?: string;
+    rota_trabalho?: string[];
+    endereco_hub: string;
+    lat_hub?: number;
+    lng_hub?: number;
+  }): Observable<SentinelAgenteResponse> {
+    return this.http.post<SentinelAgenteResponse>(`${this.base}/sentinelai_agente`, payload);
   }
 }

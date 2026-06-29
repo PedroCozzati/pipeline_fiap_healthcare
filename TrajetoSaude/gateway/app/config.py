@@ -8,6 +8,7 @@ class Settings(BaseSettings):
      storage_service_url: str = "http://storage:8001"
      prediction_service_url: str = "http://prediction:8002"
      auth_service_url: str = "http://auth:8003"
+     sentinel_service_url: str = "http://sentinel:8004"
 
 
 settings = Settings()
