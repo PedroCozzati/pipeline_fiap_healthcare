@@ -50,8 +50,13 @@ export class ResultsComponent implements OnInit {
    */
   protected decidirFluxo(): void {
     if (this.nivelRisco() === 'alto') {
+      this.flow.setPrioridade('alta');
+      this.router.navigate(['/map']);
+    } else if (this.glicemiaElevada()) {
+      this.flow.setPrioridade('media');
       this.router.navigate(['/map']);
     } else {
+      this.flow.setPrioridade('baixa');
       this.router.navigate(['/cuidados-preventivos']);
     }
   }

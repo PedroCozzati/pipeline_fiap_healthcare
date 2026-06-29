@@ -24,7 +24,7 @@
           @if (carregando()) { <i class="fas fa-spinner fa-spin"></i> Entrando… } @else { Entrar }
         </button>
       </form>
-      <p class="hint">Acesso rápido (demo)</p>
+      <p class="hint">Acesso rápido</p>
       <div class="atalhos">
         @for (a of atalhos; track a.email) {
           <button class="chip" (click)="aplicarAtalho(a)" [disabled]="carregando()">
@@ -62,7 +62,7 @@
           <label>CPF ou Nº COREN-SP
             <div class="input-row">
               <input type="text" name="cadCoren" [(ngModel)]="cadCoren"
-                     placeholder="000.000.000-00 ou 123456-SP"
+                     placeholder="123.456.789-00 ou 123456-SP"
                      (blur)="cadCoren() && validarCoren()">
               <button type="button" class="btn-validar" (click)="validarCoren()" [disabled]="validandoCoren() || !cadCoren()">
                 @if (validandoCoren()) { <i class="fas fa-spinner fa-spin"></i> } @else { Validar }
@@ -76,7 +76,6 @@
               {{ corenMensagem() }}
             </p>
           }
-          <p class="dica"><i class="fas fa-info-circle"></i> Use <strong>000.000.000-00</strong> para testes.</p>
         }
 
         <!-- ── Paciente: dados de localização ── -->

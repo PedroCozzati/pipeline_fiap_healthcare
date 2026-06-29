@@ -22,6 +22,9 @@
           </div>
           <div class="card-centro">
             <span class="vitais">{{ resumoVitais(t) }}</span>
+            @if (t.ticket) {
+              <p class="ticket-info"><strong>Ticket:</strong> {{ t.ticket.ubs_encaminhamento }} — {{ t.ticket.status }}</p>
+            }
           </div>
           <div class="card-direita">
             <span class="badge-risco" [class]="classeRisco(t)">

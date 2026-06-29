@@ -73,12 +73,13 @@ export interface JustificativaOption {
 }
 
 export type StatusTicket = 'emitido' | 'em_unidade' | 'expirado';
+export type PrioridadeTriagem = 'alta' | 'media' | 'baixa';
 
 export interface TicketInfo {
   token: string;
   emitidoEm: Date;
-  enviadoWhatsapp: boolean;
   status: StatusTicket;
+  prioridade: PrioridadeTriagem;
   apiId?: string;
   validoAte?: Date;
 }
@@ -248,6 +249,13 @@ export class TriageFlowService {
     this.ubsIndicada.set(ubs);
   }
 
+  // ── Prioridade da triagem ─────────────────────────────────────────────────
+  readonly prioridadeTriagem = signal<PrioridadeTriagem>('alta');
+
+  setPrioridade(p: PrioridadeTriagem): void {
+    this.prioridadeTriagem.set(p);
+  }
+
   // ── Justificativas de exceção ────────────────────────────────────────────
   readonly justificativas: JustificativaOption[] = [
     { id: 'sem-transporte', label: 'Paciente sem meio de transporte disponível', desfecho: 'transporte' },
@@ -272,7 +280,7 @@ export class TriageFlowService {
 
   emitirTicket(): void {
     const token = `SUS-${Math.floor(100000 + Math.random() * 900000)}`;
-    this.ticket.set({ token, emitidoEm: new Date(), enviadoWhatsapp: false, status: 'emitido' });
+    this.ticket.set({ token, emitidoEm: new Date(), status: 'emitido', prioridade: this.prioridadeTriagem() });
   }
 
   /** Define o ticket a partir da resposta real da API de storage. */
@@ -280,16 +288,11 @@ export class TriageFlowService {
     this.ticket.set({
       token: `SUS-${apiTicket.id.slice(0, 6).toUpperCase()}`,
       emitidoEm: new Date(apiTicket.created_at),
-      enviadoWhatsapp: false,
       status: 'emitido',
+      prioridade: this.prioridadeTriagem(),
       apiId: apiTicket.id,
       validoAte: new Date(apiTicket.valido_ate),
     });
-  }
-
-  dispararWhatsApp(): void {
-    const atual = this.ticket();
-    if (atual) this.ticket.set({ ...atual, enviadoWhatsapp: true });
   }
 
   reiniciarFluxo(): void {
@@ -300,6 +303,7 @@ export class TriageFlowService {
     this.sinaisVitais.set({ ...SINAIS_PADRAO });
     this.justificativaSelecionada.set(null);
     this.ubsIndicada.set(null);
+    this.prioridadeTriagem.set('alta');
     this.ticket.set(null);
     this.senhaVirtual.set(null);
   }

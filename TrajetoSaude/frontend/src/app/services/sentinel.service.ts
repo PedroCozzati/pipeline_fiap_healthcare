@@ -20,15 +20,29 @@ export interface SentinelAgentePacienteResponse {
   contexto_enviado?: string;
 }
 
+export interface SentinelPacientePayload {
+  mensagem: string;
+  nome_paciente?: string;
+  carteira_sus?: string;
+  endereco_atual?: string;
+  endereco_casa?: string;
+  local_trabalho?: string;
+  rota_trabalho?: string[];
+}
+
+export interface SentinelAgentePayload {
+  localizacao_atual: string;
+  rota_trabalho?: string[];
+  local_trabalho?: string;
+  endereco_casa?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SentinelService {
   private readonly http = inject(HttpClient);
   private readonly base = `${environment.apiBaseUrl}/api/sentinel`;
 
-  /**
-   * Envia uma mensagem ao agente Sentinel.AI via API Python (trajeto_api).
-   * A autenticação GCP é gerenciada pelo servidor Python com ADC.
-   */
+  /** Consulta genérica legada — mantida para compatibilidade. */
   query(mensagem: string, contextoLocalizacao?: string): Observable<string> {
     const input = contextoLocalizacao
       ? `${contextoLocalizacao}\n\nPergunta do paciente: ${mensagem}`
@@ -51,19 +65,19 @@ export class SentinelService {
       );
   }
 
-  sentinelPaciente(payload: { mensagem: string; localizacao?: unknown; carteira_sus?: string; nome_paciente?: string }): Observable<SentinelAgentePacienteResponse> {
-    return this.http.post<SentinelAgentePacienteResponse>(`${this.base}/sentinelai_paciente`, payload);
+  sentinelPaciente(payload: SentinelPacientePayload): Observable<SentinelAgentePacienteResponse> {
+    return this.http.post<SentinelAgentePacienteResponse>(
+      `${this.base}/sentinelai_paciente`,
+      payload
+    ).pipe(
+      catchError((err) => {
+        const detail = err?.error?.detail ?? err?.message ?? 'erro desconhecido';
+        return of({ output: `Não foi possível contatar a Sentinel.AI: ${detail}`, contexto_enviado: undefined });
+      })
+    );
   }
 
-  sentinelAgente(payload: {
-    nome_paciente?: string;
-    endereco_paciente?: string;
-    local_trabalho?: string;
-    rota_trabalho?: string[];
-    endereco_hub: string;
-    lat_hub?: number;
-    lng_hub?: number;
-  }): Observable<SentinelAgenteResponse> {
+  sentinelAgente(payload: SentinelAgentePayload): Observable<SentinelAgenteResponse> {
     return this.http.post<SentinelAgenteResponse>(`${this.base}/sentinelai_agente`, payload);
   }
 }

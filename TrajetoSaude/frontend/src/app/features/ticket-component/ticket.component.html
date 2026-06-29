@@ -1,30 +1,59 @@
 <div class="view-container">
-  <h3>Validação confirmada — Token / QR Code emitido</h3>
+  <h3>Ticket de Atendimento Emitido</h3>
 
-  <div class="qr-section">
-    <div class="qr-code"><i class="fas fa-qrcode"></i></div>
-    <div class="info-panel ticket-panel">
-      <h3>Ticket gerado para o paciente</h3>
-      @if (ticket(); as t) {
-        <p class="token">{{ t.token }}</p>
-        <p><strong>UBS indicada:</strong></p>
-        <p class="ticket-name">{{ ubsNome() }}</p>
-        <p class="muted">{{ ubsEndereco() }}</p>
-        <p class="ticket-valid">Válido por 24h — emitido em {{ t.emitidoEm | date:'dd/MM/yyyy HH:mm' }}</p>
+  @if (carregando()) {
+    <div class="loading-state">
+      <i class="fas fa-circle-notch fa-spin"></i>
+      <span>Registrando atendimento…</span>
+    </div>
+  } @else {
+    <div class="qr-section">
 
-        @if (!t.enviadoWhatsapp) {
-          <button class="btn-whatsapp" type="button" (click)="dispararWhatsApp()">
-            <i class="fab fa-whatsapp"></i> Disparar API do WhatsApp do paciente
-          </button>
+      <!-- QR Code real -->
+      <div class="qr-wrapper">
+        @if (qrDataUrl()) {
+          <img [src]="qrDataUrl()" alt="QR Code do ticket" class="qr-img" />
         } @else {
+          <div class="qr-placeholder"><i class="fas fa-qrcode"></i></div>
+        }
+      </div>
+
+      <div class="info-panel ticket-panel">
+
+        @if (ticket(); as t) {
+          <!-- Token e prioridade -->
+          <div class="token-row">
+            <p class="token">{{ t.token }}</p>
+            <span [class]="classePrioridade()">
+              <i class="fas fa-circle-dot"></i>
+              Prioridade {{ labelPrioridade() }}
+            </span>
+          </div>
+
+          <!-- UBS indicada -->
+          <p><strong>UBS indicada:</strong></p>
+          <p class="ticket-name">{{ ubsNome() }}</p>
+          <p class="muted">{{ ubsEndereco() }}</p>
+          <p class="ticket-valid">
+            Válido por 24h — emitido em {{ t.emitidoEm | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+
+          <!-- Confirmação de registro -->
           <div class="sent-confirmation">
             <i class="fas fa-circle-check"></i>
-            Mensagem enviada — dados do atendimento sincronizados com a rede do SUS.
+            Atendimento registrado — o paciente pode consultar este ticket no aplicativo.
           </div>
-          <p class="end-flag"><i class="fas fa-flag-checkered"></i> Fim do fluxo — happy path concluído</p>
-          <button class="btn-restart" type="button" (click)="reiniciarFluxo()">Iniciar novo atendimento</button>
+
+          <p class="end-flag">
+            <i class="fas fa-flag-checkered"></i>
+            Fim do fluxo — atendimento concluído
+          </p>
+
+          <button class="btn-restart" type="button" (click)="reiniciarFluxo()">
+            Iniciar novo atendimento
+          </button>
         }
-      }
+      </div>
     </div>
-  </div>
+  }
 </div>

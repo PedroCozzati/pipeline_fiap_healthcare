@@ -1,11 +1,4 @@
 <div class="view-container">
-  <div class="chat-box">
-    <div class="chat-message">
-      <div class="user-avatar"><i class="fas fa-robot"></i></div>
-      <p><strong>IA:</strong> Sintomas registrados — <em>"{{ relato() }}"</em>. Informe a glicemia aferida para calcular o risco de evasão ao tratamento.</p>
-    </div>
-  </div>
-
   <!-- Parâmetros do cadastro (somente leitura) -->
   @if (paciente(); as p) {
     <div class="params-section">
@@ -26,6 +19,13 @@
       </div>
     </div>
   }
+
+  <!-- Nota sobre o modelo -->
+  <div class="modelo-nota">
+    <i class="fas fa-info-circle"></i>
+    O modelo avalia o <strong>risco de evasão ao tratamento</strong>, não o risco clínico direto.
+    Parâmetros como distância às UBS e tempo de deslocamento indicam a probabilidade de abandono do acompanhamento.
+  </div>
 
   <!-- Único campo a coletar -->
   <div class="glicemia-section">

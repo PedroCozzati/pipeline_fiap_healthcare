@@ -18,6 +18,20 @@ export interface RiskResponse {
   features_usadas: Record<string, number>;
 }
 
+// ── Deslocamento (UBS no raio de 3km + tempo estimado) ─────────────────────────
+export interface DeslocamentoRequest {
+  lat_residencia: number;
+  lng_residencia: number;
+  lat_trabalho?: number;
+  lng_trabalho?: number;
+}
+
+export interface DeslocamentoResponse {
+  qtd_ubs_3km: number | null;
+  tempo_deslocamento_min: number;
+  fonte_ubs: 'geo_real' | 'indisponivel';
+}
+
 // ── UBS mais próximas ─────────────────────────────────────────────────────────
 export interface UbsItem {
   nm_equipamento: string;
@@ -48,6 +62,10 @@ export class ApiService {
 
   predictRisk(payload: RiskRequest): Observable<RiskResponse> {
     return this.http.post<RiskResponse>(`${this.base}/api/prediction/risk`, payload);
+  }
+
+  calcularDeslocamento(payload: DeslocamentoRequest): Observable<DeslocamentoResponse> {
+    return this.http.post<DeslocamentoResponse>(`${this.base}/api/prediction/deslocamento`, payload);
   }
 
   nearestUbs(currentLocation: string, workLocation?: string, limit = 5): Observable<NearestUbsResponse> {

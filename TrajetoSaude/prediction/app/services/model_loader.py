@@ -42,9 +42,17 @@ def load_from_gcs(gcs_uri: str):
 def load_model():
      source = settings.model_source.lower()
      if source == "gcs":
-          print(source)
-          return load_from_gcs(settings.model_gcs_uri)
-     return load_from_local(resolve_model_path())
+          try:
+               return load_from_gcs(settings.model_gcs_uri)
+          except Exception as exc:
+               print(f"Falha ao carregar modelo de GCS: {exc}")
+               print("Tentando carregar modelo local...")
+               return load_from_local(resolve_model_path())
+
+     if source == "local":
+          return load_from_local(resolve_model_path())
+
+     raise ValueError(f"Fonte de modelo desconhecida: {settings.model_source}")
 
 
 def predict_risk(model, payload: dict) -> dict:

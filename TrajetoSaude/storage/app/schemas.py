@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uuid
 from datetime import datetime
 from typing import Optional
@@ -103,6 +105,7 @@ class TriagemResponse(BaseModel):
     pressao_diastolica: Optional[int]
     risco_probabilidade: Optional[float]
     risco_label: Optional[int]
+    ticket: Optional[TicketResponse] = None
     created_at: datetime
 
     model_config = {"from_attributes": True}

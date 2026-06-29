@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TriageFlowService } from '../../services/triage_flow_service';
 import { AuthService } from '../../services/auth_service';
-import { SentinelService, MensagemChat } from '../../services/sentinel.service';
+import { SentinelService, MensagemChat, SentinelPacientePayload } from '../../services/sentinel.service';
 
 @Component({
   selector: 'app-patient-home',
@@ -26,20 +26,6 @@ export class PatientHomeComponent implements OnInit {
   protected readonly logistica = this.flow.logistica;
 
   protected readonly localizacao = computed(() => this.auth.currentUser()?.localizacao ?? null);
-
-  /** Contexto de localização formatado para o prompt do agente GCP. */
-  private readonly contextoLocalizacao = computed(() => {
-    const loc = this.localizacao();
-    const nome = this.auth.currentUser()?.nome ?? 'paciente';
-    if (!loc) return undefined;
-    return [
-      `[Perfil do paciente]`,
-      `Nome: ${nome}`,
-      `Bairro de residência: ${loc.bairro}`,
-      `Rota de trabalho diária: ${loc.rotaTrabalho.join(' → ')}`,
-      `Descrição: ${loc.descricaoRota}`,
-    ].join('\n');
-  });
 
   protected readonly mensagens = signal<MensagemChat[]>([]);
   protected readonly inputTexto = signal('');
@@ -73,8 +59,21 @@ export class PatientHomeComponent implements OnInit {
     this.mensagens.update(m => [...m, { papel: 'ai', texto: '', carregando: true }]);
     this.aguardandoResposta.set(true);
 
-    this.sentinel.query(msg, this.contextoLocalizacao()).subscribe(resposta => {
+    const user = this.auth.currentUser();
+    const loc  = this.localizacao();
+
+    const payload: SentinelPacientePayload = {
+      mensagem:      msg,
+      nome_paciente: user?.nome,
+      endereco_atual: loc?.bairro ? `${loc.bairro}, São Paulo - SP` : undefined,
+      endereco_casa:  loc?.bairro ? `${loc.bairro}, São Paulo - SP` : undefined,
+      rota_trabalho:  loc?.rotaTrabalho,
+      local_trabalho: loc?.rotaTrabalho?.at(-1),
+    };
+
+    this.sentinel.sentinelPaciente(payload).subscribe(resp => {
       this.aguardandoResposta.set(false);
+      const resposta = typeof resp.output === 'string' ? resp.output : JSON.stringify(resp.output);
       this.mensagens.update(m => [...m.slice(0, -1), { papel: 'ai', texto: resposta }]);
     });
   }

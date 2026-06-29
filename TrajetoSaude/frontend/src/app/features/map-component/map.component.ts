@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { TriageFlowService } from '../../services/triage_flow_service';
-import { ApiService, UbsItem, RouteUbsItem } from '../../services/api.service';
+import { SentinelService, SentinelAgentePayload } from '../../services/sentinel.service';
 
-export type UbsDisplay = (UbsItem | RouteUbsItem) & { distancia: string; recomendada: boolean };
+type UbsAgente = { name: string; description?: string; address: string; cep?: string };
 
 @Component({
   selector: 'app-map',
@@ -15,74 +15,61 @@ export type UbsDisplay = (UbsItem | RouteUbsItem) & { distancia: string; recomen
   styleUrl: './map.component.css',
 })
 export class MapComponent implements OnInit {
-  private readonly flow   = inject(TriageFlowService);
-  private readonly api    = inject(ApiService);
-  private readonly router = inject(Router);
+  private readonly flow     = inject(TriageFlowService);
+  private readonly sentinel = inject(SentinelService);
+  private readonly router   = inject(Router);
 
   protected readonly carregando  = signal(true);
-  protected readonly ubsLista    = signal<UbsDisplay[]>([]);
-  protected readonly recomendada = signal<UbsDisplay | null>(null);
-  protected readonly usouRota    = signal(false);
+  protected readonly ubsLista    = signal<UbsAgente[]>([]);
+  protected readonly recomendada = signal<UbsAgente | null>(null);
   protected readonly apiErro     = signal<string | null>(null);
 
   protected readonly mapUrl = () => {
     const ubs = this.recomendada();
     if (!ubs) return '#';
-    return `https://www.google.com/maps/search/?api=1&query=${ubs.latitude},${ubs.longitude}`;
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ubs.address)}`;
   };
 
   ngOnInit(): void {
     const paciente = this.flow.pacienteAtual();
     if (!paciente) { this.carregando.set(false); return; }
 
-    const bairro = paciente.bairro;
-    const trabalho = paciente.rotaTrabalho.at(-1);
-
-    this.api.nearestUbs(bairro, trabalho, 5).pipe(
+    const payload: SentinelAgentePayload = {
+      localizacao_atual: `${paciente.bairro}, São Paulo - SP`,
+      rota_trabalho:     paciente.rotaTrabalho,
+      local_trabalho:    paciente.rotaTrabalho.at(-1),
+      endereco_casa:     `${paciente.bairro}, São Paulo - SP`,
+    };
+    this.sentinel.sentinelAgente(payload).pipe(
       catchError(() => of(null))
     ).subscribe(res => {
       this.carregando.set(false);
 
-      if (!res) {
-        this.apiErro.set('API de geolocalização indisponível. Exibindo dados locais.');
-        // fallback: use mock logistica
+      if (!res || !res.items.length) {
+        this.apiErro.set('Agente Sentinel.AI indisponível. Exibindo dados locais.');
         const mock = this.flow.logistica();
-        const fallback: UbsDisplay = {
-          nm_equipamento: mock.recomendada.nome,
-          tx_endereco_equipamento: mock.recomendada.endereco,
-          nm_bairro_equipamento: '',
-          latitude: 0, longitude: 0, distance_km: 0,
-          distancia: `${mock.recomendada.distanciaMin} min`,
-          recomendada: true,
+        const fallback: UbsAgente = {
+          name:    mock.recomendada.nome,
+          address: mock.recomendada.endereco,
         };
         this.recomendada.set(fallback);
         this.ubsLista.set([fallback]);
         return;
       }
 
-      const fonte = res.route_ubs?.length ? res.route_ubs : res.nearest_ubs;
-      this.usouRota.set(!!res.route_ubs?.length);
-
-      const lista: UbsDisplay[] = fonte.map((u, i) => ({
-        ...u,
-        distancia: `${(u.distance_km ?? (u as RouteUbsItem).distance_to_current_km ?? 0).toFixed(1)} km`,
-        recomendada: i === 0,
-      }));
-
-      this.ubsLista.set(lista);
-      this.recomendada.set(lista[0] ?? null);
+      this.ubsLista.set(res.items);
+      this.recomendada.set(res.items[0]);
     });
+  }
+
+  protected selecionarUbs(ubs: UbsAgente): void {
+    this.recomendada.set(ubs);
   }
 
   protected avancarParaValidacao(): void {
     const rec = this.recomendada();
     if (rec) {
-      this.flow.definirUbsIndicada({
-        nome:     rec.nm_equipamento,
-        endereco: rec.tx_endereco_equipamento,
-        lat:      rec.latitude || undefined,
-        lon:      rec.longitude || undefined,
-      });
+      this.flow.definirUbsIndicada({ nome: rec.name, endereco: rec.address });
     }
     this.router.navigate(['/validacao']);
   }

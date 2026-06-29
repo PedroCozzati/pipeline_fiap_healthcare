@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.database import get_db
 from app.models import Triagem
@@ -31,6 +31,7 @@ def buscar_triagem(triagem_id: str, db: Session = Depends(get_db)):
 def historico_paciente(paciente_id: str, db: Session = Depends(get_db)):
     return (
         db.query(Triagem)
+        .options(joinedload(Triagem.ticket))
         .filter(Triagem.paciente_id == paciente_id)
         .order_by(Triagem.created_at.desc())
         .all()
@@ -41,6 +42,7 @@ def historico_paciente(paciente_id: str, db: Session = Depends(get_db)):
 def historico_agente(agente_id: str, db: Session = Depends(get_db)):
     return (
         db.query(Triagem)
+        .options(joinedload(Triagem.ticket))
         .filter(Triagem.agente_id == agente_id)
         .order_by(Triagem.created_at.desc())
         .all()

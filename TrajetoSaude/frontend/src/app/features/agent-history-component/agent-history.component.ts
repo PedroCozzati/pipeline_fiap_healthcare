@@ -10,6 +10,8 @@ interface AtendimentoView {
   paciente: PacienteApi | null;
 }
 
+type Classificacao = 'alto' | 'medio' | 'baixo' | 'pendente';
+
 @Component({
   selector: 'app-agent-history',
   standalone: true,
@@ -25,8 +27,15 @@ export class AgentHistoryComponent implements OnInit {
   protected readonly carregando   = signal(true);
   protected readonly semDados     = signal(false);
 
-  protected readonly totalAlto  = computed(() => this.atendimentos().filter(a => a.triagem.risco_label === 1).length);
-  protected readonly totalBaixo = computed(() => this.atendimentos().filter(a => a.triagem.risco_label === 0).length);
+  protected readonly totalAlto  = computed(() =>
+    this.atendimentos().filter(a => this.classificacao(a.triagem) === 'alto').length
+  );
+  protected readonly totalMedio = computed(() =>
+    this.atendimentos().filter(a => this.classificacao(a.triagem) === 'medio').length
+  );
+  protected readonly totalBaixo = computed(() =>
+    this.atendimentos().filter(a => this.classificacao(a.triagem) === 'baixo').length
+  );
 
   ngOnInit(): void {
     const uid = this.auth.currentUser()?.id;
@@ -38,14 +47,12 @@ export class AgentHistoryComponent implements OnInit {
           next: (triagens) => {
             if (triagens.length === 0) { this.semDados.set(true); this.carregando.set(false); return; }
 
-            // Busca dados dos pacientes em paralelo
             const buscarPacientes = triagens.map(t =>
               this.storage.buscarPaciente(t.paciente_id!.toString()).pipe(catchError(() => of(null)))
             );
 
             forkJoin(buscarPacientes).subscribe(pacientes => {
-              const views = triagens.map((t, i) => ({ triagem: t, paciente: pacientes[i] }));
-              this.atendimentos.set(views);
+              this.atendimentos.set(triagens.map((t, i) => ({ triagem: t, paciente: pacientes[i] })));
               this.carregando.set(false);
             });
           },
@@ -56,21 +63,31 @@ export class AgentHistoryComponent implements OnInit {
     });
   }
 
+  /** Glicemia elevada + risco baixo = categoria intermediária (ticket emitido com prioridade média) */
+  protected classificacao(t: TriagemApi): Classificacao {
+    if (t.risco_label === 1) return 'alto';
+    if (t.risco_label === 0 && t.glicemia != null && t.glicemia >= 126) return 'medio';
+    if (t.risco_label === 0) return 'baixo';
+    return 'pendente';
+  }
+
   protected formatarData(iso: string): string {
     return new Date(iso).toLocaleDateString('pt-BR');
   }
 
   protected labelRisco(t: TriagemApi): string {
-    if (t.risco_label === 1) return 'Alto';
-    if (t.risco_label === 0) return 'Baixo';
+    const c = this.classificacao(t);
+    if (c === 'alto')  return 'Evasão Alta';
+    if (c === 'medio') return 'Glicemia Elevada';
+    if (c === 'baixo') return 'Evasão Baixa';
     return '—';
   }
 
   protected resumoDesfecho(t: TriagemApi): string {
-    if (t.risco_label === 1) return 'Encaminhado para UBS via ticket';
-    if (t.risco_label === 0) return t.glicemia != null && t.glicemia >= 126
-      ? 'Cuidados preventivos — glicemia elevada'
-      : 'Agendamento de rotina indicado';
+    const c = this.classificacao(t);
+    if (c === 'alto')  return 'Encaminhado para UBS — prioridade alta';
+    if (c === 'medio') return 'Encaminhado para UBS — prioridade média (glicemia elevada)';
+    if (c === 'baixo') return 'Agendamento de rotina indicado';
     return 'Sem desfecho registrado';
   }
 }

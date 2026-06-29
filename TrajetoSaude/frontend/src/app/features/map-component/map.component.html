@@ -1,11 +1,7 @@
 <div class="view-container">
-  <h3>Logística Urbana — UBS mais próximas</h3>
+  <h3>Logística Urbana — UBS recomendadas pela Sentinel.AI</h3>
   <p class="lead">
-    @if (usouRota()) {
-      Unidades de saúde no trajeto diário do paciente, ordenadas por proximidade à rota casa→trabalho.
-    } @else {
-      Unidades de saúde mais próximas do bairro do paciente, ordenadas por distância.
-    }
+    Unidades de saúde indicadas com base na rota de trabalho e localização do paciente.
   </p>
 
   @if (apiErro()) {
@@ -15,25 +11,27 @@
   @if (carregando()) {
     <div class="loading-state">
       <i class="fas fa-circle-notch fa-spin"></i>
-      <span>Consultando base georreferenciada de UBS…</span>
+      <span>Consultando agente Sentinel.AI…</span>
     </div>
   } @else {
     <!-- Lista de UBS -->
     <div class="ubs-lista">
-      @for (ubs of ubsLista(); track ubs.nm_equipamento) {
-        <div class="ubs-card" [class.recomendada]="ubs.recomendada">
-          @if (ubs.recomendada) {
+      @for (ubs of ubsLista(); track ubs.name) {
+        <div class="ubs-card" [class.recomendada]="ubs === recomendada()" (click)="selecionarUbs(ubs)" style="cursor:pointer">
+          @if (ubs === recomendada()) {
             <span class="badge-rec"><i class="fas fa-star"></i> Recomendada</span>
           }
           <div class="ubs-header">
             <div class="ubs-info">
-              <strong>{{ ubs.nm_equipamento }}</strong>
-              <span class="muted">{{ ubs.tx_endereco_equipamento }}</span>
-              @if (ubs.nm_bairro_equipamento) {
-                <span class="bairro-tag">{{ ubs.nm_bairro_equipamento }}</span>
+              <strong>{{ ubs.name }}</strong>
+              <span class="muted">{{ ubs.address }}</span>
+              @if (ubs.cep) {
+                <span class="bairro-tag">CEP: {{ ubs.cep }}</span>
+              }
+              @if (ubs.description) {
+                <p class="desc-text" style="margin:4px 0 0;font-size:.85rem;color:#555">{{ ubs.description }}</p>
               }
             </div>
-            <span class="dist-pill">{{ ubs.distancia }}</span>
           </div>
         </div>
       }
@@ -45,15 +43,13 @@
         <div class="rec-panel-header">
           <i class="fas fa-map-pin"></i>
           <div>
-            <h4>{{ rec.nm_equipamento }}</h4>
-            <p class="muted">{{ rec.tx_endereco_equipamento }}</p>
+            <h4>{{ rec.name }}</h4>
+            <p class="muted">{{ rec.address }}</p>
           </div>
         </div>
-        @if (rec.latitude && rec.longitude) {
-          <a class="btn-mapa" [href]="mapUrl()" target="_blank" rel="noopener">
-            <i class="fas fa-route"></i> Abrir rota no Google Maps
-          </a>
-        }
+        <a class="btn-mapa" [href]="mapUrl()" target="_blank" rel="noopener">
+          <i class="fas fa-route"></i> Abrir rota no Google Maps
+        </a>
       </div>
     }
 

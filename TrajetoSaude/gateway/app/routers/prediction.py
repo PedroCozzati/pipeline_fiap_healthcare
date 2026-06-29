@@ -15,6 +15,11 @@ async def predict_risk(payload: dict):
      return await prediction_client.post("/predict/risk", json=payload)
 
 
+@router.post("/deslocamento", summary="Calcula UBS no raio de 3km e tempo de deslocamento estimado")
+async def calcular_deslocamento(payload: dict):
+     return await prediction_client.post("/predict/deslocamento", json=payload)
+
+
 @router.post("/ingest", summary="Executa pipeline de ingestão e envia artefatos ao GCS")
 async def run_ingestion():
      return await prediction_client.post("/ingest/run", timeout=600.0)

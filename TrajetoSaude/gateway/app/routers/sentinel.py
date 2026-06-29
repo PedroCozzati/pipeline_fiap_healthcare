@@ -4,16 +4,18 @@ from app.clients.services import sentinel_client
 
 router = APIRouter()
 
+_SENTINEL_TIMEOUT = 120.0  # GCP streaming pode levar até 60s; gateway precisa de margem extra
+
 @router.post("/query", summary="Consulta a Sentinel.AI")
 async def query_sentinel(request: Request):
-    return await sentinel_client.post("/sentinel/query", json=await request.json())
+    return await sentinel_client.post("/sentinel/query", json=await request.json(), timeout=_SENTINEL_TIMEOUT)
 
 
 @router.post("/sentinelai_paciente", summary="Consulta Sentinel.AI paciente")
 async def sentinelai_paciente(request: Request):
-    return await sentinel_client.post("/sentinel/sentinelai_paciente", json=await request.json())
+    return await sentinel_client.post("/sentinel/sentinelai_paciente", json=await request.json(), timeout=_SENTINEL_TIMEOUT)
 
 
 @router.post("/sentinelai_agente", summary="Consulta Sentinel.AI agente")
 async def sentinelai_agente(request: Request):
-    return await sentinel_client.post("/sentinel/sentinelai_agente", json=await request.json())
+    return await sentinel_client.post("/sentinel/sentinelai_agente", json=await request.json(), timeout=_SENTINEL_TIMEOUT)

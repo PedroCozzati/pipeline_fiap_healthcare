@@ -45,6 +45,12 @@ export interface TriagemCreate {
 export interface TriagemApi extends TriagemCreate {
   id: string;
   created_at: string;
+  ticket?: {
+    id: string;
+    status: string;
+    valido_ate: string;
+    ubs_encaminhamento: string;
+  };
 }
 
 export interface TicketCreate {

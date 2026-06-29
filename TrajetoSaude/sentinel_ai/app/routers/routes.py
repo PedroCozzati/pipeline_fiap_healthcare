@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 from typing import Dict, Optional, Any
 
+from TrajetoSaude.sentinel_ai.app.routers.sentinel import _STREAM_URL_PACIENTE
 import httpx
 from google import auth as google_auth
 from google.auth.transport import requests as google_requests
@@ -45,7 +46,6 @@ _RE_BASE    = (
     "/projects/traj-saude/locations/us-west1"
     "/reasoningEngines/4633016544006242304"
 )
-_STREAM_URL = f"{_RE_BASE}:streamQuery"
 
 # ── Schemas ───────────────────────────────────────────────────────────────────
 class RiskInput(BaseModel):
@@ -169,8 +169,6 @@ async def sentinel_query(payload: SentinelRequest):
     Proxy para o Vertex AI ADK Agent Engine via HTTP (sem SDK).
     Fluxo: autenticar → criar sessão → streamQuery (SSE) → coletar texto.
     """
-    mensagem = payload.input.input
-    user_id  = "paciente_demo"
 
     try:
         token = _get_token()
@@ -186,20 +184,14 @@ async def sentinel_query(payload: SentinelRequest):
     }
 
     async with httpx.AsyncClient(timeout=60.0) as client:
-
         # streamQuery direto — sem sessão (agente stateless)
+        print(payload.model_dump())
+        
         partes: list[str] = []
-        async with client.stream(
-            "POST",
-            _STREAM_URL,
+        async with client.post(
+            _STREAM_URL_PACIENTE,
             headers=headers,
-            json={
-                "class_method": "async_stream_query",
-                "input": {
-                    "user_id": user_id,
-                    "message": mensagem,
-                },
-            },
+            json=payload.model_dump(),
         ) as stream_resp:
             if stream_resp.status_code != 200:
                 body = await stream_resp.aread()

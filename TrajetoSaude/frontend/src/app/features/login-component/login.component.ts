@@ -30,8 +30,8 @@ export class LoginComponent {
   private readonly router  = inject(Router);
 
   protected readonly atalhos: AtalhoLogin[] = [
-    { rotulo: 'Agente de Saúde (demo)', email: 'agente@demo.trajeto', senha: '123456', nome: 'Camila Rocha', tipo: 'agente_saude' },
-    { rotulo: 'Paciente (demo)',         email: 'paciente@demo.trajeto', senha: '123456', nome: 'Maria Souza', tipo: 'paciente' },
+    { rotulo: 'Agente de Saúde', email: 'agente@demo.trajeto', senha: '123456', nome: 'Camila Rocha', tipo: 'agente_saude' },
+    { rotulo: 'Paciente',         email: 'paciente@demo.trajeto', senha: '123456', nome: 'Maria Souza', tipo: 'paciente' },
   ];
 
   // ── modo ──────────────────────────────────────────────────────────────────
@@ -95,7 +95,7 @@ export class LoginComponent {
     this.erro.set(''); this.carregando.set(true);
     this.auth.loginOuRegistrar(atalho.nome, atalho.email, atalho.senha, atalho.tipo).subscribe((ok) => {
       this.carregando.set(false);
-      if (!ok) { this.erro.set('Falha ao entrar com conta demo.'); return; }
+      if (!ok) { this.erro.set('Falha ao entrar com a conta.'); return; }
       this.navegarParaHome();
     });
   }

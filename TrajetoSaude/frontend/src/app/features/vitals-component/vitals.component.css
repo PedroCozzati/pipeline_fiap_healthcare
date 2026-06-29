@@ -22,6 +22,14 @@
 .param-label { font-size: 11px; color: var(--grafite, #888780); font-weight: 500; }
 .param-valor { font-size: 18px; font-weight: 700; color: var(--petroleo, #1A5B9C); }
 
+/* ── Nota sobre o modelo ── */
+.modelo-nota {
+  background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px;
+  padding: 12px 16px; font-size: 13px; color: #1e40af;
+  display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; line-height: 1.5;
+}
+.modelo-nota i { margin-top: 2px; flex-shrink: 0; }
+
 /* ── Campo de glicemia ── */
 .glicemia-section { margin-bottom: 24px; }
 .glicemia-field { display: flex; flex-direction: column; gap: 8px; }

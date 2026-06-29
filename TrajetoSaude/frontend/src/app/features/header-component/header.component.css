@@ -25,6 +25,7 @@ header {
     display: inline-flex; align-items: center; gap: 8px;
     background: rgba(255, 255, 255, 0.14); color: #fff; border: none;
     border-radius: 20px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+    margin-bottom: 14px;
     transition: background 0.15s ease;
 }
 .btn-sair:hover { background: rgba(255, 255, 255, 0.26); }
