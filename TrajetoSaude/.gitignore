@@ -1,6 +1,11 @@
 .env
 .venv/
-credentials/gcp-sa.json
+credentials/
+!credentials/.gitkeep
+infra/terraform.tfvars
+infra/.terraform/
+infra/terraform.tfstate*
+infra/tfplan
 *.pyc
 __pycache__/
 node_modules/

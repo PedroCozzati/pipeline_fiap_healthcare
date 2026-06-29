@@ -1,5 +1,8 @@
 # Trajeto Saúde — stack local de microserviços
-# Uso: docker compose up --build
+# Documentação completa: README.md
+#
+# Uso rápido (após configurar .env e credentials/gcp-sa.json):
+#   docker compose up --build
 #
 # Serviços:
 #   frontend   → http://localhost:4200

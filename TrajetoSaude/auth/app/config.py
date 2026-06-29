@@ -15,9 +15,9 @@ class Settings(BaseSettings):
     )
 
     cloud_sql_instance_connection_name: str = ""
-    cloud_sql_database: str = "traj-saude"
-    cloud_sql_user: str = "traj-saude"
-    cloud_sql_password: str = "traj-saude"
+    cloud_sql_database: str = "trajeto_saude"
+    cloud_sql_user: str = "app_user"
+    cloud_sql_password: str = ""
     cloud_sql_host: str | None = None
     cloud_sql_port: int = 5432
 

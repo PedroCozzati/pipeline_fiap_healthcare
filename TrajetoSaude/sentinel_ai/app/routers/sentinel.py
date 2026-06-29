@@ -4,7 +4,7 @@ import logging
 import httpx
 from fastapi import APIRouter, HTTPException
 
-from app.config import settings
+from app.config import resolve_reasoning_engine_url, settings
 from app.schemas.sentinel import (
     SentinelRequest,
     SentinelResponse,
@@ -18,14 +18,6 @@ from app.services import gcp_auth
 
 router = APIRouter()
 logger = logging.getLogger("sentinel_ai")
-
-# URL base do Reasoning Engine (nova)
-_RE_BASE = (
-    "https://us-west1-aiplatform.googleapis.com/v1"
-    "/projects/traj-saude/locations/us-west1"
-    "/reasoningEngines/4425112089333334016"
-)
-_QUERY_URL = f"{_RE_BASE}:query"
 
 
 def _auth_headers() -> dict:
@@ -62,11 +54,17 @@ def _extract_text_response(data: dict) -> str:
     return json.dumps(data)
 
 
-async def _query_reasoning_engine(mensagem: str, user_id: str = "user") -> str:
+async def _query_reasoning_engine(
+    mensagem: str,
+    user_id: str = "user",
+    *,
+    agente: bool = False,
+) -> str:
+    query_url = resolve_reasoning_engine_url(agente=agente)
     headers = _auth_headers()
     async with httpx.AsyncClient(timeout=60.0) as client:
         resp = await client.post(
-            _QUERY_URL,
+            query_url,
             headers=headers,
             json={
                 "class_method": "query",
@@ -188,7 +186,7 @@ async def sentinelai_agente(payload: SentinelAgenteRequest):
     ]
 
     input_text = "\n".join(partes)
-    resposta_raw = await _query_reasoning_engine(input_text, user_id="agente")
+    resposta_raw = await _query_reasoning_engine(input_text, user_id="agente", agente=True)
     logger.info("sentinelai_agente raw (%d chars): %s", len(resposta_raw), resposta_raw[:200])
 
     items: list[UbsRecomendada] = []
