@@ -75,18 +75,6 @@ variable "image_tag" {
      default     = "latest"
 }
 
-variable "reasoning_engine_url" {
-     description = "URL do Vertex AI Reasoning Engine para o Sentinel.AI (opcional)."
-     type        = string
-     default     = ""
-}
-
-variable "reasoning_engine_agente_url" {
-     description = "URL do agente no Vertex AI Reasoning Engine (opcional)."
-     type        = string
-     default     = ""
-}
-
 variable "cloud_run_min_instances" {
      description = "Instâncias mínimas por serviço Cloud Run (0 permite escalar a zero)."
      type        = number

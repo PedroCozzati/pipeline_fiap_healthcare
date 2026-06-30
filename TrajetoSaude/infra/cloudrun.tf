@@ -251,11 +251,15 @@ resource "google_cloud_run_v2_service" "sentinel" {
                }
                env {
                     name  = "GCP_REASONING_ENGINE_URL"
-                    value = var.reasoning_engine_url
+                    value = local.agent_engine_query_urls["sentinela_ai"]
                }
                env {
                     name  = "GCP_REASONING_ENGINE_AGENTE_URL"
-                    value = var.reasoning_engine_agente_url
+                    value = local.agent_engine_query_urls["sentinela_ai_agentedesaude"]
+               }
+               env {
+                    name  = "GCP_REASONING_ENGINE_UBS_PER_3KM_URL"
+                    value = local.agent_engine_query_urls["sentinel_ai_ubs_per_3km"]
                }
           }
      }

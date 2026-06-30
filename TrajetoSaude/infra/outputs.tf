@@ -115,9 +115,10 @@ MODEL_SOURCE=local
 MODEL_GCS_URI=gs://${google_storage_bucket.data.name}/${var.gcs_artifacts_prefix}risk_model.joblib
 MODEL_LOCAL_PATH=artefatos/risk_model.joblib
 
-# Opcional — configure após criar o Reasoning Engine no Vertex AI
-GCP_REASONING_ENGINE_URL=
-GCP_REASONING_ENGINE_AGENTE_URL=
+# Agentes Sentinel.AI (Vertex AI Agent Engine), provisionados pelo Terraform
+GCP_REASONING_ENGINE_URL=${local.agent_engine_query_urls["sentinela_ai"]}
+GCP_REASONING_ENGINE_AGENTE_URL=${local.agent_engine_query_urls["sentinela_ai_agentedesaude"]}
+GCP_REASONING_ENGINE_UBS_PER_3KM_URL=${local.agent_engine_query_urls["sentinel_ai_ubs_per_3km"]}
 
 JWT_SECRET_KEY=altere-esta-chave-em-producao
 CORS_ORIGINS=["http://localhost:4200"]

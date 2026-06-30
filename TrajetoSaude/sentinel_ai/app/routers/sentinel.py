@@ -14,19 +14,20 @@ from app.schemas.sentinel import (
     UbsRecomendada,
     SentinelAgentePacienteResponse,
     UbsRaioCasaRequest,
+    UbsRaioCasaResponse,
 )
 from app.services import gcp_auth
+from app.config import settings
 
 router = APIRouter()
 logger = logging.getLogger("sentinel_ai")
 
-_GCP_BASE = (
-    "https://us-west1-aiplatform.googleapis.com/v1"
-    "/projects/traj-saude/locations/us-west1/reasoningEngines"
-)
-
-_STREAM_URL_PACIENTE = f"{_GCP_BASE}/4633016544006242304:streamQuery"
-_STREAM_URL_AGENTE   = f"{_GCP_BASE}/4425112089333334016:streamQuery"
+# URLs dos Reasoning Engines — provisionados pelo Terraform (infra/agent_engine.tf)
+# e injetados via env var no Cloud Run. Os defaults em app/config.py cobrem o
+# fluxo local (docker-compose) caso o .env ainda não tenha sido gerado.
+_STREAM_URL_PACIENTE      = settings.gcp_reasoning_engine_url
+_STREAM_URL_AGENTE        = settings.gcp_reasoning_engine_agente_url
+_STREAM_URL_UBS_PER_3KM   = settings.gcp_reasoning_engine_ubs_per_3km_url
 
 
 def _auth_headers() -> dict:
@@ -204,37 +205,44 @@ async def sentinelai_agente(payload: SentinelAgenteRequest):
 
 
 # ── ubs_raio_casa ───────────────────────────────────────────────────────────────
+# Agente dedicado (sentinel_ai_ubs_per_3km): calcula sobre um GeoJSON de UBS já
+# embutido na instrução, usando busca externa só como fallback — por isso é bem
+# mais rápido que pedir uma lista ao agente "sentinelai_agente" (que faz uma
+# busca no Google por item solicitado).
 
-_UBS_RAIO_CASA_TIMEOUT = 180.0  # margem acima da latência observada em produção (3 itens: 65-135s)
+_UBS_RAIO_CASA_TIMEOUT = 120.0
+
+def _parse_qtd_ubs(resposta_raw: str) -> int | None:
+    """Extrai {"qtd_ubs": <int>} do JSON devolvido pelo agente (tolerante a texto ao redor)."""
+    try:
+        inicio = resposta_raw.find("{")
+        fim = resposta_raw.rfind("}") + 1
+        if inicio >= 0 and fim > inicio:
+            dados = json.loads(resposta_raw[inicio:fim])
+            if isinstance(dados, dict) and isinstance(dados.get("qtd_ubs"), int):
+                return dados["qtd_ubs"]
+    except json.JSONDecodeError:
+        logger.warning("Resposta JSON inválida do agente ubs_per_3km — raw: %s", resposta_raw[:300])
+    return None
+
 
 @router.post(
     "/ubs_raio_casa",
-    response_model=SentinelAgenteResponse,
-    summary="Sentinel.AI — UBS em raio de 3km da residência do paciente",
+    response_model=UbsRaioCasaResponse,
+    summary="Sentinel.AI — quantidade de UBS em raio de 3km da residência do paciente",
 )
 async def ubs_raio_casa(payload: UbsRaioCasaRequest):
-    # O agente faz uma busca (tool call) por UBS candidata, então cada item pedido
-    # custa tempo real. Testado: 10 não termina em 280s; 5 termina em ~220s; 3 (igual
-    # ao endpoint sentinelai_agente, já validado em produção) termina em 65-135s.
-    input_text = (
-        f"Residência do paciente: {payload.endereco_casa}. "
-        "Liste até 3 UBS (Unidades Básicas de Saúde) dentro de um raio de 3km dessa "
-        "residência, em São Paulo, ordenadas da mais próxima para a mais distante. "
-        "Não pesquise mais de uma vez por UBS candidata. "
-        "Retorne APENAS um JSON no formato: "
-        '{"items":[{"name":"...","description":"...","address":"...","cep":"..."}]}'
-    )
-
     try:
         resposta_raw = await asyncio.wait_for(
-            _stream_query(input_text, _STREAM_URL_AGENTE), timeout=_UBS_RAIO_CASA_TIMEOUT
+            _stream_query(payload.endereco_casa, _STREAM_URL_UBS_PER_3KM),
+            timeout=_UBS_RAIO_CASA_TIMEOUT,
         )
     except asyncio.TimeoutError:
-        logger.warning("ubs_raio_casa excedeu %ss — retornando lista vazia", _UBS_RAIO_CASA_TIMEOUT)
-        return SentinelAgenteResponse(items=[], output_raw=None)
+        logger.warning("ubs_raio_casa excedeu %ss", _UBS_RAIO_CASA_TIMEOUT)
+        return UbsRaioCasaResponse(qtd_ubs=None, output_raw=None)
     except HTTPException as exc:
-        logger.warning("ubs_raio_casa GCP error %s — retornando lista vazia", exc.status_code)
-        return SentinelAgenteResponse(items=[], output_raw=exc.detail)
+        logger.warning("ubs_raio_casa GCP error %s", exc.status_code)
+        return UbsRaioCasaResponse(qtd_ubs=None, output_raw=exc.detail)
 
     logger.info("ubs_raio_casa raw (%d chars): %s", len(resposta_raw), resposta_raw[:200])
-    return SentinelAgenteResponse(items=_parse_ubs_items(resposta_raw), output_raw=resposta_raw)
+    return UbsRaioCasaResponse(qtd_ubs=_parse_qtd_ubs(resposta_raw), output_raw=resposta_raw)

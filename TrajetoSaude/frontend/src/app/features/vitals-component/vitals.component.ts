@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { TriageFlowService } from '../../services/triage_flow_service';
-import { SentinelService } from '../../services/sentinel.service';
+import { SentinelService, UbsRaioCasaResponse } from '../../services/sentinel.service';
 
 @Component({
   selector: 'app-vitals',
@@ -34,10 +34,12 @@ export class VitalsComponent implements OnInit {
 
     this.carregandoUbs.set(true);
     this.sentinel.ubsRaioCasa({ endereco_casa: endereco }).pipe(
-      catchError(() => of({ items: [] }))
+      catchError(() => of({ qtd_ubs: null } as UbsRaioCasaResponse))
     ).subscribe((r) => {
       this.carregandoUbs.set(false);
-      if (r.items.length > 0) this.flow.definirQtdUbs3km(r.items.length);
+      if (r.qtd_ubs !== null && r.qtd_ubs !== undefined) {
+        this.flow.definirQtdUbs3km(r.qtd_ubs);
+      }
     });
   }
 

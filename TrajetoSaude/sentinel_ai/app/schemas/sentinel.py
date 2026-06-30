@@ -60,3 +60,10 @@ class SentinelAgentePacienteResponse(BaseModel):
 
 class UbsRaioCasaRequest(BaseModel):
     endereco_casa: str
+
+
+class UbsRaioCasaResponse(BaseModel):
+    qtd_ubs: Optional[int] = None
+    output_raw: Optional[str] = None
+
+    model_config = {"extra": "ignore"}

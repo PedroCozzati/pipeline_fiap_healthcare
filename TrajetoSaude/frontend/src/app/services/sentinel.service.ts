@@ -41,6 +41,12 @@ export interface UbsRaioCasaPayload {
   endereco_casa: string;
 }
 
+/** Resposta do agente dedicado sentinel_ai_ubs_per_3km (retorna inteiro direto). */
+export interface UbsRaioCasaResponse {
+  qtd_ubs: number | null;
+  output_raw?: string | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SentinelService {
   private readonly http = inject(HttpClient);
@@ -85,10 +91,10 @@ export class SentinelService {
     return this.http.post<SentinelAgenteResponse>(`${this.base}/sentinelai_agente`, payload);
   }
 
-  /** Pergunta ao agente Sentinel quantas UBS existem num raio de 3km da residência do paciente. */
-  ubsRaioCasa(payload: UbsRaioCasaPayload): Observable<SentinelAgenteResponse> {
-    return this.http.post<SentinelAgenteResponse>(`${this.base}/ubs_raio_casa`, payload).pipe(
-      catchError(() => of({ items: [] } as SentinelAgenteResponse))
+  /** Pergunta ao agente Sentinel (sentinel_ai_ubs_per_3km) quantas UBS existem num raio de 3km da residência do paciente. Retorna inteiro diretamente. */
+  ubsRaioCasa(payload: UbsRaioCasaPayload): Observable<UbsRaioCasaResponse> {
+    return this.http.post<UbsRaioCasaResponse>(`${this.base}/ubs_raio_casa`, payload).pipe(
+      catchError(() => of({ qtd_ubs: null } as UbsRaioCasaResponse))
     );
   }
 }

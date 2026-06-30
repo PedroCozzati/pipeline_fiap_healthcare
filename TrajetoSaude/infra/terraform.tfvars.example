@@ -17,6 +17,6 @@ create_sa_key = true
 # (scripts/deploy-cloudrun.ps1 ou .sh cuida disso automaticamente)
 # deploy_cloud_run = false
 
-# Opcional: URL do Vertex AI Reasoning Engine para o Sentinel.AI
-# reasoning_engine_url        = "https://us-central1-aiplatform.googleapis.com/v1/projects/.../reasoningEngines/ID:query"
-# reasoning_engine_agente_url = "https://..."
+# Opcional: região do Vertex AI Agent Engine (agentes Sentinel.AI). Os agentes
+# são criados automaticamente pelo Terraform a partir de infra/agents/*/agent.py.
+# reasoning_engine_region = "us-west1"
