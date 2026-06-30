@@ -53,6 +53,17 @@
   max-width: 75%; padding: 10px 14px; border-radius: 16px;
   font-size: 15px; line-height: 1.55; white-space: pre-wrap;
 }
+
+/* Markdown dentro das mensagens da IA */
+.msg-markdown { white-space: normal; }
+.msg-markdown p { margin: 0 0 8px; }
+.msg-markdown p:last-child { margin-bottom: 0; }
+.msg-markdown ul, .msg-markdown ol { padding-left: 20px; margin: 4px 0 8px; }
+.msg-markdown li { margin-bottom: 2px; }
+.msg-markdown strong { font-weight: 700; }
+.msg-markdown em { font-style: italic; }
+.msg-markdown code { background: rgba(0,0,0,0.07); border-radius: 4px; padding: 1px 5px; font-size: 13px; }
+.msg-markdown h1, .msg-markdown h2, .msg-markdown h3 { font-weight: 700; margin: 8px 0 4px; font-size: 1em; }
 .bubble-ai { background: #fff; border: 1px solid #E5E3DC; border-bottom-left-radius: 4px; color: var(--carvao, #444441); }
 .bubble-user { background: var(--blue-sidebar, #0D2A4A); color: #fff; border-bottom-right-radius: 4px; }
 

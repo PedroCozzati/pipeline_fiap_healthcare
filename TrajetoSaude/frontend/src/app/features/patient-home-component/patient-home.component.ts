@@ -5,11 +5,12 @@ import { Router, RouterModule } from '@angular/router';
 import { TriageFlowService } from '../../services/triage_flow_service';
 import { AuthService } from '../../services/auth_service';
 import { SentinelService, MensagemChat, SentinelPacientePayload } from '../../services/sentinel.service';
+import { MarkdownPipe } from '../../shared/markdown.pipe';
 
 @Component({
   selector: 'app-patient-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, MarkdownPipe],
   templateUrl: './patient-home.component.html',
   styleUrl: './patient-home.component.css',
 })

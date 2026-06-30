@@ -13,6 +13,8 @@
           <div class="msg-bubble" [class.bubble-ai]="msg.papel === 'ai'" [class.bubble-user]="msg.papel === 'user'">
             @if (msg.carregando) {
               <span class="typing"><span></span><span></span><span></span></span>
+            } @else if (msg.papel === 'ai') {
+              <div class="msg-markdown" [innerHTML]="msg.texto | markdown"></div>
             } @else {
               {{ msg.texto }}
             }

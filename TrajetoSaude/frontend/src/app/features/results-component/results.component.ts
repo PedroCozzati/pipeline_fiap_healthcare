@@ -67,7 +67,7 @@ export class ResultsComponent implements OnInit {
 
     this.api.predictRisk({
       Idade:                  paciente?.idade                ?? 50,
-      Tempo_Deslocamento_Min: paciente?.tempoDeslocamentoMin ?? 60,
+      Tempo_Deslocamento_Min: paciente?.tempoDeslocamentoMin ?? 180,
       Qtd_UBS_Origem_3km:     paciente?.qtdUbs3km            ?? 2,
       Glicemia_Aferida:       vitais.glicemia,
     }).pipe(
