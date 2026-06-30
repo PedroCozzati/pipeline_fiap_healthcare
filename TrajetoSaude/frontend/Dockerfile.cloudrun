@@ -1,0 +1,15 @@
+# Build de produção do frontend para Cloud Run (Angular compilado + Nginx).
+# A imagem de desenvolvimento (Dockerfile, ng serve) continua para uso local via docker-compose.
+
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package.json ./
+RUN npm install
+COPY . .
+RUN npm run build -- --configuration production
+
+FROM nginx:1.27-alpine
+COPY --from=build /app/dist/*/browser /usr/share/nginx/html
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+
+EXPOSE 80

@@ -10,5 +10,13 @@ environment = "dev"
 # Opcional: nome fixo do bucket (deve ser globalmente único)
 # gcs_bucket_name = "meu-bucket-trajeto-saude"
 
-# Gera automaticamente ../credentials/gcp-sa.json
+# Gera automaticamente ../credentials/gcp-sa.json (usado apenas no fluxo local com Docker)
 create_sa_key = true
+
+# Cloud Run — deixe false até as imagens estarem publicadas no Artifact Registry
+# (scripts/deploy-cloudrun.ps1 ou .sh cuida disso automaticamente)
+# deploy_cloud_run = false
+
+# Opcional: URL do Vertex AI Reasoning Engine para o Sentinel.AI
+# reasoning_engine_url        = "https://us-central1-aiplatform.googleapis.com/v1/projects/.../reasoningEngines/ID:query"
+# reasoning_engine_agente_url = "https://..."

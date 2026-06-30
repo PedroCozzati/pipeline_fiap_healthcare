@@ -49,6 +49,41 @@ output "cloud_sql_password" {
      sensitive   = true
 }
 
+output "artifact_registry_repository" {
+     description = "Registro de imagens Docker no Artifact Registry."
+     value       = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.app.repository_id}"
+}
+
+output "cloud_run_auth_url" {
+     description = "URL do serviço auth no Cloud Run (somente após deploy_cloud_run=true)."
+     value       = try(google_cloud_run_v2_service.auth[0].uri, null)
+}
+
+output "cloud_run_storage_url" {
+     description = "URL do serviço storage no Cloud Run (somente após deploy_cloud_run=true)."
+     value       = try(google_cloud_run_v2_service.storage[0].uri, null)
+}
+
+output "cloud_run_prediction_url" {
+     description = "URL do serviço prediction no Cloud Run (somente após deploy_cloud_run=true)."
+     value       = try(google_cloud_run_v2_service.prediction[0].uri, null)
+}
+
+output "cloud_run_sentinel_url" {
+     description = "URL do serviço sentinel no Cloud Run (somente após deploy_cloud_run=true)."
+     value       = try(google_cloud_run_v2_service.sentinel[0].uri, null)
+}
+
+output "cloud_run_gateway_url" {
+     description = "URL do serviço gateway no Cloud Run (somente após deploy_cloud_run=true)."
+     value       = try(google_cloud_run_v2_service.gateway[0].uri, null)
+}
+
+output "cloud_run_frontend_url" {
+     description = "URL pública do frontend no Cloud Run (somente após deploy_cloud_run=true)."
+     value       = try(google_cloud_run_v2_service.frontend[0].uri, null)
+}
+
 output "sa_key_path" {
      description = "Caminho local da chave JSON (quando create_sa_key = true)."
      value       = var.create_sa_key ? abspath("${path.module}/../credentials/gcp-sa.json") : null

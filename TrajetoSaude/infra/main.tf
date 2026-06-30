@@ -18,6 +18,9 @@ locals {
           "iamcredentials.googleapis.com",
           "serviceusage.googleapis.com",
           "aiplatform.googleapis.com",
+          "run.googleapis.com",
+          "artifactregistry.googleapis.com",
+          "cloudbuild.googleapis.com",
      ]
 }
 

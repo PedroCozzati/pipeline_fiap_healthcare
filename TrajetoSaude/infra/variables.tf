@@ -62,3 +62,39 @@ variable "service_account_id" {
      type        = string
      default     = "trajeto-app"
 }
+
+variable "deploy_cloud_run" {
+     description = "Se true, provisiona os serviços Cloud Run (requer imagens já publicadas no Artifact Registry)."
+     type        = bool
+     default     = false
+}
+
+variable "image_tag" {
+     description = "Tag das imagens Docker publicadas no Artifact Registry."
+     type        = string
+     default     = "latest"
+}
+
+variable "reasoning_engine_url" {
+     description = "URL do Vertex AI Reasoning Engine para o Sentinel.AI (opcional)."
+     type        = string
+     default     = ""
+}
+
+variable "reasoning_engine_agente_url" {
+     description = "URL do agente no Vertex AI Reasoning Engine (opcional)."
+     type        = string
+     default     = ""
+}
+
+variable "cloud_run_min_instances" {
+     description = "Instâncias mínimas por serviço Cloud Run (0 permite escalar a zero)."
+     type        = number
+     default     = 0
+}
+
+variable "cloud_run_max_instances" {
+     description = "Instâncias máximas por serviço Cloud Run."
+     type        = number
+     default     = 2
+}

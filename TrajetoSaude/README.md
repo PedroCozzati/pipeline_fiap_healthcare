@@ -70,20 +70,22 @@ flowchart TB
 
 ## Pré-requisitos
 
-### Obrigatórios (ambos os fluxos)
+### Obrigatórios (todos os fluxos)
 
 | Ferramenta | Versão mínima | Verificação |
 |---|---|---|
 | [Docker Desktop](https://www.docker.com/products/docker-desktop/) | 24+ | `docker --version` |
-| [Docker Compose](https://docs.docker.com/compose/) | v2+ | `docker compose version` |
+| [Terraform](https://developer.hashicorp.com/terraform/install) | 1.5+ | `terraform version` |
+| [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) | atual | `gcloud version` |
 | Conta [Google Cloud](https://cloud.google.com/) | com billing ativo | — |
 
-### Adicionais para provisionamento com Terraform
+Na **Opção A (Cloud Run)**, o Docker é usado apenas para *buildar* as imagens antes do push ao Artifact Registry — a aplicação em si roda inteiramente no GCP, sem containers locais em execução. Nas opções B e C, o Docker também executa a stack localmente (`docker compose up`).
+
+### Adicionais apenas para as Opções B/C (Docker Compose local)
 
 | Ferramenta | Versão mínima | Verificação |
 |---|---|---|
-| [Terraform](https://developer.hashicorp.com/terraform/install) | 1.5+ | `terraform version` |
-| [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) | atual | `gcloud version` |
+| [Docker Compose](https://docs.docker.com/compose/) | v2+ | `docker compose version` |
 
 ### Serviços GCP utilizados
 
@@ -92,26 +94,161 @@ flowchart TB
 | **Cloud SQL** (PostgreSQL) | Sim | Usuários e dados da aplicação |
 | **Cloud Storage** | Sim* | Artefatos de modelo e pipeline |
 | **IAM / Service Account** | Sim | Autenticação dos microserviços |
+| **Cloud Run** | Apenas na Opção A | Execução dos microserviços na nuvem |
+| **Artifact Registry** | Apenas na Opção A | Armazena as imagens Docker publicadas |
 | **Vertex AI** (Reasoning Engine) | Não | Chat Sentinel.AI (opcional) |
 
-\* Com `MODEL_SOURCE=local`, o bucket é opcional para rodar predições, mas ainda é usado pelo pipeline de ingestão.
+\* Com `MODEL_SOURCE=local` (Opções B/C), o bucket é opcional para rodar predições, mas ainda é usado pelo pipeline de ingestão. Na Opção A, o `prediction` sempre usa `MODEL_SOURCE=gcs`.
 
 ---
 
 ## Escolha o fluxo de execução
 
-Existem **duas formas** de executar o projeto. Ambas usam Docker na máquina local; a diferença está em como a infraestrutura GCP é criada.
+Existem **três formas** de executar o projeto:
 
-| | Opção A — Terraform (recomendado) | Opção B — Configuração manual |
-|---|---|---|
-| **Para quem** | Quem quer reproduzir tudo com um comando | Quem já tem recursos GCP ou prefere o console |
-| **Infra GCP** | Criada automaticamente | Criada manualmente no console |
-| **Arquivo `.env`** | Gerado por script | Copiado e editado à mão |
-| **Tempo estimado** | ~15 min (inclui Cloud SQL) | ~30 min |
+| | Opção A — Full GCP / Cloud Run (principal) | Opção B — Terraform + Docker local | Opção C — Configuração manual |
+|---|---|---|---|
+| **Onde os containers rodam** | Cloud Run (GCP) | Docker na sua máquina | Docker na sua máquina |
+| **Para quem** | Quer a aplicação publicada e acessível por URL, sem depender da máquina local | Quer reproduzir tudo localmente com um comando | Já tem recursos GCP ou prefere o console |
+| **Infra GCP** | Criada automaticamente (+ imagens publicadas no Artifact Registry) | Criada automaticamente | Criada manualmente no console |
+| **Configuração da app** | Variáveis injetadas direto nos serviços Cloud Run pelo Terraform | Arquivo `.env` gerado por script | `.env` copiado e editado à mão |
+| **Tempo estimado** | ~20–25 min (inclui build e push das imagens) | ~15 min (inclui Cloud SQL) | ~30 min |
 
 ---
 
-## Opção A — Terraform + Docker (recomendado)
+## Opção A — Full GCP / Cloud Run (principal)
+
+Toda a stack roda no GCP: Cloud SQL, Cloud Storage e os 6 microserviços publicados como serviços **Cloud Run** (sem depender de Docker local em execução). O Terraform cria a infraestrutura base e os serviços Cloud Run; um script builda e publica as imagens no **Artifact Registry** entre as duas etapas.
+
+```mermaid
+flowchart TB
+    subgraph cloudrun["Cloud Run"]
+        FE[frontend]
+        GW[gateway]
+        AUTH[auth]
+        STOR[storage]
+        PRED[prediction]
+        SENT[sentinel]
+    end
+
+    subgraph gcp["Google Cloud Platform"]
+        AR[(Artifact Registry)]
+        GCS[(Cloud Storage)]
+        SQL[(Cloud SQL PostgreSQL)]
+        VERTEX[Vertex AI Reasoning Engine]
+    end
+
+    Usuario((Usuário)) --> FE
+    FE --> GW
+    GW --> AUTH & STOR & PRED & SENT
+    AUTH --> SQL
+    STOR --> GCS & SQL
+    PRED --> GCS & STOR
+    SENT --> VERTEX
+    AR -.imagens.-> FE & GW & AUTH & STOR & PRED & SENT
+```
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/PedroCozzati/pipeline_fiap_healthcare.git
+cd pipeline_fiap_healthcare/TrajetoSaude
+```
+
+### 2. Autentique no Google Cloud
+
+```bash
+gcloud auth login
+gcloud auth application-default login
+gcloud config set project SEU_PROJECT_ID
+```
+
+Crie um projeto GCP (se necessário) em [console.cloud.google.com](https://console.cloud.google.com/) e ative o **billing**.
+
+### 3. Implante a infraestrutura e a aplicação
+
+**Windows (PowerShell):**
+
+```powershell
+.\scripts\deploy-cloudrun.ps1 -ProjectId "SEU_PROJECT_ID"
+```
+
+**Linux / macOS:**
+
+```bash
+chmod +x scripts/*.sh
+./scripts/deploy-cloudrun.sh SEU_PROJECT_ID
+```
+
+O script executa, em sequência:
+
+1. `terraform apply` da infraestrutura base (APIs, service account, Cloud SQL, bucket GCS, repositório no Artifact Registry);
+2. build e push das 6 imagens Docker (`auth`, `storage`, `prediction`, `sentinel`, `gateway`, `frontend`) para o Artifact Registry;
+3. `terraform apply` com `deploy_cloud_run=true`, criando os serviços Cloud Run já apontando uns para os outros (URLs resolvidas automaticamente pelo Terraform).
+
+Ao final, o script imprime a URL pública de cada serviço.
+
+> **Custo estimado:** Cloud SQL `db-f1-micro`, bucket GCS e os serviços Cloud Run (que escalam a zero por padrão) têm custo baixo para demonstração. Destrua os recursos após a avaliação com `cd infra && terraform destroy`.
+
+### 4. Treine o modelo
+
+O serviço `prediction` não inclui um `risk_model.joblib` pronto — gere-o chamando o endpoint de ingestão na URL pública do Cloud Run:
+
+**Windows:**
+
+```powershell
+$env:PREDICTION_URL = (terraform -chdir=infra output -raw cloud_run_prediction_url)
+.\scripts\train-model.ps1
+```
+
+**Linux / macOS:**
+
+```bash
+export PREDICTION_URL=$(terraform -chdir=infra output -raw cloud_run_prediction_url)
+./scripts/train-model.sh
+```
+
+### 5. Acesse a aplicação
+
+```bash
+terraform -chdir=infra output cloud_run_frontend_url
+terraform -chdir=infra output cloud_run_gateway_url
+```
+
+| Recurso | Origem da URL |
+|---|---|
+| Frontend | `terraform output cloud_run_frontend_url` |
+| API Gateway | `terraform output cloud_run_gateway_url` (`/docs` para Swagger) |
+| Auth / Storage / Prediction / Sentinel | `terraform output cloud_run_<serviço>_url` |
+
+### Atualizando a aplicação
+
+Após alterar código de algum microserviço, repita o build/push e reaplique apenas os serviços Cloud Run:
+
+```bash
+./scripts/build-push.sh
+cd infra && terraform apply -var="deploy_cloud_run=true"
+```
+
+### Vertex AI — Sentinel.AI no Cloud Run (opcional)
+
+Defina a URL do Reasoning Engine em `infra/terraform.tfvars` antes do deploy:
+
+```hcl
+reasoning_engine_url        = "https://us-central1-aiplatform.googleapis.com/v1/projects/SEU_PROJETO/locations/us-central1/reasoningEngines/ID:query"
+reasoning_engine_agente_url = "https://..."
+```
+
+### Destruir recursos GCP (após avaliação)
+
+```bash
+cd infra
+terraform destroy
+```
+
+---
+
+## Opção B — Terraform + Docker (local)
 
 Provisiona automaticamente: APIs, service account, bucket GCS, Cloud SQL e arquivo `.env`.
 
@@ -202,7 +339,7 @@ curl http://localhost:8003/health
 
 ---
 
-## Opção B — Docker local + GCP manual
+## Opção C — Docker local + GCP manual
 
 Use este fluxo se preferir criar os recursos pelo console ou já possuir um projeto configurado.
 
@@ -319,13 +456,13 @@ TrajetoSaude/
 ├── auth/              # Microserviço de autenticação
 ├── gateway/           # API Gateway
 ├── storage/           # GCS + Cloud SQL
-├── prediction/        # Pipeline ML e predição
+├── prediction/        # Pipeline ML e predição (+ Dockerfile.cloudrun)
 ├── sentinel_ai/       # Chat IA (Vertex)
-├── frontend/          # Angular
+├── frontend/          # Angular (+ Dockerfile.cloudrun, nginx.conf.template)
 ├── data/              # Dados do pipeline (amostra incluída)
-├── infra/             # Terraform (GCP)
-├── scripts/           # Automação (setup, .env, treino)
-├── credentials/       # Chave da service account (não versionada)
+├── infra/             # Terraform — base GCP + Cloud Run (cloudrun.tf)
+├── scripts/           # Automação (deploy-cloudrun, setup, build-push, .env, treino)
+├── credentials/       # Chave da service account (não versionada; fluxo local)
 ├── docker-compose.yml
 ├── .env.example
 └── README.md
@@ -384,6 +521,22 @@ Defina um nome único em `infra/terraform.tfvars`:
 ```hcl
 gcs_bucket_name = "meu-nome-unico-trajeto"
 ```
+
+### Cloud Run (Opção A): `terraform apply` falha com imagem não encontrada
+
+O `terraform apply -var="deploy_cloud_run=true"` espera que as imagens já existam no Artifact Registry. Rode `./scripts/build-push.ps1` (ou `.sh`) antes — o script `deploy-cloudrun` já faz isso na ordem correta.
+
+### Cloud Run (Opção A): frontend não consegue falar com o gateway
+
+O proxy `/api/*` do Nginx é configurado via `GATEWAY_URL` (env var injetada pelo Terraform) usando o templating nativo da imagem `nginx`. Após mudar a URL do gateway (ex.: recriar o serviço), reaplique o Cloud Run do frontend para que o novo valor seja propagado:
+
+```bash
+cd infra && terraform apply -var="deploy_cloud_run=true"
+```
+
+### Cloud Run (Opção A): `/ingest/run` expira (timeout)
+
+O serviço `prediction` está configurado com timeout de 600s no Cloud Run. Se o treino ainda assim não concluir, verifique os logs do serviço (`gcloud run services logs read trajeto-prediction --region SEU_REGION`).
 
 ### Destruir recursos GCP (após avaliação)
 
