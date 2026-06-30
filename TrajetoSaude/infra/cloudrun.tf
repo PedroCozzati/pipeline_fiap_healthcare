@@ -231,6 +231,7 @@ resource "google_cloud_run_v2_service" "sentinel" {
 
      template {
           service_account = google_service_account.app.email
+          timeout         = "300s"
 
           scaling {
                min_instance_count = var.cloud_run_min_instances
@@ -281,6 +282,7 @@ resource "google_cloud_run_v2_service" "gateway" {
 
      template {
           service_account = google_service_account.app.email
+          timeout         = "300s"
 
           scaling {
                min_instance_count = var.cloud_run_min_instances

@@ -54,3 +54,9 @@ class SentinelAgentePacienteResponse(BaseModel):
     contexto_enviado: Optional[str] = None
 
     model_config = {"extra": "ignore"}
+
+
+# ── Endpoint: ubs_raio_casa ────────────────────────────────────────────────────
+
+class UbsRaioCasaRequest(BaseModel):
+    endereco_casa: str

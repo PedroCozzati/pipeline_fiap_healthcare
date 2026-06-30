@@ -68,8 +68,9 @@ try {
      Confirm-Apply tfplan-cloudrun
 
      Write-Host "`n=== URLs dos serviços ===" -ForegroundColor Green
+     $GatewayUrl = terraform output -raw cloud_run_gateway_url
      Write-Host "Frontend:   $(terraform output -raw cloud_run_frontend_url)"
-     Write-Host "Gateway:    $(terraform output -raw cloud_run_gateway_url)"
+     Write-Host "Gateway:    $GatewayUrl"
      Write-Host "Auth:       $(terraform output -raw cloud_run_auth_url)"
      Write-Host "Storage:    $(terraform output -raw cloud_run_storage_url)"
      Write-Host "Prediction: $(terraform output -raw cloud_run_prediction_url)"
@@ -77,6 +78,24 @@ try {
 }
 finally {
      Pop-Location
+}
+
+Write-Host "`n==> Populando banco com dados de demonstração (POST /api/seed)" -ForegroundColor Cyan
+for ($i = 0; $i -lt 30; $i++) {
+     try {
+          Invoke-RestMethod -Uri "$GatewayUrl/health" -TimeoutSec 3 | Out-Null
+          break
+     }
+     catch {
+          Start-Sleep -Seconds 2
+     }
+}
+try {
+     $seedResult = Invoke-RestMethod -Method Post -Uri "$GatewayUrl/api/seed"
+     $seedResult | ConvertTo-Json -Depth 6
+}
+catch {
+     Write-Host "Aviso: falha ao chamar /api/seed ($_)" -ForegroundColor Yellow
 }
 
 Write-Host "`nDeploy concluído." -ForegroundColor Green

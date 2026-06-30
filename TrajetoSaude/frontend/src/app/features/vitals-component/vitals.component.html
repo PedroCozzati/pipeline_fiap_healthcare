@@ -9,12 +9,29 @@
           <span class="param-valor">{{ p.idade }} anos</span>
         </div>
         <div class="param-card">
-          <span class="param-label">Tempo de deslocamento</span>
-          <span class="param-valor">{{ p.tempoDeslocamentoMin }} min/dia</span>
+          <label class="param-label" for="tempoDeslocamento">Tempo de deslocamento (informado pelo agente)</label>
+          <span class="param-valor param-editavel">
+            <input
+              id="tempoDeslocamento"
+              type="number"
+              [(ngModel)]="tempoDeslocamento"
+              name="tempoDeslocamento"
+              min="0"
+              max="600"
+              class="param-input"
+            /> min/dia
+          </span>
         </div>
         <div class="param-card">
           <span class="param-label">UBS em raio de 3km</span>
-          <span class="param-valor">{{ p.qtdUbs3km }} unidade{{ p.qtdUbs3km !== 1 ? 's' : '' }}</span>
+          @if (carregandoUbs()) {
+            <span class="param-valor param-carregando">
+              <i class="fas fa-spinner fa-spin"></i> consultando Sentinel.AI…
+            </span>
+            <span class="param-hint">pode levar até 2 min</span>
+          } @else {
+            <span class="param-valor">{{ p.qtdUbs3km }} unidade{{ p.qtdUbs3km !== 1 ? 's' : '' }}</span>
+          }
         </div>
       </div>
     </div>

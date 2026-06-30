@@ -4,13 +4,34 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
+    # ── Proxy /api/sentinel/* → Gateway (Cloud Run) ────────────────────────
+    # Timeout maior: a chamada atravessa gateway (220s) → sentinel_ai (200s)
+    # → Vertex AI Reasoning Engine (streaming, pode demorar).
+    location /api/sentinel/ {
+        proxy_pass         ${GATEWAY_URL};
+        proxy_http_version 1.1;
+        proxy_set_header   X-Forwarded-Host  $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_connect_timeout 240s;
+        proxy_send_timeout    240s;
+        proxy_read_timeout    240s;
+    }
+
     # ── Proxy /api/* → Gateway (Cloud Run) ─────────────────────────────────
     # GATEWAY_URL é injetado via env var do Cloud Run e substituído aqui pelo
     # envsubst nativo da imagem oficial do nginx (entrypoint /docker-entrypoint.d).
     location /api/ {
-        proxy_pass         ${GATEWAY_URL}/;
+        # proxy_pass SEM URI após o host (nem mesmo "/") preserva o path
+        # original completo (ex.: /api/auth/login), exigido pelas rotas do
+        # gateway, que são montadas com prefixo /api/*.
+        proxy_pass         ${GATEWAY_URL};
         proxy_http_version 1.1;
-        proxy_set_header   Host              $host;
+        # Host NÃO é sobrescrito: o padrão do nginx ($proxy_host) usa o host do
+        # upstream (gateway), exigido pelo roteamento por Host/SNI do Cloud Run.
+        # Sobrescrever com $host (domínio do frontend) faz o Cloud Run não achar
+        # o serviço de destino e devolver 404 genérico do GFE.
+        proxy_set_header   X-Forwarded-Host  $host;
         proxy_set_header   X-Real-IP         $remote_addr;
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_read_timeout 60s;

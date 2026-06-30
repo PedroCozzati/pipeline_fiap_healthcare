@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 
@@ -12,6 +13,7 @@ from app.schemas.sentinel import (
     SentinelAgenteResponse,
     UbsRecomendada,
     SentinelAgentePacienteResponse,
+    UbsRaioCasaRequest,
 )
 from app.services import gcp_auth
 
@@ -138,6 +140,33 @@ async def sentinelai_paciente(payload: SentinelPacienteRequest):
     return {"output": resposta, "contexto_enviado": input_text}
 
 
+# ── Helpers compartilhados ───────────────────────────────────────────────────
+
+def _parse_ubs_items(resposta_raw: str) -> list[UbsRecomendada]:
+    """Extrai a lista de UBS do JSON devolvido pelo agente (tolerante a texto ao redor)."""
+    items: list[UbsRecomendada] = []
+    try:
+        inicio = resposta_raw.find("{")
+        fim = resposta_raw.rfind("}") + 1
+        if inicio >= 0 and fim > inicio:
+            json_text = resposta_raw[inicio:fim]
+            dados = json.loads(json_text)
+            if isinstance(dados, dict) and "items" in dados and isinstance(dados["items"], list):
+                for i in dados["items"]:
+                    if not isinstance(i, dict):
+                        continue
+                    normalizado = {k.rstrip(":"): v for k, v in i.items()}
+                    try:
+                        items.append(UbsRecomendada(**normalizado))
+                    except Exception:
+                        pass
+    except json.JSONDecodeError:
+        logger.warning("Resposta JSON inválida do agente — raw: %s", resposta_raw[:300])
+    except Exception as exc:
+        logger.warning("Falha ao parsear JSON do agente: %s — raw: %s", exc, resposta_raw[:300])
+    return items
+
+
 # ── sentinelai_agente ──────────────────────────────────────────────────────────
 
 @router.post(
@@ -171,26 +200,41 @@ async def sentinelai_agente(payload: SentinelAgenteRequest):
         return SentinelAgenteResponse(items=[], output_raw=exc.detail)
 
     logger.info("sentinelai_agente raw (%d chars): %s", len(resposta_raw), resposta_raw[:200])
+    return SentinelAgenteResponse(items=_parse_ubs_items(resposta_raw), output_raw=resposta_raw)
 
-    items: list[UbsRecomendada] = []
+
+# ── ubs_raio_casa ───────────────────────────────────────────────────────────────
+
+_UBS_RAIO_CASA_TIMEOUT = 180.0  # margem acima da latência observada em produção (3 itens: 65-135s)
+
+@router.post(
+    "/ubs_raio_casa",
+    response_model=SentinelAgenteResponse,
+    summary="Sentinel.AI — UBS em raio de 3km da residência do paciente",
+)
+async def ubs_raio_casa(payload: UbsRaioCasaRequest):
+    # O agente faz uma busca (tool call) por UBS candidata, então cada item pedido
+    # custa tempo real. Testado: 10 não termina em 280s; 5 termina em ~220s; 3 (igual
+    # ao endpoint sentinelai_agente, já validado em produção) termina em 65-135s.
+    input_text = (
+        f"Residência do paciente: {payload.endereco_casa}. "
+        "Liste até 3 UBS (Unidades Básicas de Saúde) dentro de um raio de 3km dessa "
+        "residência, em São Paulo, ordenadas da mais próxima para a mais distante. "
+        "Não pesquise mais de uma vez por UBS candidata. "
+        "Retorne APENAS um JSON no formato: "
+        '{"items":[{"name":"...","description":"...","address":"...","cep":"..."}]}'
+    )
+
     try:
-        inicio = resposta_raw.find("{")
-        fim = resposta_raw.rfind("}") + 1
-        if inicio >= 0 and fim > inicio:
-            json_text = resposta_raw[inicio:fim]
-            dados = json.loads(json_text)
-            if isinstance(dados, dict) and "items" in dados and isinstance(dados["items"], list):
-                for i in dados["items"]:
-                    if not isinstance(i, dict):
-                        continue
-                    normalizado = {k.rstrip(":"): v for k, v in i.items()}
-                    try:
-                        items.append(UbsRecomendada(**normalizado))
-                    except Exception:
-                        pass
-    except json.JSONDecodeError:
-        logger.warning("Resposta JSON inválida do agente — raw: %s", resposta_raw[:300])
-    except Exception as exc:
-        logger.warning("Falha ao parsear JSON do agente: %s — raw: %s", exc, resposta_raw[:300])
+        resposta_raw = await asyncio.wait_for(
+            _stream_query(input_text, _STREAM_URL_AGENTE), timeout=_UBS_RAIO_CASA_TIMEOUT
+        )
+    except asyncio.TimeoutError:
+        logger.warning("ubs_raio_casa excedeu %ss — retornando lista vazia", _UBS_RAIO_CASA_TIMEOUT)
+        return SentinelAgenteResponse(items=[], output_raw=None)
+    except HTTPException as exc:
+        logger.warning("ubs_raio_casa GCP error %s — retornando lista vazia", exc.status_code)
+        return SentinelAgenteResponse(items=[], output_raw=exc.detail)
 
-    return SentinelAgenteResponse(items=items, output_raw=resposta_raw)
+    logger.info("ubs_raio_casa raw (%d chars): %s", len(resposta_raw), resposta_raw[:200])
+    return SentinelAgenteResponse(items=_parse_ubs_items(resposta_raw), output_raw=resposta_raw)

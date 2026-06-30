@@ -56,6 +56,8 @@ export interface PacienteRegistro {
   cns: string;
   rg: string;
   bairro: string;
+  /** Endereço residencial completo, usado na consulta de UBS próximas ao agente Sentinel.AI. */
+  enderecoCasa?: string;
   rotaTrabalho: string[];
   tempoDeslocamentoMin: number;
   qtdUbs3km: number;
@@ -126,6 +128,20 @@ export class TriageFlowService {
 
   setPacienteApiId(id: string | null): void {
     this.pacienteApiId.set(id);
+  }
+
+  /** Atualiza o tempo de deslocamento informado pelo agente de saúde durante a triagem. */
+  definirTempoDeslocamento(minutos: number): void {
+    const atual = this.pacienteAtual();
+    if (!atual) return;
+    this.pacienteAtual.set({ ...atual, tempoDeslocamentoMin: minutos });
+  }
+
+  /** Atualiza a quantidade de UBS em 3km assim que a resposta do agente Sentinel.AI chega. */
+  definirQtdUbs3km(quantidade: number): void {
+    const atual = this.pacienteAtual();
+    if (!atual) return;
+    this.pacienteAtual.set({ ...atual, qtdUbs3km: quantidade });
   }
 
   /** Fallback mock — usado quando o paciente não está cadastrado na API. */

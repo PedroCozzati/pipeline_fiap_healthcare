@@ -62,14 +62,24 @@ confirm_apply tfplan-cloudrun
 
 echo
 echo "=== URLs dos serviços ==="
+GATEWAY_URL="$(terraform output -raw cloud_run_gateway_url)"
 echo "Frontend:   $(terraform output -raw cloud_run_frontend_url)"
-echo "Gateway:    $(terraform output -raw cloud_run_gateway_url)"
+echo "Gateway:    $GATEWAY_URL"
 echo "Auth:       $(terraform output -raw cloud_run_auth_url)"
 echo "Storage:    $(terraform output -raw cloud_run_storage_url)"
 echo "Prediction: $(terraform output -raw cloud_run_prediction_url)"
 echo "Sentinel:   $(terraform output -raw cloud_run_sentinel_url)"
 
 popd >/dev/null
+
+echo
+echo "==> Populando banco com dados de demonstração (POST /api/seed)"
+for i in $(seq 1 30); do
+  curl -sf "$GATEWAY_URL/health" >/dev/null 2>&1 && break
+  sleep 2
+done
+curl -sf -X POST "$GATEWAY_URL/api/seed" -H 'accept: application/json' -d '' \
+  || echo "Aviso: falha ao chamar /api/seed"
 
 echo
 echo "Deploy concluído."

@@ -12,6 +12,12 @@ resource "google_project_iam_member" "app_storage" {
      member  = "serviceAccount:${google_service_account.app.email}"
 }
 
+resource "google_storage_bucket_iam_member" "app_storage_bucket_reader" {
+     bucket = google_storage_bucket.data.name
+     role   = "roles/storage.legacyBucketReader"
+     member = "serviceAccount:${google_service_account.app.email}"
+}
+
 resource "google_project_iam_member" "app_cloudsql" {
      project = var.project_id
      role    = "roles/cloudsql.client"

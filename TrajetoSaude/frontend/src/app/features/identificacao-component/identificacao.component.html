@@ -25,11 +25,12 @@
           type="text"
           [(ngModel)]="documento"
           placeholder="Número do CNS ou RG do paciente..."
+          [disabled]="carregando()"
         />
       </span>
       <div>
-        <button type="button" class="icon-button" (click)="buscarPaciente()" aria-label="Buscar paciente">
-          <i class="fas fa-magnifying-glass"></i>
+        <button type="button" class="icon-button" (click)="buscarPaciente()" [disabled]="carregando()" aria-label="Buscar paciente">
+          <i class="fas" [class.fa-magnifying-glass]="!carregando()" [class.fa-spinner]="carregando()" [class.fa-spin]="carregando()"></i>
         </button>
       </div>
     </div>

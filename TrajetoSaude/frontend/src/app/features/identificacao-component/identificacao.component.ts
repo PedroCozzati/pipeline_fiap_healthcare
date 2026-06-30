@@ -71,9 +71,10 @@ export class IdentificacaoComponent {
     this.router.navigateByUrl('/chat');
   }
 
-  /** Valores padrão usados quando o paciente não tem coordenadas cadastradas ou o serviço de geo falha. */
+  /** Valores padrão usados quando o paciente não tem coordenadas/endereço cadastrados ou os serviços falham. */
   private static readonly TEMPO_DESLOCAMENTO_PADRAO = 60;
-  private static readonly QTD_UBS_3KM_PADRAO = 2;
+  /** Mock: usado até a tela de triagem confirmar a contagem real via Sentinel.AI (ou se a consulta falhar). */
+  private static readonly QTD_UBS_3KM_PADRAO = 1;
 
   private mapearDaApi(api: PacienteApi): Observable<PacienteRegistro> {
     const nascimento = api.data_nascimento ? new Date(api.data_nascimento) : null;
@@ -92,8 +93,11 @@ export class IdentificacaoComponent {
       cns: api.carteira_sus,
       rg: '',
       bairro: api.cidade ?? api.endereco ?? '',
+      enderecoCasa: [api.endereco, api.cidade, api.estado].filter(Boolean).join(', ') || undefined,
       rotaTrabalho,
       tempoDeslocamentoMin: IdentificacaoComponent.TEMPO_DESLOCAMENTO_PADRAO,
+      // Mock inicial; a tela de triagem busca o valor real no Sentinel.AI em segundo plano
+      // (a busca do paciente não pode ficar travada esperando a IA responder).
       qtdUbs3km: IdentificacaoComponent.QTD_UBS_3KM_PADRAO,
       historicoConsultas: [],
       internacoes: [],
@@ -105,7 +109,8 @@ export class IdentificacaoComponent {
       },
     };
 
-    // Sem coordenadas de residência cadastradas — usa valores padrão.
+    // Tempo de deslocamento é apenas uma sugestão inicial: o agente de saúde
+    // confirma/ajusta o valor exato durante a triagem (tela "vitals").
     if (api.lat_residencia == null || api.lng_residencia == null) {
       return of(base);
     }
@@ -119,7 +124,6 @@ export class IdentificacaoComponent {
       map((r) => ({
         ...base,
         tempoDeslocamentoMin: r.tempo_deslocamento_min > 0 ? r.tempo_deslocamento_min : base.tempoDeslocamentoMin,
-        qtdUbs3km: r.qtd_ubs_3km ?? base.qtdUbs3km,
       })),
       catchError(() => of(base))
     );
