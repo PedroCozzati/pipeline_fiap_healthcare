@@ -1,8 +1,8 @@
 <div class="view-container active">
 
-  <!-- ── Chat Sentinel.AI ── -->
+  <!-- ── Chat Vitta.AI ── -->
   <div class="chat-box full-height">
-    <h3>Sentinel.AI</h3>
+    <h3>Vitta.AI</h3>
 
     <div class="mensagens-lista" #mensagensEl>
       @for (msg of mensagens(); track $index) {
@@ -25,7 +25,7 @@
 
     <!-- Chips de sugestão (aparecem antes do primeiro envio) -->
     @if (mensagens().length <= 1) {
-      <p class="hint">Pergunte para a Sentinel.AI:</p>
+      <p class="hint">Pergunte para a Vitta.AI:</p>
       <div class="chip-row">
         <button type="button" class="chip"
           (click)="enviarMensagem('Quais os Hubs de saúde mais próximos da minha localização?')">

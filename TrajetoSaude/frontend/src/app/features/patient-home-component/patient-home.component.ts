@@ -46,7 +46,7 @@ export class PatientHomeComponent implements OnInit {
     this.mensagens.set([
       {
         papel: 'ai',
-        texto: `Olá, ${this.nome()}! Sou a Sentinel.AI. Posso te ajudar a encontrar uma unidade de saúde próxima ou acompanhar seu atendimento.`,
+        texto: `Olá, ${this.nome()}! Sou a Vitta.AI. Posso te ajudar a encontrar uma unidade de saúde próxima ou acompanhar seu atendimento.`,
       },
     ]);
   }

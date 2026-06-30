@@ -56,7 +56,7 @@ export interface PacienteRegistro {
   cns: string;
   rg: string;
   bairro: string;
-  /** Endereço residencial completo, usado na consulta de UBS próximas ao agente Sentinel.AI. */
+  /** Endereço residencial completo, usado na consulta de UBS próximas ao agente Vitta.AI. */
   enderecoCasa?: string;
   rotaTrabalho: string[];
   tempoDeslocamentoMin: number;
@@ -137,7 +137,7 @@ export class TriageFlowService {
     this.pacienteAtual.set({ ...atual, tempoDeslocamentoMin: minutos });
   }
 
-  /** Atualiza a quantidade de UBS em 3km assim que a resposta do agente Sentinel.AI chega. */
+  /** Atualiza a quantidade de UBS em 3km assim que a resposta do agente Vitta.AI chega. */
   definirQtdUbs3km(quantidade: number): void {
     const atual = this.pacienteAtual();
     if (!atual) return;

@@ -57,7 +57,7 @@ root_agent = LlmAgent(
       'Você é uma gente que ajuda a identificar quantas ubs (unidade basica de saude) tem perto de um endereço dentro da cidade de SP'
   ),
   sub_agents=[],
-  instruction='Dado um endereço específico, \nCalcule quantas UBS (unidade básica de saúde) estão localizadas perto desse endereco (de 1 até 3 ubs). consulte o Google.\n\nResponda rapidamente, sem pesquisas adicionais além do necessário. Retorne APENAS um JSON no formato:\n\n{\n  "qtd_ubs": <número inteiro>\n}',
+  instruction='Dado um endereço específico, \nCalcule quantas UBS (unidade básica de saúde) estão localizadas perto desse endereco no máximo 3 ubs. consulte o Google.\n\nResponda rapidamente, sem pesquisas adicionais além do necessário. Retorne APENAS um JSON no formato:\n\n{\n  "qtd_ubs": <número inteiro>\n}',
   tools=[
     agent_tool.AgentTool(agent=sentinel_ai_ubs_per_3km_google_search_agent),
     agent_tool.AgentTool(agent=sentinel_ai_ubs_per_3km_url_context_agent)

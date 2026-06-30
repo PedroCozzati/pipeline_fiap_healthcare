@@ -70,7 +70,7 @@ export class SentinelService {
         }),
         catchError((err) => {
           const detail = err?.error?.detail ?? err?.message ?? 'erro desconhecido';
-          return of(`Não foi possível contatar a Sentinel.AI: ${detail}`);
+          return of(`Não foi possível contatar a Vitta.AI: ${detail}`);
         })
       );
   }
@@ -82,7 +82,7 @@ export class SentinelService {
     ).pipe(
       catchError((err) => {
         const detail = err?.error?.detail ?? err?.message ?? 'erro desconhecido';
-        return of({ output: `Não foi possível contatar a Sentinel.AI: ${detail}`, contexto_enviado: undefined });
+        return of({ output: `Não foi possível contatar a Vitta.AI: ${detail}`, contexto_enviado: undefined });
       })
     );
   }

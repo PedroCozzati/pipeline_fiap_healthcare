@@ -73,7 +73,7 @@ export class IdentificacaoComponent {
 
   /** Valores padrão usados quando o paciente não tem coordenadas/endereço cadastrados ou os serviços falham. */
   private static readonly TEMPO_DESLOCAMENTO_PADRAO = 60;
-  /** Mock: usado até a tela de triagem confirmar a contagem real via Sentinel.AI (ou se a consulta falhar). */
+  /** Mock: usado até a tela de triagem confirmar a contagem real via Vitta.AI (ou se a consulta falhar). */
   private static readonly QTD_UBS_3KM_PADRAO = 1;
 
   private mapearDaApi(api: PacienteApi): Observable<PacienteRegistro> {
@@ -96,7 +96,7 @@ export class IdentificacaoComponent {
       enderecoCasa: [api.endereco, api.cidade, api.estado].filter(Boolean).join(', ') || undefined,
       rotaTrabalho,
       tempoDeslocamentoMin: IdentificacaoComponent.TEMPO_DESLOCAMENTO_PADRAO,
-      // Mock inicial; a tela de triagem busca o valor real no Sentinel.AI em segundo plano
+      // Mock inicial; a tela de triagem busca o valor real no Vitta.AI em segundo plano
       // (a busca do paciente não pode ficar travada esperando a IA responder).
       qtdUbs3km: IdentificacaoComponent.QTD_UBS_3KM_PADRAO,
       historicoConsultas: [],
