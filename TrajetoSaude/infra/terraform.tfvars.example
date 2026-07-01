@@ -1,0 +1,22 @@
+# Copie para terraform.tfvars e ajuste:
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# O project_id deve ser o ID do seu projeto GCP (não o nome de exibição).
+
+project_id  = "seu-projeto-gcp"
+region      = "us-central1"
+environment = "dev"
+
+# Opcional: nome fixo do bucket (deve ser globalmente único)
+# gcs_bucket_name = "meu-bucket-trajeto-saude"
+
+# Gera automaticamente ../credentials/gcp-sa.json (usado apenas no fluxo local com Docker)
+create_sa_key = true
+
+# Cloud Run — deixe false até as imagens estarem publicadas no Artifact Registry
+# (scripts/deploy-cloudrun.ps1 ou .sh cuida disso automaticamente)
+# deploy_cloud_run = false
+
+# Opcional: região do Vertex AI Agent Engine (agentes Sentinel.AI). Os agentes
+# são criados automaticamente pelo Terraform a partir de infra/agents/*/agent.py.
+# reasoning_engine_region = "us-west1"

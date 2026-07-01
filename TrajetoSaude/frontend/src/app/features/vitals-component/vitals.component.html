@@ -1,0 +1,69 @@
+<div class="view-container">
+  <!-- Parâmetros do cadastro (somente leitura) -->
+  @if (paciente(); as p) {
+    <div class="params-section">
+      <p class="params-titulo"><i class="fas fa-database"></i> Parâmetros do cadastro do paciente</p>
+      <div class="params-grid">
+        <div class="param-card">
+          <span class="param-label">Idade</span>
+          <span class="param-valor">{{ p.idade }} anos</span>
+        </div>
+        <div class="param-card">
+          <label class="param-label" for="tempoDeslocamento">Tempo de deslocamento (informado pelo agente)</label>
+          <span class="param-valor param-editavel">
+            <input
+              id="tempoDeslocamento"
+              type="number"
+              [(ngModel)]="tempoDeslocamento"
+              name="tempoDeslocamento"
+              min="0"
+              max="600"
+              class="param-input"
+            /> min/dia
+          </span>
+        </div>
+        <div class="param-card">
+          <span class="param-label">UBS em raio de 3km</span>
+          @if (carregandoUbs()) {
+            <span class="param-valor param-carregando">
+              <i class="fas fa-spinner fa-spin"></i> consultando Vitta.AI…
+            </span>
+            <span class="param-hint">pode levar até 2 min</span>
+          } @else {
+            <span class="param-valor">{{ p.qtdUbs3km }} unidade{{ p.qtdUbs3km !== 1 ? 's' : '' }}</span>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Nota sobre o modelo -->
+  <div class="modelo-nota">
+    <i class="fas fa-info-circle"></i>
+    O modelo avalia o <strong>risco de evasão ao tratamento</strong>, não o risco clínico direto.
+    Parâmetros como distância às UBS e tempo de deslocamento indicam a probabilidade de abandono do acompanhamento.
+  </div>
+
+  <!-- Único campo a coletar -->
+  <div class="glicemia-section">
+    <label class="glicemia-field">
+      <span class="glicemia-label">
+        <i class="fas fa-droplet"></i> Glicemia aferida (mg/dL)
+      </span>
+      <input
+        type="number"
+        [(ngModel)]="glicemia"
+        name="glicemia"
+        min="0"
+        max="600"
+        placeholder="Ex.: 142"
+        class="glicemia-input"
+      />
+      <span class="referencia">Referência: &lt; 100 mg/dL (jejum)</span>
+    </label>
+  </div>
+
+  <button class="btn-next" type="button" (click)="analisar()" [disabled]="!glicemia()">
+    <i class="fas fa-brain"></i> Calcular risco (modelo ML)
+  </button>
+</div>

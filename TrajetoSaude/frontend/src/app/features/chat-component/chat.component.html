@@ -1,0 +1,28 @@
+<div class="view-container active">
+  <div class="chat-box full-height">
+    <h3>Vitta.AI</h3>
+
+    <div class="chat-box ai-reply">
+      <div class="chat-message">
+        <div class="user-avatar"><i class="fas fa-robot"></i></div>
+        <div>
+          @if (paciente(); as p) {
+            <p>
+              <strong>IA:</strong> Olá! Paciente identificado:
+              <strong>{{ p.nome }}</strong> ({{ p.idade }} anos).
+              Preciso registrar os <strong>níveis de glicemia</strong> do paciente
+              — para classificar o <strong>risco de evasão ao tratamento</strong>.
+            </p>
+          } @else {
+            <p>
+              <strong>IA:</strong> Olá! Irei te ajudar na triagem.
+              Preciso registrar os <strong>níveis de glicemia</strong> do paciente
+              — para classificar o <strong>risco de evasão ao tratamento</strong>.
+            </p>
+          }
+          <button class="btn-next" type="button" (click)="avancarParaSinaisVitais()">Registrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

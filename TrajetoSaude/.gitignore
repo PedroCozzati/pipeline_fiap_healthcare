@@ -1,0 +1,25 @@
+.env
+.venv/
+credentials/
+!credentials/.gitkeep
+infra/terraform.tfvars
+infra/.terraform/
+infra/terraform.tfstate*
+infra/tfplan
+*.pyc
+__pycache__/
+node_modules/
+dist/
+.angular/
+
+# Dados brutos grandes do pipeline (manter estrutura com .gitkeep)
+data/raw/pns/*
+!data/raw/pns/.gitkeep
+data/raw/od/*
+!data/raw/od/.gitkeep
+data/raw/gis/*
+!data/raw/gis/.gitkeep
+data/raw/gtfs/*
+!data/raw/gtfs/.gitkeep
+data/output/*
+!data/output/.gitkeep

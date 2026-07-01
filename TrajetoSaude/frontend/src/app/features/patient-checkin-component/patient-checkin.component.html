@@ -1,0 +1,45 @@
+<div class="view-container">
+  <h3>Totem de check-in — UBS</h3>
+
+  <div class="totem">
+    <div class="totem-screen">
+      @if (resultado() === null) {
+        <i class="fas fa-qrcode totem-icon"></i>
+        <p>Aproxime o QR Code do seu ticket no leitor do totem para confirmar a chegada na unidade.</p>
+        <button class="btn-next" type="button" (click)="lerQrCode()">
+          <i class="fas fa-camera"></i> Simular leitura do QR Code
+        </button>
+      } @else if (resultado() === 'expirado') {
+        <i class="fas fa-triangle-exclamation totem-icon expirado"></i>
+        <p class="resultado-titulo expirado">Token expirado</p>
+        <p>
+          O prazo de validade de 24h deste ticket já passou. O check-in automático foi bloqueado —
+          procure a recepção da unidade para realizar uma triagem presencial manual.
+        </p>
+        <a routerLink="/paciente" class="btn-secundario">Voltar para o início</a>
+      } @else if (resultado() === 'sucesso') {
+        <i class="fas fa-circle-check totem-icon sucesso"></i>
+        <p class="resultado-titulo sucesso">Check-in confirmado</p>
+        <p>Seu prontuário foi enviado para a fila digital do consultório. Status do atendimento: <strong>Paciente em Unidade</strong>.</p>
+
+        @if (senhaVirtual(); as senha) {
+          <div class="senha-virtual">
+            <span class="senha-label">Sua senha de atendimento</span>
+            <span class="senha-valor">{{ senha }}</span>
+          </div>
+        }
+
+        <p class="aguardando"><i class="fas fa-clock"></i> Aguarde a chamada no painel do consultório.</p>
+
+        <a routerLink="/paciente/historico" class="btn-next">
+          <i class="fas fa-clock-rotate-left"></i> Ver histórico de atendimentos e lembretes
+        </a>
+      } @else {
+        <i class="fas fa-circle-exclamation totem-icon expirado"></i>
+        <p class="resultado-titulo expirado">Nenhum ticket encontrado</p>
+        <p>Não foi possível localizar um ticket de atendimento ativo para realizar o check-in.</p>
+        <a routerLink="/paciente" class="btn-secundario">Voltar para o início</a>
+      }
+    </div>
+  </div>
+</div>

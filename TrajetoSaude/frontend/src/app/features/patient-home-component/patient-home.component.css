@@ -1,0 +1,127 @@
+.chat-box {
+  background: var(--chat-bg);
+  border: 1px solid #E5E3DC;
+  border-radius: 25px;
+  padding: 20px 20px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 520px;
+}
+.full-height { height: 520px; }
+
+@media (max-width: 768px) {
+  .chat-box,
+  .full-height {
+    height: calc(100dvh - 56px - 58px - 32px); /* header + bottom-nav + padding */
+    border-radius: 16px;
+    margin-bottom: 0;
+  }
+}
+
+/* ── Mensagens ── */
+.mensagens-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  /* scrollbar discreta */
+  scrollbar-width: thin;
+  scrollbar-color: #d7dee8 transparent;
+}
+.mensagens-lista::-webkit-scrollbar { width: 5px; }
+.mensagens-lista::-webkit-scrollbar-track { background: transparent; }
+.mensagens-lista::-webkit-scrollbar-thumb { background: #d7dee8; border-radius: 3px; }
+
+.chat-message { display: flex; gap: 12px; align-items: flex-end; margin-top: 12px; }
+.chat-message.msg-user { flex-direction: row-reverse; }
+
+.user-avatar {
+  width: 36px; height: 36px;
+  background: var(--blue-sidebar, #0D2A4A);
+  border-radius: 8px;
+  display: flex; justify-content: center; align-items: center;
+  color: rgba(255,255,255,0.85); font-size: 15px; flex-shrink: 0;
+}
+.msg-user .user-avatar { background: var(--blue-button, #E87A35); }
+
+.msg-bubble {
+  max-width: 75%; padding: 10px 14px; border-radius: 16px;
+  font-size: 15px; line-height: 1.55; white-space: pre-wrap;
+}
+
+/* Markdown dentro das mensagens da IA */
+.msg-markdown { white-space: normal; }
+.msg-markdown p { margin: 0 0 8px; }
+.msg-markdown p:last-child { margin-bottom: 0; }
+.msg-markdown ul, .msg-markdown ol { padding-left: 20px; margin: 4px 0 8px; }
+.msg-markdown li { margin-bottom: 2px; }
+.msg-markdown strong { font-weight: 700; }
+.msg-markdown em { font-style: italic; }
+.msg-markdown code { background: rgba(0,0,0,0.07); border-radius: 4px; padding: 1px 5px; font-size: 13px; }
+.msg-markdown h1, .msg-markdown h2, .msg-markdown h3 { font-weight: 700; margin: 8px 0 4px; font-size: 1em; }
+.bubble-ai { background: #fff; border: 1px solid #E5E3DC; border-bottom-left-radius: 4px; color: var(--carvao, #444441); }
+.bubble-user { background: var(--blue-sidebar, #0D2A4A); color: #fff; border-bottom-right-radius: 4px; }
+
+/* Typing indicator */
+.typing { display: inline-flex; gap: 4px; align-items: center; height: 20px; }
+.typing span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--grafite, #888780);
+  animation: bounce 1.2s infinite ease-in-out;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── Chips ── */
+.hint { margin: 16px 0 8px; color: var(--grafite, #888780); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--blue-button, #E87A35); background: #fff; color: var(--blue-button, #E87A35);
+  border-radius: 20px; padding: 8px 14px; font-size: 13px; cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.chip:hover { background: var(--blue-button, #E87A35); color: #fff; }
+
+/* ── Input ── */
+.chat-input-area {
+  display: flex; gap: 8px; align-items: center;
+  margin-top: 12px; padding-top: 12px; border-top: 1px solid #E5E3DC;
+}
+.chat-input-field {
+  flex: 1; border-radius: 20px; border: 1px solid #d7dee8;
+  padding: 10px 16px; font-family: inherit; font-size: 15px;
+  background: #fff; outline: none; transition: border-color 0.15s;
+}
+.chat-input-field:focus { border-color: var(--blue-primary, #1A5B9C); }
+.chat-input-field:disabled { opacity: 0.6; }
+
+.btn-send {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--blue-button, #E87A35); color: #fff;
+  border: none; cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: filter 0.15s; flex-shrink: 0;
+}
+.btn-send:hover:not(:disabled) { filter: brightness(1.1); }
+.btn-send:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Ticket ativo ── */
+.ticket-ativo-card {
+  background: #fff; border: 1px solid #E5E3DC;
+  border-left: 4px solid var(--blue-button, #E87A35);
+  border-radius: 18px; padding: 16px 20px;
+}
+.ticket-ativo-card .badge { color: #15803d; font-weight: 700; font-size: 13px; margin: 0 0 6px; }
+.ticket-ativo-card .token-num { font-size: 22px; font-weight: 700; letter-spacing: 0.04em; margin: 0 0 8px; color: var(--blue-sidebar, #0D2A4A); }
+.ticket-ativo-card .ticket-valid { color: var(--grafite, #888780); font-size: 13px; }
+.btn-next { background: var(--blue-button, #E87A35); color: white; border: none; padding: 12px 32px; border-radius: 25px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 10px; }

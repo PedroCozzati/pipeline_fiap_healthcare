@@ -1,0 +1,64 @@
+.lead { color: #475569; margin: 6px 0 20px; }
+
+/* ── Resumo ── */
+.resumo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }
+
+.resumo-card {
+  border-radius: 16px; padding: 14px 12px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  border: 1px solid #E5E3DC;
+}
+.resumo-card.total  { background: #fff; }
+.resumo-card.alto   { background: #fef2f2; border-color: #fecaca; }
+.resumo-card.medio  { background: #fffbeb; border-color: #fcd34d; }
+.resumo-card.baixo  { background: #f0fdf4; border-color: #a7f3d0; }
+
+.resumo-num { font-size: 28px; font-weight: 800; color: var(--pinheiro, #0D2A4A); line-height: 1; }
+.resumo-card.alto  .resumo-num { color: #b91c1c; }
+.resumo-card.medio .resumo-num { color: #92400e; }
+.resumo-card.baixo .resumo-num { color: #15803d; }
+.resumo-label { font-size: 11px; font-weight: 600; color: var(--grafite, #888780); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ── Lista ── */
+.atendimentos-lista { display: flex; flex-direction: column; gap: 10px; }
+
+.atendimento-card {
+  display: flex; align-items: center; gap: 16px;
+  border: 1px solid #E5E3DC; border-radius: 16px;
+  padding: 14px 18px; background: #fff;
+  border-left: 4px solid #E5E3DC;
+}
+.atendimento-card.risco-alto  { border-left-color: #f97316; }
+.atendimento-card.risco-medio { border-left-color: #f59e0b; }
+
+.atend-data {
+  font-size: 12px; font-weight: 700; color: var(--blue-button, #E87A35);
+  min-width: 78px; white-space: nowrap;
+}
+
+.atend-info { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+
+.atend-paciente { display: flex; align-items: center; gap: 8px; }
+.atend-paciente strong { color: var(--pinheiro, #0D2A4A); }
+.idade-tag {
+  background: #f1f5f9; color: #64748b;
+  border-radius: 6px; padding: 1px 8px; font-size: 11px; font-weight: 600;
+}
+
+.cns-label { font-size: 12px; color: var(--grafite, #888780); font-family: monospace; }
+.desfecho  { font-size: 13px; color: #334155; margin-top: 2px; }
+
+.risco-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 999px; padding: 5px 14px; font-size: 12px; font-weight: 700;
+  white-space: nowrap; flex-shrink: 0;
+}
+.badge-alto  { background: #fee2e2; color: #b91c1c; }
+.badge-medio { background: #fef3c7; color: #92400e; }
+.badge-baixo { background: #dcfce7; color: #15803d; }
+
+@media (max-width: 480px) {
+  .atendimento-card { flex-wrap: wrap; gap: 8px; }
+  .atend-data { min-width: 0; }
+  .resumo-num { font-size: 24px; }
+}

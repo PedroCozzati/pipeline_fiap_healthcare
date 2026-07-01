@@ -1,0 +1,62 @@
+<div class="view-container">
+
+  @if (carregando()) {
+    <div class="loading-state">
+      <i class="fas fa-circle-notch fa-spin"></i>
+      <span>Buscando seu ticket…</span>
+    </div>
+
+  } @else {
+    @if (ticketView(); as t) {
+      <h3>Seu ticket de atendimento</h3>
+
+      <div class="qr-section">
+
+        <div class="qr-wrapper">
+          @if (qrDataUrl()) {
+            <img [src]="qrDataUrl()" alt="QR Code do ticket" class="qr-img" />
+          } @else {
+            <div class="qr-placeholder"><i class="fas fa-qrcode"></i></div>
+          }
+        </div>
+
+        <div class="info-panel ticket-panel">
+          <p class="token">{{ t.token }}</p>
+
+          <p><strong>UBS indicada:</strong></p>
+          <p class="ticket-name">{{ t.ubs }}</p>
+          <p class="ticket-valid">
+            Válido até {{ t.validoAte | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+
+          @if (t.expirado) {
+            <p class="status-tag expirado">
+              <i class="fas fa-triangle-exclamation"></i> Token expirado
+            </p>
+          } @else {
+            <p class="status-tag valido">
+              <i class="fas fa-circle-check"></i> Token válido — apresente ao totem da UBS
+            </p>
+          }
+
+          <a class="btn-rota" [href]="rotaUrl()" target="_blank" rel="noopener">
+            <i class="fas fa-route"></i> Abrir rota no mapa
+          </a>
+
+          <!-- @if (!t.expirado) {
+            <button class="btn-next" type="button" (click)="aproximarDoTotem()">
+              <i class="fas fa-mobile-screen-button"></i> Aproximar do totem da UBS
+            </button>
+          } -->
+        </div>
+      </div>
+
+    } @else {
+      <div class="sem-ticket">
+        <p>Você ainda não possui um ticket de atendimento ativo.</p>
+        <a routerLink="/paciente" class="btn-next">Voltar para o início</a>
+      </div>
+    }
+  }
+
+</div>

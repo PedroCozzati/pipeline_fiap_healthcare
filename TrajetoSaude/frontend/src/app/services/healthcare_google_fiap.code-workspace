@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../healthcare_google_fiap"
+		},
+		{
+			"path": "../../../../../pipeline_ml"
+		},
+		{
+			"path": "../../../.."
+		}
+	],
+	"settings": {}
+}

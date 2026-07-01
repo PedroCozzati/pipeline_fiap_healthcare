@@ -1,0 +1,69 @@
+<div class="view-container">
+
+  <!-- ── Glicemia elevada + risco de evasão baixo ── -->
+  @if (glicemiaElevada()) {
+    <div class="outcome-card outcome-medium">
+      <div class="badge badge-medium">
+        <i class="fas fa-droplet"></i> Atenção clínica — glicemia elevada
+      </div>
+      <h3>Risco de evasão baixo, mas glicemia requer acompanhamento</h3>
+      <p>O modelo não identificou alto risco de abandono do tratamento, porém a glicemia de
+        <strong>{{ vitais().glicemia }} mg/dL</strong> está acima do limite de referência (126 mg/dL).
+        É necessário encaminhamento à UBS para avaliação completa.</p>
+
+      <div class="info-block">
+        <h4><i class="fas fa-calendar-check"></i> Plano de acompanhamento preventivo</h4>
+        <ul>
+          <li>Consulta de rotina na UBS do bairro em até <strong>30 dias</strong></li>
+          <li>Exame de glicemia em jejum e hemoglobina glicada (HbA1c)</li>
+          <li>Orientação nutricional — redução de açúcares e carboidratos simples</li>
+          <li>Atividade física mínima: 150 min/semana de caminhada moderada</li>
+        </ul>
+      </div>
+
+      @if (fatoresRisco().length > 0) {
+        <div class="info-block">
+          <h4><i class="fas fa-list-check"></i> Fatores de atenção identificados</h4>
+          <ul>
+            @for (fator of fatoresRisco(); track fator) {
+              <li>{{ fator }}</li>
+            }
+          </ul>
+        </div>
+      }
+
+      <div class="info-block">
+        <h4><i class="fas fa-lightbulb"></i> Orientação da IA</h4>
+        <p>{{ sugestao() }}</p>
+      </div>
+    </div>
+
+  <!-- ── Risco baixo + glicemia normal ── -->
+  } @else {
+    <div class="outcome-card outcome-low">
+      <div class="badge badge-low">
+        <i class="fas fa-circle-check"></i> Risco baixo confirmado
+      </div>
+      <h3>IA desviou a rota lógica do atendimento de urgência</h3>
+      <p>Os sinais vitais informados estão dentro da normalidade — não há necessidade de encaminhamento urgente a uma UBS neste momento.</p>
+
+      <div class="info-block">
+        <h4><i class="fas fa-lightbulb"></i> Sugestão de cuidados preventivos</h4>
+        <p>{{ sugestao() }}</p>
+      </div>
+
+      <div class="info-block">
+        <h4><i class="fas fa-calendar-plus"></i> Agendamento de rotina</h4>
+        <ul>
+          <li>UBS de referência do paciente — consulta de acompanhamento</li>
+          <li>Próxima vaga sugerida: em até <strong>90 dias</strong></li>
+        </ul>
+      </div>
+    </div>
+  }
+
+  <p class="end-flag"><i class="fas fa-flag-checkered"></i> Fim do fluxo — caminho preventivo</p>
+  <button class="btn-next" type="button" (click)="reiniciarFluxo()">
+    <i class="fas fa-rotate-left"></i> Iniciar novo atendimento
+  </button>
+</div>

@@ -1,0 +1,68 @@
+<div class="view-container active">
+
+  <!-- ── Chat Vitta.AI ── -->
+  <div class="chat-box full-height">
+    <h3>Vitta.AI</h3>
+
+    <div class="mensagens-lista" #mensagensEl>
+      @for (msg of mensagens(); track $index) {
+        <div class="chat-message" [class.msg-user]="msg.papel === 'user'">
+          <div class="user-avatar">
+            <i class="fas" [class.fa-robot]="msg.papel === 'ai'" [class.fa-user]="msg.papel === 'user'"></i>
+          </div>
+          <div class="msg-bubble" [class.bubble-ai]="msg.papel === 'ai'" [class.bubble-user]="msg.papel === 'user'">
+            @if (msg.carregando) {
+              <span class="typing"><span></span><span></span><span></span></span>
+            } @else if (msg.papel === 'ai') {
+              <div class="msg-markdown" [innerHTML]="msg.texto | markdown"></div>
+            } @else {
+              {{ msg.texto }}
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Chips de sugestão (aparecem antes do primeiro envio) -->
+    @if (mensagens().length <= 1) {
+      <p class="hint">Pergunte para a Vitta.AI:</p>
+      <div class="chip-row">
+        <button type="button" class="chip"
+          (click)="enviarMensagem('Quais os Hubs de saúde mais próximos da minha localização?')">
+          <i class="fas fa-map-pin"></i> Hubs mais próximos
+        </button>
+        <button type="button" class="chip"
+          (click)="enviarMensagem('Tenho um ticket ativo. O que devo fazer agora?')">
+          <i class="fas fa-ticket"></i> O que fazer com meu ticket?
+        </button>
+        <button type="button" class="chip"
+          (click)="enviarMensagem('Como me preparar para a triagem no hub de saúde?')">
+          <i class="fas fa-stethoscope"></i> Como me preparar?
+        </button>
+      </div>
+    }
+
+    <!-- Input de texto -->
+    <div class="chat-input-area">
+      <input
+        type="text"
+        class="chat-input-field"
+        placeholder="Escreva sua pergunta..."
+        [(ngModel)]="inputTexto"
+        (keydown.enter)="enviarMensagem()"
+        [disabled]="aguardandoResposta()"
+      >
+      <button
+        class="btn-send"
+        type="button"
+        (click)="enviarMensagem()"
+        [disabled]="aguardandoResposta() || !inputTexto().trim()"
+        aria-label="Enviar"
+      >
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+
+</div>

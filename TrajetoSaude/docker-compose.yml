@@ -1,0 +1,166 @@
+# Trajeto Saúde — stack local de microserviços
+# Documentação completa: README.md
+#
+# Uso rápido (após configurar .env e credentials/gcp-sa.json):
+#   docker compose up --build
+#
+# Serviços:
+#   frontend   → http://localhost:4200
+#   gateway    → http://localhost:8000
+#   auth       → http://localhost:8003
+#   storage    → http://localhost:8001
+#   prediction → http://localhost:8002
+#   sentinel   → http://localhost:8004
+
+services:
+
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    env_file:
+      - .env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/gcp-sa.json
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - trajeto-net
+
+  storage:
+    build:
+      context: ./storage
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/gcp-sa.json
+    volumes:
+      - ${GCP_SA_KEY_FILE:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - trajeto-net
+
+  prediction:
+    build:
+      context: ./prediction
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    env_file:
+      - .env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/gcp-sa.json
+      STORAGE_SERVICE_URL: http://storage:8001
+      PIPELINE_BASE_DIR: /data
+    volumes:
+      - ${GCP_SA_KEY_FILE:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
+      - ./prediction/artefatos:/app/artefatos:ro
+      - ./data:/data:ro
+    depends_on:
+      storage:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - trajeto-net
+
+  sentinel:
+    build:
+      context: ./sentinel_ai
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+    env_file:
+      - .env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/gcp-sa.json
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-./credentials/gcp-sa.json}:/secrets/gcp-sa.json:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8004/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - trajeto-net
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      STORAGE_SERVICE_URL: http://storage:8001
+      PREDICTION_SERVICE_URL: http://prediction:8002
+      AUTH_SERVICE_URL: http://auth:8003
+      SENTINEL_SERVICE_URL: http://sentinel:8004
+      CORS_ORIGINS: '["http://localhost:4200"]'
+    depends_on:
+      auth:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
+      prediction:
+        condition: service_healthy
+      sentinel:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - trajeto-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    environment:
+      API_URL: http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      gateway:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:4200').then(() => process.exit(0)).catch(() => process.exit(1))\"" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - trajeto-net
+
+networks:
+  trajeto-net:
+    driver: bridge

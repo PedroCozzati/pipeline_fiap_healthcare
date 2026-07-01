@@ -1,0 +1,32 @@
+.loading-state { display: flex; align-items: center; gap: 14px; padding: 60px 0; justify-content: center; color: #6b7280; font-size: 15px; }
+
+.qr-section { display: flex; justify-content: center; align-items: flex-start; gap: 32px; margin-top: 24px; flex-wrap: wrap; }
+
+.qr-wrapper { display: flex; flex-direction: column; align-items: center; }
+.qr-img { width: 220px; height: 220px; border-radius: 12px; border: 3px solid #1a1a2e; }
+.qr-placeholder { width: 220px; height: 220px; border: 2px solid #ccc; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 80px; color: #ccc; }
+.info-panel {
+  width: 40%; background: var(--chat-bg); padding: 30px; border-radius: 25px;
+  border: 1px solid #e0e0e0; height: fit-content;
+}
+.ticket-panel { width: 420px; max-width: 100%; }
+.token { font-family: 'Courier New', monospace; font-size: 22px; font-weight: 700; letter-spacing: 0.06em; color: var(--blue-button); margin: 0 0 16px; }
+.ticket-name { font-size: 20px; margin: 0 0 4px; }
+.ticket-address { color: #6b7280; font-size: 14px; margin: 0 0 16px; }
+.ticket-valid { color: #999; font-weight: 700; margin: 0 0 12px; }
+
+.status-tag { font-weight: 700; border-radius: 14px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 8px; margin: 0 0 20px; font-size: 14px; }
+.status-tag.valido { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.status-tag.expirado { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+.btn-rota, .btn-next, .btn-demo {
+  display: inline-flex; align-items: center; gap: 10px; justify-content: center;
+  border-radius: 25px; padding: 12px 24px; font-size: 15px; font-weight: 700; cursor: pointer;
+  text-decoration: none; width: 100%; box-sizing: border-box; margin-bottom: 12px; border: none;
+}
+.btn-rota { background: #fff; color: var(--blue-button); border: 1px solid var(--blue-button); }
+.btn-next { background: var(--blue-button); color: #fff; }
+.btn-demo { background: none; color: #9ca3af; font-weight: 600; font-size: 13px; text-decoration: underline; padding: 4px; margin-bottom: 0; }
+
+.sem-ticket { text-align: center; padding: 60px 20px; color: #6b7280; }
+.sem-ticket .btn-next { display: inline-flex; width: auto; margin-top: 16px; }

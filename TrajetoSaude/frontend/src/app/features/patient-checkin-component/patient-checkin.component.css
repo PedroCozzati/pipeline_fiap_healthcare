@@ -1,0 +1,31 @@
+.totem { display: flex; justify-content: center; margin-top: 30px; }
+.totem-screen {
+  width: 420px; max-width: 100%; background: var(--chat-bg); border: 1px solid #e0e0e0;
+  border-radius: 25px; padding: 36px; text-align: center; box-sizing: border-box;
+}
+.totem-screen p { font-size: 15px; line-height: 1.6; color: #374151; margin: 0 0 20px; }
+
+.totem-icon { font-size: 56px; color: var(--blue-button); margin-bottom: 16px; display: block; }
+.totem-icon.sucesso { color: #15803d; }
+.totem-icon.expirado { color: #b91c1c; }
+
+.resultado-titulo { font-size: 20px; font-weight: 700; margin: 0 0 10px; }
+.resultado-titulo.sucesso { color: #15803d; }
+.resultado-titulo.expirado { color: #b91c1c; }
+
+.senha-virtual {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: #fff; border: 2px dashed var(--blue-button); border-radius: 18px; padding: 16px; margin: 0 0 20px;
+}
+.senha-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; }
+.senha-valor { font-size: 36px; font-weight: 800; color: var(--blue-button); letter-spacing: 0.08em; }
+
+.aguardando { color: #6b7280; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 0 20px; }
+
+.btn-next, .btn-secundario {
+  display: inline-flex; align-items: center; gap: 10px; justify-content: center;
+  border-radius: 25px; padding: 12px 28px; font-size: 15px; font-weight: 700; cursor: pointer;
+  text-decoration: none; border: none;
+}
+.btn-next { background: var(--blue-button); color: #fff; }
+.btn-secundario { background: #fff; color: var(--blue-button); border: 1px solid var(--blue-button); }

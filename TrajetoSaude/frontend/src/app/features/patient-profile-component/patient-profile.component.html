@@ -1,0 +1,72 @@
+<div class="view-container">
+  @if (carregando()) {
+    <div class="loading"><i class="fas fa-circle-notch fa-spin"></i> Carregando perfil…</div>
+  } @else {
+
+    <div class="perfil-card">
+      <div class="avatar"><i class="fas fa-circle-user"></i></div>
+      <div class="nome-badge">
+        <h2>{{ usuario()?.nome }}</h2>
+        <span class="role-pill">Paciente</span>
+      </div>
+    </div>
+
+    <div class="secao">
+      <h4 class="secao-titulo"><i class="fas fa-id-card"></i> Identificação</h4>
+      <div class="campo-lista">
+        <div class="campo">
+          <span class="campo-label">Nome completo</span>
+          <span class="campo-valor">{{ perfil()?.nome ?? usuario()?.nome ?? '—' }}</span>
+        </div>
+        <div class="campo">
+          <span class="campo-label">Cartão Nacional de Saúde (CNS)</span>
+          <span class="campo-valor sus">{{ perfil()?.carteira_sus ?? usuario()?.cns ?? '—' }}</span>
+        </div>
+        <div class="campo">
+          <span class="campo-label">Data de nascimento</span>
+          <span class="campo-valor">
+            @if (perfil()?.data_nascimento) {
+              {{ perfil()!.data_nascimento | date:'dd/MM/yyyy':'UTC' }} &nbsp;·&nbsp; {{ idadeFormatada() }}
+            } @else { — }
+          </span>
+        </div>
+      </div>
+    </div>
+
+    @if (perfil()) {
+      <div class="secao">
+        <h4 class="secao-titulo"><i class="fas fa-map-pin"></i> Endereço residencial</h4>
+        <div class="campo-lista">
+          <div class="campo">
+            <span class="campo-label">Logradouro</span>
+            <span class="campo-valor">{{ perfil()!.endereco ?? '—' }}</span>
+          </div>
+          <div class="campo">
+            <span class="campo-label">Cidade / Estado</span>
+            <span class="campo-valor">
+              {{ perfil()!.cidade ?? '—' }}@if (perfil()!.estado) { &nbsp;— {{ perfil()!.estado }} }
+            </span>
+          </div>
+          <div class="campo">
+            <span class="campo-label">CEP</span>
+            <span class="campo-valor">{{ perfil()!.cep ?? '—' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="secao">
+        <h4 class="secao-titulo"><i class="fas fa-briefcase"></i> Local de trabalho e rota</h4>
+        <div class="campo-lista">
+          <div class="campo">
+            <span class="campo-label">Local de trabalho</span>
+            <span class="campo-valor">{{ perfil()!.local_trabalho ?? '—' }}</span>
+          </div>
+          <div class="campo">
+            <span class="campo-label">Rota diária (casa → trabalho)</span>
+            <span class="campo-valor rota">{{ rotaFormatada() }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>
