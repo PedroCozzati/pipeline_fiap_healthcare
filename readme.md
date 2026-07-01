@@ -28,7 +28,7 @@ Professor orientador: Tiago Petroni Taveira
 
 <div align="center">
 
-<video src="./traj-saude-speedup.mp4" controls width="100%" title="Trajeto Saúde — Demo"></video>
+<video src="traj-saude-speedup.mp4" controls width="100%" title="Trajeto Saúde — Demo"></video>
 
 </div>
 
