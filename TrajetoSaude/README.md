@@ -20,13 +20,22 @@ Professor orientador: Tiago Petroni Taveira
 | Yasmin Martins Vasconcellos | 363354 | [yamars-dev](https://github.com/yamars-dev) |
 
 </div>
+<div align="center"><a href=https://youtu.be>🖥️Link para Video de pitch.🖥️</a>
+</div>
 
-##### <div align="center"><a href=https://youtu.be>🖥️Link para Video de pitch.🖥️</a></div>
+
+**Evidência do MVP** — acesse em: <a href="https://trajeto-frontend-bzxse6rn6q-uc.a.run.app/">trajeto-frontend-bzxse6rn6q-uc.a.run.app</a>
+
+<div align="center">
+
+<video src="../traj-saude-speedup.mp4" controls width="100%" title="Trajeto Saúde — Demo"></video>
+
+</div>
 
 
 ## Sobre o projeto
 
-O **Trajeto Saúde** é uma plataforma de microserviços que integra dados urbanos, modelos de machine learning e IA generativa (Vertex AI) para apoiar o cuidado preventivo de pacientes com diabetes em São Paulo.
+O **Trajeto Saúde** é uma plataforma de microserviços que integra dados urbanos, modelos de machine learning e IA generativa (**Vitta.AI**, powered by Vertex AI Agent Engine + Gemini 3.5 Flash) para apoiar o cuidado preventivo de pacientes com diabetes em São Paulo.
 
 A aplicação é composta por:
 
@@ -37,7 +46,7 @@ A aplicação é composta por:
 | **auth** | 8003 | Autenticação JWT e usuários |
 | **storage** | 8001 | Cloud Storage e Cloud SQL |
 | **prediction** | 8002 | Pipeline de dados e predição de risco |
-| **sentinel** | 8004 | Chat Sentinel.AI (Vertex Reasoning Engine) |
+| **sentinel** | 8004 | Chat Vitta.AI (Vertex AI Agent Engine) |
 
 ### Arquitetura
 
@@ -55,7 +64,11 @@ flowchart TB
     subgraph gcp["Google Cloud Platform"]
         GCS[(Cloud Storage)]
         SQL[(Cloud SQL PostgreSQL)]
-        VERTEX[Vertex AI Reasoning Engine]
+        subgraph vertex["Vertex AI Agent Engine"]
+            A1[Vitta.AI Paciente]
+            A2[Vitta.AI Agente de Saúde]
+            A3[Vitta.AI UBS por 3km]
+        end
     end
 
     FE --> GW
@@ -63,7 +76,7 @@ flowchart TB
     AUTH --> SQL
     STOR --> GCS & SQL
     PRED --> GCS
-    SENT --> VERTEX
+    SENT --> vertex
 ```
 
 ---
@@ -91,12 +104,12 @@ Na **Opção A (Cloud Run)**, o Docker é usado apenas para *buildar* as imagens
 
 | Serviço | Obrigatório | Finalidade |
 |---|---|---|
-| **Cloud SQL** (PostgreSQL) | Sim | Usuários e dados da aplicação |
+| **Cloud SQL** (PostgreSQL 15) | Sim | Usuários e dados da aplicação |
 | **Cloud Storage** | Sim* | Artefatos de modelo e pipeline |
 | **IAM / Service Account** | Sim | Autenticação dos microserviços |
-| **Cloud Run** | Apenas na Opção A | Execução dos microserviços na nuvem |
 | **Artifact Registry** | Apenas na Opção A | Armazena as imagens Docker publicadas |
-| **Vertex AI** (Reasoning Engine) | Não | Chat Sentinel.AI (opcional) |
+| **Cloud Run** | Apenas na Opção A | Execução dos microserviços na nuvem |
+| **Vertex AI Agent Engine** | Apenas na Opção A | Três agentes Vitta.AI (google-adk + Gemini 3.5 Flash) |
 
 \* Com `MODEL_SOURCE=local` (Opções B/C), o bucket é opcional para rodar predições, mas ainda é usado pelo pipeline de ingestão. Na Opção A, o `prediction` sempre usa `MODEL_SOURCE=gcs`.
 
@@ -111,14 +124,15 @@ Existem **três formas** de executar o projeto:
 | **Onde os containers rodam** | Cloud Run (GCP) | Docker na sua máquina | Docker na sua máquina |
 | **Para quem** | Quer a aplicação publicada e acessível por URL, sem depender da máquina local | Quer reproduzir tudo localmente com um comando | Já tem recursos GCP ou prefere o console |
 | **Infra GCP** | Criada automaticamente (+ imagens publicadas no Artifact Registry) | Criada automaticamente | Criada manualmente no console |
+| **Agentes Vitta.AI** | Criados e gerenciados pelo Terraform via Vertex AI Agent Engine | Não disponíveis (opcional, local) | Configuração manual no console |
 | **Configuração da app** | Variáveis injetadas direto nos serviços Cloud Run pelo Terraform | Arquivo `.env` gerado por script | `.env` copiado e editado à mão |
-| **Tempo estimado** | ~20–25 min (inclui build e push das imagens) | ~15 min (inclui Cloud SQL) | ~30 min |
+| **Tempo estimado** | ~25–30 min (inclui build, push e criação dos agentes IA) | ~15 min (inclui Cloud SQL) | ~30 min |
 
 ---
 
 ## Opção A — Full GCP / Cloud Run (principal)
 
-Toda a stack roda no GCP: Cloud SQL, Cloud Storage e os 6 microserviços publicados como serviços **Cloud Run** (sem depender de Docker local em execução). O Terraform cria a infraestrutura base e os serviços Cloud Run; um script builda e publica as imagens no **Artifact Registry** entre as duas etapas.
+Toda a stack roda no GCP: Cloud SQL, Cloud Storage, os 6 microserviços em **Cloud Run** e os três agentes **Vitta.AI** no **Vertex AI Agent Engine** — tudo provisionado pelo Terraform.
 
 ```mermaid
 flowchart TB
@@ -135,7 +149,11 @@ flowchart TB
         AR[(Artifact Registry)]
         GCS[(Cloud Storage)]
         SQL[(Cloud SQL PostgreSQL)]
-        VERTEX[Vertex AI Reasoning Engine]
+        subgraph vertex["Vertex AI Agent Engine"]
+            A1[Vitta.AI Paciente]
+            A2[Vitta.AI Agente de Saúde]
+            A3[Vitta.AI UBS por 3km]
+        end
     end
 
     Usuario((Usuário)) --> FE
@@ -144,7 +162,7 @@ flowchart TB
     AUTH --> SQL
     STOR --> GCS & SQL
     PRED --> GCS & STOR
-    SENT --> VERTEX
+    SENT --> vertex
     AR -.imagens.-> FE & GW & AUTH & STOR & PRED & SENT
 ```
 
@@ -176,19 +194,20 @@ Crie um projeto GCP (se necessário) em [console.cloud.google.com](https://conso
 **Linux / macOS:**
 
 ```bash
-chmod +x scripts/*.sh
+chmod +x scripts/*.sh scripts/package-agents.sh
 ./scripts/deploy-cloudrun.sh SEU_PROJECT_ID
 ```
 
 O script executa, em sequência:
 
-1. `terraform apply` da infraestrutura base (APIs, service account, Cloud SQL, bucket GCS, repositório no Artifact Registry);
+1. `terraform apply` da infraestrutura base (APIs, service account, Cloud SQL, bucket GCS, Artifact Registry e **3 agentes Vitta.AI** no Vertex AI Agent Engine);
 2. build e push das 6 imagens Docker (`auth`, `storage`, `prediction`, `sentinel`, `gateway`, `frontend`) para o Artifact Registry;
-3. `terraform apply` com `deploy_cloud_run=true`, criando os serviços Cloud Run já apontando uns para os outros (URLs resolvidas automaticamente pelo Terraform).
+3. `terraform apply` com `deploy_cloud_run=true`, criando os serviços Cloud Run com as URLs dos agentes Vitta.AI já injetadas como env vars;
+4. `POST /api/seed` para popular o banco com dados de demonstração.
 
 Ao final, o script imprime a URL pública de cada serviço.
 
-> **Custo estimado:** Cloud SQL `db-f1-micro`, bucket GCS e os serviços Cloud Run (que escalam a zero por padrão) têm custo baixo para demonstração. Destrua os recursos após a avaliação com `cd infra && terraform destroy`.
+> **Custo estimado:** Cloud SQL `db-f1-micro`, bucket GCS, serviços Cloud Run (escalam a zero) e Vertex AI Agent Engine (cobrança por uso) têm custo baixo para demonstração. Destrua os recursos após a avaliação com `cd infra && terraform destroy`.
 
 ### 4. Treine o modelo
 
@@ -218,25 +237,17 @@ terraform -chdir=infra output cloud_run_gateway_url
 | Recurso | Origem da URL |
 |---|---|
 | Frontend | `terraform output cloud_run_frontend_url` |
-| API Gateway | `terraform output cloud_run_gateway_url` (`/docs` para Swagger) |
+| API Gateway (`/docs` para Swagger) | `terraform output cloud_run_gateway_url` |
 | Auth / Storage / Prediction / Sentinel | `terraform output cloud_run_<serviço>_url` |
+| URLs dos agentes Vitta.AI | `terraform output agent_engine_query_urls` |
 
 ### Atualizando a aplicação
 
-Após alterar código de algum microserviço, repita o build/push e reaplique apenas os serviços Cloud Run:
+Após alterar código de algum microserviço:
 
 ```bash
 ./scripts/build-push.sh
 cd infra && terraform apply -var="deploy_cloud_run=true"
-```
-
-### Vertex AI — Sentinel.AI no Cloud Run (opcional)
-
-Defina a URL do Reasoning Engine em `infra/terraform.tfvars` antes do deploy:
-
-```hcl
-reasoning_engine_url        = "https://us-central1-aiplatform.googleapis.com/v1/projects/SEU_PROJETO/locations/us-central1/reasoningEngines/ID:query"
-reasoning_engine_agente_url = "https://..."
 ```
 
 ### Destruir recursos GCP (após avaliação)
@@ -244,6 +255,52 @@ reasoning_engine_agente_url = "https://..."
 ```bash
 cd infra
 terraform destroy
+```
+
+---
+
+## Vitta.AI — Agentes no Vertex AI Agent Engine
+
+O Vitta.AI é composto por três agentes ADK (google-adk + Gemini 3.5 Flash) criados e gerenciados pelo Terraform na Opção A. **Não é necessária nenhuma configuração manual** — as URLs são auto-geradas e injetadas no serviço `sentinel` via Cloud Run env vars.
+
+| Agente | Função |
+|---|---|
+| **Vitta.AI Paciente** | Chatbot de orientação ao paciente sobre rotas e hubs de saúde |
+| **Vitta.AI Agente de Saúde** | Indica 3 UBS próximas da rota de trabalho do paciente |
+| **Vitta.AI UBS por 3km** | Calcula quantas UBS existem num raio de 3km da residência |
+
+### Atualizando o código de um agente
+
+1. Edite `infra/agents/<nome>/agent.py`
+2. Reempacote:
+
+```bash
+./infra/scripts/package-agents.sh
+```
+
+3. Aplique no GCP:
+
+```bash
+cd infra
+# Se o agente tem sessões ativas, delete-o manualmente primeiro:
+# gcloud ... (veja seção Solução de Problemas)
+terraform apply -var="deploy_cloud_run=true"
+```
+
+### Para uso local (Opções B/C)
+
+Nas opções com Docker Compose, os endpoints `/sentinel/*` funcionam mas chamam os agentes diretamente via URLs configuradas em `.env`. Os agentes Vitta.AI já existentes no projeto GCP podem ser reutilizados — copie as URLs do output do Terraform:
+
+```bash
+terraform -chdir=infra output agent_engine_query_urls
+```
+
+E adicione ao `.env`:
+
+```env
+GCP_REASONING_ENGINE_URL=<URL do agente paciente>
+GCP_REASONING_ENGINE_AGENTE_URL=<URL do agente de saúde>
+GCP_REASONING_ENGINE_UBS_PER_3KM_URL=<URL do agente UBS por 3km>
 ```
 
 ---
@@ -266,8 +323,6 @@ gcloud auth login
 gcloud auth application-default login
 gcloud config set project SEU_PROJECT_ID
 ```
-
-Crie um projeto GCP (se necessário) em [console.cloud.google.com](https://console.cloud.google.com/) e ative o **billing**.
 
 ### 3. Provisione a infraestrutura
 
@@ -298,15 +353,9 @@ Aguarde todos os healthchecks ficarem verdes (~2–3 min na primeira build).
 
 ### 5. Treine o modelo (primeira execução)
 
-O repositório não inclui o arquivo `risk_model.joblib`. Gere-o com dados de demonstração:
-
-**Windows:**
-
 ```powershell
 .\scripts\train-model.ps1
 ```
-
-**Linux / macOS:**
 
 ```bash
 ./scripts/train-model.sh
@@ -371,27 +420,21 @@ gcloud services enable storage.googleapis.com sqladmin.googleapis.com iam.google
 2. Nome sugerido: `trajeto-app`
 3. Conceda os papéis:
    - `Storage Object Admin`
+   - `Storage Legacy Bucket Reader` (em nível de bucket, necessário para `bucket.exists()`)
    - `Cloud SQL Client`
-   - `Vertex AI User` (opcional, para Sentinel)
-4. Crie uma chave JSON e salve em:
-
-```
-TrajetoSaude/credentials/gcp-sa.json
-```
+   - `Vertex AI User`
+4. Crie uma chave JSON e salve em `TrajetoSaude/credentials/gcp-sa.json`
 
 #### 2.3 Cloud Storage
 
-1. **Cloud Storage → Create bucket**
-2. Escolha um nome globalmente único (ex.: `meu-projeto-trajeto-data`)
-3. Região: mesma do Cloud SQL (ex.: `us-central1`)
+1. **Cloud Storage → Create bucket** (nome globalmente único, ex.: `meu-projeto-trajeto-data`)
+2. Região: mesma do Cloud SQL (ex.: `us-central1`)
 
 #### 2.4 Cloud SQL (PostgreSQL)
 
-1. **SQL → Create instance → PostgreSQL 15**
-2. Tier: `db-f1-micro` (suficiente para demonstração)
-3. Crie banco: `trajeto_saude`
-4. Crie usuário: `app_user` com senha segura
-5. Anote o **Connection name** (formato: `projeto:região:instância`)
+1. **SQL → Create instance → PostgreSQL 15**, tier `db-f1-micro`
+2. Crie banco `trajeto_saude`, usuário `app_user`
+3. Anote o **Connection name** (formato: `projeto:região:instância`)
 
 ### 3. Configure o ambiente
 
@@ -399,7 +442,7 @@ TrajetoSaude/credentials/gcp-sa.json
 cp .env.example .env
 ```
 
-Edite o `.env` com os valores do seu projeto:
+Edite o `.env`:
 
 ```env
 GCP_PROJECT_ID=seu-projeto-gcp
@@ -431,24 +474,6 @@ curl -X POST http://localhost:8002/ingest/run
 
 ---
 
-## Vertex AI — Sentinel.AI (opcional)
-
-O chat de orientação ao paciente usa um **Reasoning Engine** no Vertex AI. Sem ele, os demais módulos funcionam normalmente; apenas os endpoints `/sentinel/*` retornarão erro.
-
-Para habilitar:
-
-1. No console GCP, acesse **Vertex AI → Agent Engine / Reasoning Engines**
-2. Crie ou importe o agente do projeto
-3. Copie a URL de query (formato `https://REGIAO-aiplatform.googleapis.com/v1/projects/.../reasoningEngines/ID:query`)
-4. Adicione ao `.env`:
-
-```env
-GCP_REASONING_ENGINE_URL=https://us-central1-aiplatform.googleapis.com/v1/projects/SEU_PROJETO/locations/us-central1/reasoningEngines/ID:query
-GCP_REASONING_ENGINE_AGENTE_URL=https://...
-```
-
----
-
 ## Estrutura do repositório
 
 ```
@@ -457,12 +482,30 @@ TrajetoSaude/
 ├── gateway/           # API Gateway
 ├── storage/           # GCS + Cloud SQL
 ├── prediction/        # Pipeline ML e predição (+ Dockerfile.cloudrun)
-├── sentinel_ai/       # Chat IA (Vertex)
+├── sentinel_ai/       # Microsserviço Vitta.AI (chama Vertex AI Agent Engine)
 ├── frontend/          # Angular (+ Dockerfile.cloudrun, nginx.conf.template)
 ├── data/              # Dados do pipeline (amostra incluída)
-├── infra/             # Terraform — base GCP + Cloud Run (cloudrun.tf)
-├── scripts/           # Automação (deploy-cloudrun, setup, build-push, .env, treino)
-├── credentials/       # Chave da service account (não versionada; fluxo local)
+├── infra/             # Terraform — toda a infra GCP
+│   ├── agents/        # Código-fonte dos agentes ADK
+│   │   ├── sentinela_ai/
+│   │   │   ├── agent.py          # Definição do agente (LlmAgent + AdkApp)
+│   │   │   ├── requirements.txt
+│   │   │   └── source.tar.gz.b64 # Artefato gerado por package-agents.sh
+│   │   ├── sentinela_ai_agentedesaude/
+│   │   └── sentinel_ai_ubs_per_3km/
+│   ├── scripts/
+│   │   └── package-agents.sh    # Reempacota agentes após editar agent.py
+│   ├── agent_engine.tf  # google_vertex_ai_reasoning_engine (3 agentes)
+│   ├── cloudrun.tf
+│   ├── cloudsql.tf
+│   ├── iam.tf
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── storage.tf
+│   ├── variables.tf
+│   └── versions.tf      # google provider ~> 7.0
+├── scripts/             # Automação (deploy-cloudrun, build-push, seed, treino)
+├── credentials/         # Chave da service account (não versionada; fluxo local)
 ├── docker-compose.yml
 ├── .env.example
 └── README.md
@@ -483,7 +526,9 @@ TrajetoSaude/
 | `CLOUD_SQL_USER` / `CLOUD_SQL_PASSWORD` | Credenciais do banco |
 | `MODEL_SOURCE` | `local`, `gcs` ou `vertex` |
 | `JWT_SECRET_KEY` | Chave para tokens JWT |
-| `GCP_REASONING_ENGINE_URL` | URL do Reasoning Engine (opcional) |
+| `GCP_REASONING_ENGINE_URL` | URL do agente Vitta.AI Paciente (auto-injetado na Opção A) |
+| `GCP_REASONING_ENGINE_AGENTE_URL` | URL do agente Vitta.AI Agente de Saúde (auto-injetado na Opção A) |
+| `GCP_REASONING_ENGINE_UBS_PER_3KM_URL` | URL do agente Vitta.AI UBS por 3km (auto-injetado na Opção A) |
 
 Consulte `.env.example` para a lista completa.
 
@@ -499,36 +544,35 @@ Verifique se a chave existe em `TrajetoSaude/credentials/gcp-sa.json` e se `GCP_
 
 - Confirme `CLOUD_SQL_INSTANCE_CONNECTION_NAME` no formato `projeto:região:instância`
 - Verifique usuário, senha e nome do banco
-- A service account precisa do papel **Cloud SQL Client**
+- A service account precisa dos papéis **Cloud SQL Client** e **Storage Object Admin**
 - Os containers usam o [Cloud SQL Python Connector](https://cloud.google.com/sql/docs/postgres/connect-connectors) — não é necessário Cloud SQL Proxy
 
-### Prediction sem modelo (`model_loaded: false`)
+### Storage com erro 403 no GCS (`bucket.exists()`)
 
-Execute o treino:
+A service account precisa de **Storage Legacy Bucket Reader** em nível de bucket (além do Storage Object Admin no projeto). Na Opção A, o Terraform já provisiona isso automaticamente via `google_storage_bucket_iam_member`.
+
+### Prediction sem modelo (`model_loaded: false`)
 
 ```bash
 curl -X POST http://localhost:8002/ingest/run
 ```
 
-### Porta já em uso
-
-Altere o mapeamento em `docker-compose.yml` ou encerre o processo que ocupa a porta.
+Os dados brutos precisam estar em `data/raw/` (PNS 2019, OD 2017, GTFS, GIS).
 
 ### Terraform: bucket name already exists
 
-Defina um nome único em `infra/terraform.tfvars`:
-
 ```hcl
+# infra/terraform.tfvars
 gcs_bucket_name = "meu-nome-unico-trajeto"
 ```
 
 ### Cloud Run (Opção A): `terraform apply` falha com imagem não encontrada
 
-O `terraform apply -var="deploy_cloud_run=true"` espera que as imagens já existam no Artifact Registry. Rode `./scripts/build-push.ps1` (ou `.sh`) antes — o script `deploy-cloudrun` já faz isso na ordem correta.
+O `terraform apply -var="deploy_cloud_run=true"` espera imagens no Artifact Registry. Rode `./scripts/build-push.ps1` (ou `.sh`) antes — o `deploy-cloudrun` já faz isso na ordem correta.
 
 ### Cloud Run (Opção A): frontend não consegue falar com o gateway
 
-O proxy `/api/*` do Nginx é configurado via `GATEWAY_URL` (env var injetada pelo Terraform) usando o templating nativo da imagem `nginx`. Após mudar a URL do gateway (ex.: recriar o serviço), reaplique o Cloud Run do frontend para que o novo valor seja propagado:
+O proxy `/api/*` do Nginx usa a env var `GATEWAY_URL`, injetada pelo Terraform. Após recriar o serviço gateway, reaplique:
 
 ```bash
 cd infra && terraform apply -var="deploy_cloud_run=true"
@@ -536,7 +580,38 @@ cd infra && terraform apply -var="deploy_cloud_run=true"
 
 ### Cloud Run (Opção A): `/ingest/run` expira (timeout)
 
-O serviço `prediction` está configurado com timeout de 600s no Cloud Run. Se o treino ainda assim não concluir, verifique os logs do serviço (`gcloud run services logs read trajeto-prediction --region SEU_REGION`).
+O serviço `prediction` tem timeout de 600s no Cloud Run. Verifique os logs:
+
+```bash
+gcloud run services logs read trajeto-prediction --region us-central1
+```
+
+### Agente Vitta.AI: `terraform apply` falha ao atualizar com "failed to be updated"
+
+O Vertex AI Agent Engine não permite update in-place quando existem sessões ativas. Solução:
+
+```bash
+# 1. Delete o agente com force via API
+TOKEN=$(gcloud auth print-access-token)
+curl -X DELETE "https://us-west1-aiplatform.googleapis.com/v1/projects/SEU_PROJECT/locations/us-west1/reasoningEngines/ID?force=true" \
+  -H "Authorization: Bearer $TOKEN"
+
+# 2. Remova do state do Terraform
+terraform state rm 'google_vertex_ai_reasoning_engine.agent["sentinel_ai_ubs_per_3km"]'
+
+# 3. Reaplique para recriar
+terraform apply -var="deploy_cloud_run=true"
+```
+
+O `deletion_policy = "FORCE"` já está configurado no `infra/agent_engine.tf` para que deletes futuros funcionem automaticamente.
+
+### Vitta.AI: resposta demora muito (> 2 min)
+
+Os agentes usam o Gemini 3.5 Flash via google-adk, realizando tool calls (Google Search) para responder. O tempo varia com a complexidade da query:
+- Agente de Saúde (3 UBS por trajeto): 65–135s
+- Agente UBS por 3km: 30–120s
+
+O timeout interno do endpoint `/sentinel/ubs_raio_casa` é de **120s** — se excedido, retorna `{"qtd_ubs": null}` e o frontend mantém o valor padrão (1).
 
 ### Destruir recursos GCP (após avaliação)
 
@@ -549,7 +624,7 @@ terraform destroy
 
 ## Notebooks e pipeline de dados
 
-Os notebooks de análise exploratória e modelagem estão na raiz do repositório (`discovery/`, `src/`). O microserviço **prediction** encapsula o pipeline de treino; os dados de amostra estão em `data/raw/` e `data/output/risk_training.csv`.
+Os notebooks de análise exploratória e modelagem estão na raiz do repositório (`discovery/`, `src/`). O microserviço **prediction** encapsula o pipeline de treino; os dados de amostra estão em `data/raw/` (PNS 2019, OD 2017, GTFS SPTrans, GeoSampa UBS).
 
 ---
 
