@@ -622,6 +622,32 @@ terraform destroy
 
 ---
 
+
+## Dados para testes
+
+Para popular o banco de dados com dados de teste execute o seguinte:
+
+
+curl -X 'POST' \
+  'deployed_url.app/api/seed' \
+  -H 'accept: application/json' \
+  -d ''
+
+ou
+
+curl -X 'POST' \
+  'localhost:8000/api/seed' \
+  -H 'accept: application/json' \
+  -d ''
+
+Carteira do SUS (mockadas) de pacientes para usar no fluxo do agente de saúde
+
+
+700123456789012
+
+700987654321098
+
+
 ## Notebooks e pipeline de dados
 
 Os notebooks de análise exploratória e modelagem estão na raiz do repositório (`discovery/`, `src/`). O microserviço **prediction** encapsula o pipeline de treino; os dados de amostra estão em `data/raw/` (PNS 2019, OD 2017, GTFS SPTrans, GeoSampa UBS).
