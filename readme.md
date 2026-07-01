@@ -20,7 +20,7 @@ Professor orientador: Tiago Petroni Taveira
 | Yasmin Martins Vasconcellos | 363354 | [yamars-dev](https://github.com/yamars-dev) |
 
 </div>
-<div align="center"><a href=https://youtu.be>🖥️Link para Video de pitch.🖥️</a>
+<div align="center"><a href="https://www.youtube.com/watch?v=Im3ND-KUveo">🖥️Link para Video de pitch.🖥️</a>
 </div>
 
 
